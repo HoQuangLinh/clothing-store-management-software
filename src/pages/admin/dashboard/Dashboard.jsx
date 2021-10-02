@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DashBoardCard from "../../../components/admin/dashboard-card/DashBoardCard";
-import Table from "../../../components/table/Table";
+import Table from "../../../components/admin/table/Table";
 import "./dashboard.css";
 import axios from "axios";
 import Badge from "../../../components/admin/badge/Badge";

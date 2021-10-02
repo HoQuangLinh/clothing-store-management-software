@@ -61,16 +61,7 @@ const data = [
 ];
 
 const Customers = () => {
-  return (
-    <MuiThemeProvider theme={getMuiTheme()}>
-      <MUIDataTable
-        title={"Employee List"}
-        data={data}
-        columns={columns}
-        options={{ selectableRows: false }}
-      />
-    </MuiThemeProvider>
-  );
+  return <>customers</>;
 };
 
 export default Customers;
