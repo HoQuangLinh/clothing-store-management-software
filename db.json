@@ -1,0 +1,128 @@
+{
+  "getUser": [
+    {
+      "id": 1,
+      "username": "Jon Snow",
+
+      "email": "jon@gmail.com",
+      "status": "active",
+      "transaction": "$120.00"
+    },
+    {
+      "id": 2,
+      "username": "Jon Snow",
+
+      "email": "jon@gmail.com",
+      "status": "active",
+      "transaction": "$120.00"
+    },
+    {
+      "id": 1,
+      "username": "Jon Snow",
+
+      "email": "jon@gmail.com",
+      "status": "active",
+      "transaction": "$120.00"
+    },
+    {
+      "id": 2,
+      "username": "Jon Snow",
+
+      "email": "jon@gmail.com",
+      "status": "active",
+      "transaction": "$120.00"
+    },
+    {
+      "id": 1,
+      "username": "Jon Snow",
+
+      "email": "jon@gmail.com",
+      "status": "active",
+      "transaction": "$120.00"
+    },
+    {
+      "id": 2,
+      "username": "Jon Snow",
+
+      "email": "jon@gmail.com",
+      "status": "active",
+      "transaction": "$120.00"
+    },
+    {
+      "id": 1,
+      "username": "Jon Snow",
+
+      "email": "jon@gmail.com",
+      "status": "active",
+      "transaction": "$120.00"
+    },
+    {
+      "id": 2,
+      "username": "Jon Snow",
+
+      "email": "jon@gmail.com",
+      "status": "active",
+      "transaction": "$120.00"
+    }
+  ],
+  "topCustomers": [
+    { "user": "linh", "total_order": 450, "total_spending": "10000$" },
+    { "user": "linh", "total_order": 450, "total_spending": "10000$" },
+    { "user": "linh", "total_order": 450, "total_spending": "10000$" },
+    { "user": "linh", "total_order": 450, "total_spending": "10000$" },
+    { "user": "linh", "total_order": 450, "total_spending": "10000$" },
+    { "user": "linh", "total_order": 450, "total_spending": "10000$" },
+    { "user": "linh", "total_order": 450, "total_spending": "10000$" }
+  ],
+  "getLatestOrders": [
+    {
+      "order_id": "#1234",
+      "user": "linhcd",
+      "total_price": "1000$",
+      "date": "28/9/2021",
+      "status": "pending"
+    },
+    {
+      "order_id": "#1234",
+      "user": "linhcd",
+      "total_price": "1000$",
+      "date": "28/9/2021",
+      "status": "shipping"
+    },
+    {
+      "order_id": "#1234",
+      "user": "linhcd",
+      "total_price": "1000$",
+      "date": "28/9/2021",
+      "status": "paid"
+    },
+    {
+      "order_id": "#1234",
+      "user": "linhcd",
+      "total_price": "1000$",
+      "date": "28/9/2021",
+      "status": "paid"
+    },
+    {
+      "order_id": "#1234",
+      "user": "linhcd",
+      "total_price": "1000$",
+      "date": "28/9/2021",
+      "status": "refund"
+    },
+    {
+      "order_id": "#1234",
+      "user": "linhcd",
+      "total_price": "1000$",
+      "date": "28/9/2021",
+      "status": "pending"
+    },
+    {
+      "order_id": "#1234",
+      "user": "linhcd",
+      "total_price": "1000$",
+      "date": "28/9/2021",
+      "status": "refund"
+    }
+  ]
+}

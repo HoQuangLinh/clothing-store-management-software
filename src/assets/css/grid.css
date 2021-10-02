@@ -1,11 +1,12 @@
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -15px;
+
+  margin: -10px -10px;
 }
 
 [class*="col-"] {
-  padding: 0 15px;
+  padding: 10px 10px;
 }
 
 .col-1 {

@@ -34,9 +34,9 @@
   --main-color-orange: #d68102;
   --second-color-orange: #fca11a;
 
-  --sidebar-width: 300px;
+  --sidebar-width: 250px;
   --border-radius: 15px;
-  --topnav-height: 110px;
+  --topnav-height: 80px;
   --transition-cubic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -84,13 +84,13 @@ input:focus {
 }
 
 .page-header {
-  margin-bottom: 40px;
+  margin-top: 0;
+  margin-bottom: 20px;
   text-transform: capitalize;
 }
 
 .card {
-  padding: 30px;
-  margin-bottom: 30px;
+  padding: 20px;
   background-color: var(--main-bg);
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
@@ -106,6 +106,7 @@ input:focus {
 
 .card__header {
   text-transform: capitalize;
+  margin-bottom: 10px;
 }
 
 .card > div ~ div {
@@ -150,4 +151,7 @@ input:focus {
 .orange-color {
   background-color: var(--main-color-orange);
   color: #fff;
+}
+img {
+  max-width: 100%;
 }
