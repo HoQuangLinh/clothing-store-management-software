@@ -1,0 +1,14 @@
+.list-action-orders-btn {
+  justify-content: flex-end;
+}
+.action-orders-btn {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  color: #fff;
+  background-color: #4cb050;
+}

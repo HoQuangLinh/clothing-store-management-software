@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import logo from "../../../assets/images/favicon.ico";
+import logo from "../../assets/images/favicon.ico";
 import "./sidebar.css";
-import sidebar from "../../../assets/data/sidebar.json";
+import sidebar from "../../assets/data/sidebar.json";
 import SidebarItem from "./SidebarItem";
 import { Link } from "react-router-dom";
 const Sidebar = () => {
@@ -9,9 +9,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="sidebar__logo">
-        <img src={logo} alt="shop logo" />
-      </div>
+      <div className="sidebar__logo">CLOTHES</div>
       {sidebar.map((item, index) => {
         return (
           <Link to={item.route}>

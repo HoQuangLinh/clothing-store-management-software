@@ -3,7 +3,7 @@ import Navbar from "../navbar/Navbar";
 import Sidebar from "../sidebar/Sidebar";
 import "./layout.css";
 import { BrowserRouter as Router } from "react-router-dom";
-import Routes from "../../../navigation/admin/Routes";
+import Routes from "../../navigation/Routes";
 
 const Layout = () => {
   return (

@@ -1,42 +1,42 @@
 [
   {
-    "display_name": "Dashboard",
+    "display_name": "Trang chủ",
     "route": "/",
     "icon": "bx bxs-dashboard"
   },
   {
-    "display_name": "Staff",
-    "route": "/staff",
+    "display_name": "Bán hàng",
+    "route": "/sales",
     "icon": "bx bx-user bx-flip-horizontal"
   },
   {
-    "display_name": "Customers",
+    "display_name": "Khách hàng",
     "route": "/customers",
     "icon": "bx bx-user-pin"
   },
   {
-    "display_name": "Products",
+    "display_name": "Sản phẩm",
     "route": "/products",
     "icon": "bx bx-package"
   },
   {
-    "display_name": "Orders",
-    "route": "/orders",
-    "icon": "bx bx-cart"
+    "display_name": "Nhân viên",
+    "route": "/staffs",
+    "icon": "bx bx-user-pin"
   },
 
   {
-    "display_name": "Discount",
+    "display_name": "Doanh thu",
     "route": "/discount",
     "icon": "bx bx-gift"
   },
   {
-    "display_name": "Revenue",
-    "route": "/inventory",
+    "display_name": "Hoá đơn",
+    "route": "/orders",
     "icon": "bx bx-store-alt"
   },
   {
-    "display_name": "Settings",
+    "display_name": "Cài đặt",
     "route": "/settings",
     "icon": "bx bx-cog"
   }

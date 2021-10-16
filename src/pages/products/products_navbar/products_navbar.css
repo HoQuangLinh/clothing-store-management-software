@@ -1,0 +1,13 @@
+.list-action-products-btn {
+  justify-content: space-between;
+}
+.action-products-btn {
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  color: #fff;
+  background-color: #4cb050;
+}
