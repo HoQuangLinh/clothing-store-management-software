@@ -10,10 +10,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import "./orders.css";
 import Checkbox from "@mui/material/Checkbox";
-import DatePicker from "react-datepicker";
 
+import { orders } from "../../assets/data/order";
 import "react-datepicker/dist/react-datepicker.css";
-const staffs = ["Hà Duy Kiên", "Lê Văn Đỗ", "Mã Tiến An"];
+import OrderCard from "./OrderCard/OrderCard";
+
 const columns = [
   { id: "orderId", label: "Mã hoá đơn" },
   {
@@ -48,63 +49,9 @@ const columns = [
   },
 ];
 
-const orders = [
-  {
-    orderId: "HD001",
-    customer: "Chí Đạt",
-    seller: "Hồ Quang Linh",
-    dateCreated: "15/10/2021",
-    totalPrice: 1000000,
-    status: "Đã thanh toán",
-  },
-  {
-    orderId: "HD001",
-    customer: "Chí Đạt",
-    seller: "Hồ Quang Linh",
-    dateCreated: "15/10/2021",
-    totalPrice: 1000000,
-    status: "Đã thanh toán",
-  },
-  {
-    orderId: "HD001",
-    customer: "Chí Đạt",
-    seller: "Hồ Quang Linh",
-    dateCreated: "15/10/2021",
-    totalPrice: 1000000,
-    status: "Đã thanh toán",
-  },
-  {
-    orderId: "HD001",
-    customer: "Chí Đạt",
-    seller: "Hồ Quang Linh",
-    dateCreated: "15/10/2021",
-    totalPrice: 1000000,
-    status: "Đã thanh toán",
-  },
-  {
-    orderId: "HD001",
-    customer: "Chí Đạt",
-    seller: "Hồ Quang Linh",
-    dateCreated: "15/10/2021",
-    totalPrice: 1000000,
-    status: "Đã thanh toán",
-  },
-  {
-    orderId: "HD001",
-    customer: "Chí Đạt",
-    seller: "Hồ Quang Linh",
-    dateCreated: "15/10/2021",
-    totalPrice: 1000000,
-    status: "Đã thanh toán",
-  },
-];
-
 const Orders = () => {
-  const [staff, setStaff] = useState("");
   const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
-  const [openStaffModal, setOpenStaffModal] = useState(false);
-  const [openCustomerModal, setOpenCustomerModal] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -121,9 +68,9 @@ const Orders = () => {
       <OrdersNavbar />
       <div className="row products_content">
         <div className="col-3">
-          <div className="orders-card">
-            <h3>Thời gian</h3>
-            <div className="orders-card-item">
+          <div className="order-card">
+            <h3 className="order-card-title">Thời gian</h3>
+            <div className="order-card-item">
               <input
                 type="radio"
                 name="choose_date"
@@ -131,9 +78,9 @@ const Orders = () => {
                   setOpenDatePickerModal(false);
                 }}
               />
-              <label htmlFor="">Tháng này</label>
+              <span>Tháng này</span>
             </div>
-            <div className="orders-card-item">
+            <div className="order-card-item">
               <input
                 type="radio"
                 name="choose_date"
@@ -141,7 +88,7 @@ const Orders = () => {
                   setOpenDatePickerModal(true);
                 }}
               />
-              <label htmlFor="">Lựa chọn khác</label>
+              <span>Lựa chọn khác</span>
 
               {openDatePickerModal && (
                 <div className="date-time-modal">
@@ -157,89 +104,24 @@ const Orders = () => {
               )}
             </div>
           </div>
-          <div className="orders-card">
-            <h3>Trạng thái</h3>
-            <div className="orders-card-item">
+          <div className="order-card">
+            <h3 className="order-card-title">Trạng thái</h3>
+            <div className="order-card-item">
               <input type="checkbox" />
               <span>Đã huỷ</span>
             </div>
-            <div className="orders-card-item">
+            <div className="order-card-item">
               <input type="checkbox" />
               <span>Không thể xử lý</span>
             </div>
-            <div className="orders-card-item">
+            <div className="order-card-item">
               <input type="checkbox" />
               <span>Hoàn thành</span>
             </div>
           </div>
-          <div className="orders-card">
-            <div className="orders-card-title">
-              <h3>Nhân viên</h3>
-            </div>
-            <div className="orders-card-input">
-              <input
-                value={staff}
-                placeholder="Chọn nhân viên"
-                type="text"
-                onClick={() => {
-                  setOpenStaffModal(true);
-                }}
-                onMouseDown={() => {
-                  setOpenStaffModal(false);
-                }}
-              />
-              <i class="bx bx-up-arrow-alt"></i>
-              <i class="bx bx-down-arrow-alt"></i>
-            </div>
 
-            {openStaffModal && (
-              <div className="list-item-modal">
-                <ul>
-                  {staffs.map((staff, index) => {
-                    return (
-                      <li
-                        key={index}
-                        onClick={(e) => {
-                          setStaff(staff);
-                        }}
-                      >
-                        {staff}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-          </div>
-          <div className="orders-card">
-            <div className="orders-card-title">
-              <h3>Khách hàng</h3>
-            </div>
-            <div className="orders-card-input">
-              <input
-                placeholder="Chọn khách hàng"
-                type="text"
-                onClick={() => {
-                  setOpenCustomerModal(true);
-                }}
-                onBlur={() => {
-                  setOpenCustomerModal(false);
-                }}
-              />
-              <i class="bx bx-up-arrow-alt"></i>
-              <i class="bx bx-down-arrow-alt"></i>
-            </div>
-
-            {openCustomerModal && (
-              <div className="list-item-modal">
-                <ul>
-                  {staffs.map((staff) => {
-                    return <li>{staff}</li>;
-                  })}
-                </ul>
-              </div>
-            )}
-          </div>
+          <OrderCard title="Người bán" />
+          <OrderCard title="Khách hàng" />
         </div>
         <div className="col-9" style={{ padding: "10px 0px 10px 10px" }}>
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
