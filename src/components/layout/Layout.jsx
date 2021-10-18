@@ -3,7 +3,7 @@ import Navbar from "../navbar/Navbar";
 import Sidebar from "../sidebar/Sidebar";
 import "./layout.css";
 import { BrowserRouter as Router } from "react-router-dom";
-import Routes from "../../navigation/Routes";
+import RoutesLayout from "../../navigation/RoutesLayout";
 
 const Layout = () => {
   return (
@@ -12,7 +12,7 @@ const Layout = () => {
       <div className="layout__content">
         <Navbar />
         <div className="layout__content-routes">
-          <Routes />
+          <RoutesLayout />
         </div>
       </div>
     </Router>

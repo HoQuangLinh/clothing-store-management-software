@@ -6,7 +6,7 @@ import Sales from "../pages/sales/Sales";
 import Products from "../pages/products/Products";
 import Orders from "../pages/orders/Orders";
 import Staff from "../pages/staff/Staff";
-const Routes = () => {
+const RoutesLayout = () => {
   return (
     <Switch>
       <Route path="/customers">
@@ -31,4 +31,4 @@ const Routes = () => {
   );
 };
 
-export default Routes;
+export default RoutesLayout;

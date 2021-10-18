@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -103,7 +103,7 @@ const staffs = [
   },
 ];
 const Staff = (props) => {
-  const [show,setShow]=useState(false)
+  const [show, setShow] = useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -117,137 +117,118 @@ const Staff = (props) => {
   };
   return (
     <div className="div_staff">
-          <div className="form_addstaff">
-              {
-                show&&<AddStaff closeForm={setShow}/>
-              }
-          </div>
+      <div className="form_addstaff">
+        {show && <AddStaff closeForm={setShow} />}
+      </div>
       <div className="div_left">
         <div className="div_search">
-          <div className="header_search">
-              Tìm kiếm
-          </div>
+          <div className="header_search">Tìm kiếm</div>
           <div className="search">
-                <input type="text" placeholder="Tìm theo mã, tên nhân viên" />
-                <i className="bx bx-search"></i>
-               
+            <input type="text" placeholder="Tìm theo mã, tên nhân viên" />
+            <i className="bx bx-search"></i>
           </div>
         </div>
         <div className="div_search">
-          <div className="header_search">
-              Chức vụ
-          </div>
+          <div className="header_search">Chức vụ</div>
           <select className="selectbox">
-          <option value="staff">Tất cả</option>
+            <option value="staff">Tất cả</option>
             <option value="staff">Nhân viên</option>
             <option value="management">Quản lý</option>
             <option value="cashier">Thu ngân</option>
           </select>
-
-
-          
         </div>
         <div>
-
-          <div onClick={()=>setShow(true)} className="action-staff-btn1" >
+          <div onClick={() => setShow(true)} className="action-staff-btn1">
             <i class="bx bx-plus"></i>
             Thêm nhân viên{" "}
           </div>
         </div>
-
       </div>
       <div className="div_right">
         <div className="col-9" style={{ padding: "10px 0px 10px 10px" }}>
-            <Paper sx={{ width: "135%", overflow: "hidden" }}>
-              <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
+          <Paper sx={{ width: "135%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell
+                      padding="checkbox"
+                      style={{
+                        backgroundColor: "#03a9f4",
+                      }}
+                    >
+                      <Checkbox
+                        color="primary"
+                        inputProps={{
+                          "aria-label": "select all desserts",
+                        }}
+                      />
+                    </TableCell>
+                    {columns.map((column) => (
                       <TableCell
-                        padding="checkbox"
+                        key={column.id}
+                        align={column.align}
                         style={{
+                          minWidth: column.minWidth,
                           backgroundColor: "#03a9f4",
                         }}
                       >
-                        <Checkbox
-                          color="primary"
-                          inputProps={{
-                            "aria-label": "select all desserts",
-                          }}
-                        />
+                        {column.label}
                       </TableCell>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{
-                            minWidth: column.minWidth,
-                            backgroundColor: "#03a9f4",
-                          }}
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {staffs
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      return (
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          key={row.code}
+                          style={
+                            index % 2 == 1 ? { backgroundColor: "#e8e8e8" } : {}
+                          }
                         >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {staffs
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((row, index) => {
-                        return (
-                          <TableRow
-                            hover
-                            role="checkbox"
-                            key={row.code}
-                            style={
-                              index % 2 == 1 ? { backgroundColor: "#e8e8e8" } : {}
-                            }
-                          >
-                            <TableCell padding="checkbox">
-                              <Checkbox
-                                color="primary"
-                                inputProps={{
-                                  "aria-label": "select all desserts",
-                                }}
-                              />
-                            </TableCell>
-                            {columns.map((column) => {
-                              const value = row[column.id];
-                              return (
-                                <TableCell key={column.id}>
-                                  {column.format && typeof value === "number"
-                                    ? column.format(value)
-                                    : value}
-                                </TableCell>
-                              );
-                            })}
-                          </TableRow>
-
-                        );
-                      })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[6, 12, 100]}
-                component="div"
-                count={staffs.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Paper>
-          </div>
-        </div>   
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              color="primary"
+                              inputProps={{
+                                "aria-label": "select all desserts",
+                              }}
+                            />
+                          </TableCell>
+                          {columns.map((column) => {
+                            const value = row[column.id];
+                            return (
+                              <TableCell key={column.id}>
+                                {column.format && typeof value === "number"
+                                  ? column.format(value)
+                                  : value}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[6, 12, 100]}
+              component="div"
+              count={staffs.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+        </div>
+      </div>
     </div>
-    
-
-
-
-
-    
-  )
+  );
 };
 
 export default Staff;
