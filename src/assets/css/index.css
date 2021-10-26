@@ -80,11 +80,7 @@ input {
 tr {
   cursor: pointer;
 }
-::placeholder {
-  color: #fff;
-  opacity: 0.8;
-  font-style: italic;
-}
+
 .page-header {
   margin-top: 0;
   margin-bottom: 20px;

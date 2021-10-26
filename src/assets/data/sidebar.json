@@ -27,7 +27,7 @@
 
   {
     "display_name": "Doanh thu",
-    "route": "/discount",
+    "route": "/revenues",
     "icon": "bx bx-gift"
   },
   {

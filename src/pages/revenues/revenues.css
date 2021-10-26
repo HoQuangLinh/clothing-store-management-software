@@ -1,0 +1,23 @@
+.revenues-container {
+}
+.revuenues-filter {
+  position: fixed;
+  margin-left: 20px;
+}
+.revenues-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.revenues-card {
+  border: 1px solid #a19b9b;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.revenues-card-title {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.revenues-card-row > span {
+  margin-left: 10px;
+}

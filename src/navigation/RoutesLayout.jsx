@@ -6,6 +6,7 @@ import Sales from "../pages/sales/Sales";
 import Products from "../pages/products/Products";
 import Orders from "../pages/orders/Orders";
 import Staff from "../pages/staff/Staff";
+import Revenues from "../pages/revenues/Revenues";
 const RoutesLayout = () => {
   return (
     <Switch>
@@ -23,6 +24,9 @@ const RoutesLayout = () => {
       </Route>
       <Route path="/staffs">
         <Staff />
+      </Route>
+      <Route path="/revenues">
+        <Revenues />
       </Route>
       <Route path="/">
         <Dashboard></Dashboard>
