@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./products_navbar.css";
+import AddProduct from "./../AddProduct";
 const ProductsNavbar = () => {
+  const [show, setShow] = useState(false);
   return (
     <div>
+      <div className="form_addstaff">
+        {show && <AddProduct closeForm={setShow} />}
+      </div>
       <div
         className="row products_navbar_container "
         style={{ alignItems: "center", fontSize: "20px" }}
@@ -18,7 +23,7 @@ const ProductsNavbar = () => {
         </div>
         <div className="col-4">
           <div className="row list-action-products-btn">
-            <div className="action-products-btn">
+            <div onClick={() => setShow(true)} className="action-products-btn">
               <i class="bx bx-plus"></i>
               Thêm mới{" "}
             </div>
