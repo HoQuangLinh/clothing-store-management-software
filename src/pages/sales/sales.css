@@ -1,5 +1,5 @@
 .sales_header{
-    width: 83.55%;
+    width: 100%;
     height: 50px;
     border: 1px solid #a19b9b;
     background-color: #62B4FF;
@@ -45,7 +45,7 @@
 }
 .sales_right{
     width: 380px;
-    height: 700px;
+    height: 100%;
     border: 1px solid #a19b9b;
     margin-top: 10px;
     position: absolute;
@@ -190,22 +190,25 @@
 }
 
 
+
 /* css của div left */
 .sales_left{
-
+    width: 100%;
+    height: 100%;
+    margin-right: 330px;
 }
 .sales_order{
-    width: 870px;
-    height: 305px;
-    margin-top: 10px;
+    width: 100%;
+    height: 320px;
+    margin-left: -20px;
+    border:1px solid #a19b9b;
     
     
 }
 .sales_order_product{
-    width: 890px;
+    width: 100%;
     height: 50px;
     margin-top: 20px;
-    margin-left: -20px;
     border-top: 1px solid #b9b6b6;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     background-color: #fff;
@@ -219,9 +222,11 @@
     cursor: pointer;
 }
 .sales_products{
-    width: 870px;
-    height: 350px;
-    background-color: aqua;
+    width: 100%;
+    height: 400px;
+    border:1px solid #a19b9b;
+    margin-left: -20px;
+    background-color: rgb(211, 228, 228);
 }
 .product1{
     width: 120px;
