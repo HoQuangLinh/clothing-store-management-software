@@ -16,10 +16,6 @@ import Checkbox from "@mui/material/Checkbox";
 const Sales = () => {
   const [showorder,setShoworder]=useState(false)
   const [show,setShow]=useState(false)
-
-
-
-
   return (
     <div>
        <div className="sales_header">
@@ -31,15 +27,11 @@ const Sales = () => {
       <div className="sales_body">
         <div className="sales_left" >
           <div className="sales_order" >
-
           {
             showorder&&<div className="sales_order_product">
               <i onClick={()=>setShoworder(false)} className="bx bx-trash"></i>
             </div>
           }  
-
-
-
           </div>
           <div className="sales_products"> 
               <button onClick={()=>setShoworder(true)} className="product1" >
@@ -69,7 +61,6 @@ const Sales = () => {
             </div>
             <div className="sales_row1">
               <label className="label_money_customer">Tổng tiền:</label>
-              <div className="sales_number">0</div>
               <input className="input_money_customer" placeholder=""></input>        
             </div>
             <div className="sales_row1">

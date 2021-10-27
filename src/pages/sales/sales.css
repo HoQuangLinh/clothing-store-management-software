@@ -44,7 +44,7 @@
    
 }
 .sales_right{
-    width: 380px;
+    width: 370px;
     height: 100%;
     border: 1px solid #a19b9b;
     margin-top: 10px;
@@ -69,7 +69,7 @@
 
 
 .input_search{
-    width: 330px;
+    width: 325px;
     height: 30px;
     border:none;
     border-bottom: 1px solid #a19b9b;
@@ -91,7 +91,7 @@
     margin-left: 20px;
 }
 .input_name_customer{
-    width: 200px;
+    width: 190px;
     height: 15px;
     border: none;
     border-bottom:1px solid #a19b9b;
@@ -102,7 +102,7 @@
     margin-left: 20px;
 }
 .input_phone_customer{
-    width: 235px;
+    width: 225px;
     height: 15px;
     border: none;
     border-bottom:1px solid #a19b9b;
@@ -184,7 +184,7 @@
     width: 280px;
     height: 80px;
     background-color: #62B4FF;
-    margin:40px;
+    margin:45px;
     font-size: 25px;
     color: #fff;
 }
@@ -195,7 +195,7 @@
 .sales_left{
     width: 100%;
     height: 100%;
-    margin-right: 330px;
+    margin-right: 320px;
 }
 .sales_order{
     width: 100%;
