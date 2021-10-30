@@ -1,0 +1,138 @@
+.show_div {
+  width: 1000px;
+  height: 600px;
+  z-index: 10;
+  position: fixed;
+  border: 2px solid #a19b9b;
+  background-color: white;
+  margin-left: 60px;
+}
+.header_div {
+  width: 996px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  background-color: #62b4ff;
+}
+.title {
+  display: flex;
+  margin-top: 30px;
+  margin-left: 30px;
+  padding-bottom: 25px;
+  font-size: 20px;
+  color: white;
+}
+.txtInfo {
+  margin-left: 30px;
+  font-size: 15px;
+  color: white;
+}
+.line_add {
+  width: 130px;
+  height: 3px;
+
+  background-color: #310ebb;
+}
+
+.btn_close {
+  width: 15px;
+  height: 15px;
+  background-color: #62b4ff;
+  position: absolute;
+  right: 0;
+  margin: 20px;
+}
+.btn_pickImage {
+  width: 120px;
+  height: 30px;
+  border: 1px solid #a19b9b;
+  border-radius: 5px;
+  margin-left: 50px;
+  margin-top: 20px;
+}
+.body_div {
+  width: 1000px;
+  height: 500px;
+  position: absolute;
+  display: flex;
+  bottom: 0;
+}
+.picture {
+  width: 120px;
+  height: 130px;
+  border: 2px solid #a19b9b;
+  background-color: #a19b9b;
+  margin-left: 50px;
+  margin-top: 50px;
+  margin-right: 35px;
+}
+.info1 {
+  margin-left: 20px;
+}
+.form_row1 {
+  margin-top: 50px;
+}
+.label1 {
+  font-size: 13px;
+}
+.label2 {
+  font-size: 13px;
+  margin-left: 250px;
+}
+.form_input1 {
+  width: 200px;
+  height: 22px;
+  border: none;
+  border-bottom: 1px solid #a19b9b;
+  margin-left: 40px;
+  position: absolute;
+  right: 450px;
+}
+.form_input2 {
+  width: 200px;
+  height: 22px;
+  border: none;
+  border-bottom: 1px solid #a19b9b;
+  margin-left: 40px;
+  position: absolute;
+  right: 60px;
+}
+.form_row2 {
+  margin-top: 30px;
+}
+.form_row3 {
+  margin-top: 30px;
+}
+.form_row4 {
+  margin-top: 30px;
+}
+.form_row5 {
+  margin-top: 30px;
+}
+.form_row6 {
+  margin-top: 30px;
+}
+.info2 {
+  margin-left: 30px;
+}
+.btn_Save {
+  width: 100px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 5px;
+  color: white;
+  background-color: #4cb050;
+  position: absolute;
+  right: 160px;
+  bottom: 50px;
+}
+.btn_Cancel {
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  color: white;
+  background-color: #898c8d;
+  position: absolute;
+  right: 60px;
+  bottom: 50px;
+}

@@ -36,7 +36,7 @@
 
   --sidebar-width: 250px;
   --border-radius: 15px;
-  --topnav-height: 80px;
+  --topnav-height: 70px;
   --transition-cubic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -53,7 +53,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0.7px;
 }
-
+ul {
+  list-style: none;
+}
 a {
   text-decoration: none;
   color: unset;
@@ -70,17 +72,13 @@ button {
   color: var(--txt-color);
 }
 
-ul {
-  list-style-type: none;
-}
-
 input {
   border: 2px solid transparent;
   outline: 0;
 }
 
-input:focus {
-  border: 2px solid var(--main-color);
+tr {
+  cursor: pointer;
 }
 
 .page-header {
@@ -154,4 +152,10 @@ input:focus {
 }
 img {
   max-width: 100%;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-space-between {
+  justify-content: space-between;
 }

@@ -1,0 +1,31 @@
+.products_content {
+  margin-top: 15px;
+}
+.clothes-category-card {
+  position: relative;
+  margin-bottom: 20px;
+  border-radius: 10px 0 0px 10px;
+  border: 1px solid #000000;
+  height: 205px;
+  overflow: auto;
+  background: #ffffff;
+}
+.clothes-category-card-heading {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: #62b4ff;
+  padding: 10px;
+  border-radius: 10px 0px 0 0;
+}
+.clothes-category-card-list {
+  padding: 20px 0;
+  border-radius: 0 0 10px 10px;
+}
+.clothes-category-card-list > li {
+  display: block;
+  margin: 0 15px 15px 15px;
+  cursor: pointer;
+}
+.clothes-category-card-list > li:hover {
+}

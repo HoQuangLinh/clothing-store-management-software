@@ -1,0 +1,19 @@
+.order-card {
+  border: 1px solid #000;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+}
+.order-card-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.order-card-item > span {
+  padding-left: 10px;
+}
+.order-card-title {
+  margin-bottom: 10px;
+}

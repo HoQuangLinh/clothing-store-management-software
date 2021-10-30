@@ -1,0 +1,38 @@
+.customers_content {
+  margin-top: 15px;
+}
+.customer-card {
+  border: 1px solid #000;
+  border-radius: 10px;
+  background: #fff;
+}
+.customer-card:first-child {
+  margin-bottom: 20px;
+}
+.customer-card-heading {
+  padding: 13px;
+  background-color: #62b4ff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: #fff;
+}
+.customer-card-body {
+  padding: 10px;
+}
+.customer-card-item {
+  padding: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.customer-card-item > .customer-card-input {
+  width: 100%;
+  padding: 5px;
+
+  font-size: 14px;
+  border-bottom: 1px solid #ccc;
+}
+.customer-card-item > span,
+.timer-choice {
+  width: 25%;
+}
