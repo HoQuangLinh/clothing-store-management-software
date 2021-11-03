@@ -8,8 +8,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+
 import "./products.css";
 import Checkbox from "@mui/material/Checkbox";
+
 const columns = [
   { id: "productId", label: "Mã sản phẩm" },
   { id: "productName", label: "Tên sản phẩm" },
@@ -268,6 +270,7 @@ const Products = () => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="Số hàng hiển thị"
             />
           </Paper>
         </div>

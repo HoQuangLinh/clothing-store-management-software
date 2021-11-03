@@ -5,7 +5,7 @@ import "./dashboard.css";
 import axios from "axios";
 import Badge from "../../components/badge/Badge";
 import Chart from "react-apexcharts";
-import Navbar from "../../components/navbar/Navbar";
+
 const customerColumns = ["User", "Total Order", "Total Spending"];
 const orderColumns = ["Order Id", "User", "Total Price", "Date", "Status"];
 const Dashboard = () => {

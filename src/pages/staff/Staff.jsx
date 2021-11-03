@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,11 +9,33 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Checkbox from "@mui/material/Checkbox";
 import "./staff.css";
-import Arrow from "../../assets/images/arrow.png";
 
+import ModalUnstyled from "@mui/core/ModalUnstyled";
 import AddStaff from "./AddStaff.jsx";
+import { styled, Box } from "@mui/system";
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-import { render } from "@testing-library/react";
+const Backdrop = styled("div")`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
+
 const columns = [
   { id: "staffId", label: "Mã nhân viên" },
   { id: "staffName", label: "Tên nhân viên" },
@@ -103,6 +125,7 @@ const staffs = [
   },
 ];
 const Staff = (props) => {
+  console.log("reder addstaff");
   const [show, setShow] = useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -117,9 +140,18 @@ const Staff = (props) => {
   };
   return (
     <div className="div_staff">
-      <div className="form_addstaff">
-        {show && <AddStaff closeForm={setShow} />}
-      </div>
+      <StyledModal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={show}
+        onClose={() => {
+          setShow(false);
+        }}
+        BackdropComponent={Backdrop}
+      >
+        <AddStaff onCloseForm={setShow} />
+      </StyledModal>
+
       <div className="div_left">
         <div className="div_search">
           <div className="header_search">Tìm kiếm</div>
@@ -223,6 +255,7 @@ const Staff = (props) => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="Số hàng hiển thị"
             />
           </Paper>
         </div>

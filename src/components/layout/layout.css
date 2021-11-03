@@ -1,3 +1,6 @@
+.layout-container {
+  background-color: red;
+}
 .layout__content {
   padding-left: var(--sidebar-width);
   background-color: var(--second-bg);
