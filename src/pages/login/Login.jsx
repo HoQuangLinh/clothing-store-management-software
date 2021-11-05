@@ -6,6 +6,7 @@ import { useHistory } from "react-router";
 import "./login.css";
 const Login = () => {
   const history = useHistory();
+  const [errorLogin, setErorLogin] = useState("");
   const submitForm = () => {
     axios
       .post("https://clothesapp123.herokuapp.com/api/users/login", user)
@@ -14,8 +15,8 @@ const Login = () => {
         history.push("/home");
       })
       .catch((e) => {
-        alert("Tên tài khoản hoặc mật khẩu không chính xác");
         console.log(e.response);
+        setErorLogin("Tên tài khoản hoặc mật khẩu không chính xác");
       });
     //Navigate to Screen
   };
@@ -63,7 +64,7 @@ const Login = () => {
           </div>
         </div>
         <div className="login-form-row login-failed">
-          <p>Tài khoản hoặc mật khẩu không chính xác</p>
+          <p>{errorLogin}</p>
         </div>
         <div className="login-form-item">
           <button onClick={handleSubmit} className="btn-login">
