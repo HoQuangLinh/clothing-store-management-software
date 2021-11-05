@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import "./staff.css";
 
 import ModalUnstyled from "@mui/core/ModalUnstyled";
-import AddStaff from "./AddStaff.jsx";
+import AddStaff from "./addstaff/AddStaff";
 import { styled, Box } from "@mui/system";
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;

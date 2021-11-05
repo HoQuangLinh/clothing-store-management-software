@@ -1,36 +1,74 @@
-import React from "react";
-import loginBg from "../../assets/images/login_bg.png";
+import React, { useState, useEffect } from "react";
+import validateUser from "./validateUser";
+import useFormLogin from "./useFormLogin";
+import axios from "axios";
+import { useHistory } from "react-router";
 import "./login.css";
 const Login = () => {
+  const history = useHistory();
+  const submitForm = () => {
+    axios
+      .post("https://clothesapp123.herokuapp.com/api/users/login", user)
+      .then((res) => {
+        console.log(res.data);
+        history.push("/home");
+      })
+      .catch((e) => {
+        alert("Tên tài khoản hoặc mật khẩu không chính xác");
+        console.log(e.response);
+      });
+    //Navigate to Screen
+  };
+  const { handleChange, handleSubmit, user, errors } = useFormLogin(
+    submitForm,
+    validateUser
+  );
+
   return (
     <div className="login-container">
       <div className="login-form">
-        <h3 id="login-form-title">LOGIN HERE</h3>
+        <h3 id="login-form-title">ĐĂNG NHẬP</h3>
 
-        <input className="login-form-input" type="text" placeholder="Account" />
-
-        <input
-          className="login-form-input"
-          type="password"
-          placeholder="PassWord"
-        />
+        <div className="login-form-inputs">
+          <input
+            value={user.username}
+            className="login-form-input"
+            type="text"
+            placeholder="Tài khoản"
+            onChange={handleChange}
+            name="username"
+          />
+          <p className="login-form-error">{errors.username}</p>
+        </div>
+        <div className="login-form-inputs">
+          <input
+            className="login-form-input"
+            type="password"
+            placeholder="Mật khẩu"
+            value={user.password}
+            name="password"
+            onChange={handleChange}
+          />
+          <p className="login-form-error">{errors.password}</p>
+        </div>
 
         <div className="login-form-row">
           <div className="login-form-item">
             <input style={{ marginRight: "5px" }} type="checkbox" />
-            <span>Remember me</span>
+            <span>Nhớ tài khoản</span>
           </div>
 
           <div className="login-form-item">
-            <span>Forgot password? </span>
+            <span>Quên mật khẩu? </span>
           </div>
         </div>
-        <div className="login-form-item">
-          <button className="btn-login">Login</button>
+        <div className="login-form-row login-failed">
+          <p>Tài khoản hoặc mật khẩu không chính xác</p>
         </div>
-        <div className="login-form-item ">
-          <p>To register New Account</p>
-          <button className="btn-click-here">Click Here</button>
+        <div className="login-form-item">
+          <button onClick={handleSubmit} className="btn-login">
+            Đăng nhập
+          </button>
         </div>
       </div>
     </div>

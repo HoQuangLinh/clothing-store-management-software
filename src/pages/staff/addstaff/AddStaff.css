@@ -74,25 +74,39 @@
 }
 
 .add_staff-form-row {
+  position: relative;
   width: 320px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   margin-left: 40px;
 }
 .add_staff-form-row > input {
   width: 65%;
 
   padding: 10px;
-  border: 1px solid gray;
+  border: 1px solid #4e5052;
   border-radius: 5px;
+}
+
+.add_staff-form-error {
+  position: absolute;
+  left: 35%;
+  top: -20px;
+  font-weight: 500;
+  color: #e74c3c;
+  font-size: 14px;
+  text-align: center;
+}
+.error {
+  border: 1px solid red !important;
 }
 .add_staff-form-select {
   width: 65%;
 
   padding: 10px;
-  border: 1px solid gray;
+  border: 1px solid #4e5052;
   border-radius: 5px;
 }
 .add_staff-form-row > span {
