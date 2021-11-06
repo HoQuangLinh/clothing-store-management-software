@@ -2,6 +2,7 @@ export default function formatDate(dateObj) {
   if (!dateObj) {
     return null;
   }
+  var date = new Date(dateObj);
   const monthNames = [
     "01",
     "02",
@@ -17,9 +18,9 @@ export default function formatDate(dateObj) {
     "12",
   ];
 
-  const month = monthNames[dateObj.getMonth()];
-  const day = String(dateObj.getDate()).padStart(2, "0");
-  const year = dateObj.getFullYear();
+  const month = monthNames[date.getMonth()];
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = date.getFullYear();
   const output = `${day}/${month}/${year}`;
   return output;
 }

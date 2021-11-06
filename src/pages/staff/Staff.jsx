@@ -8,11 +8,14 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Checkbox from "@mui/material/Checkbox";
+import axios from "axios";
 import "./staff.css";
 
 import ModalUnstyled from "@mui/core/ModalUnstyled";
 import AddStaff from "./addstaff/AddStaff";
+import UpdateStaff from "./updatestaff/UpdateStaff";
 import { styled, Box } from "@mui/system";
+
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -37,8 +40,8 @@ const Backdrop = styled("div")`
 `;
 
 const columns = [
-  { id: "staffId", label: "Mã nhân viên" },
-  { id: "staffName", label: "Tên nhân viên" },
+  { id: "_id", label: "Mã nhân viên" },
+  { id: "fullname", label: "Tên nhân viên" },
   {
     id: "position",
     label: "Chức vụ",
@@ -46,89 +49,36 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "phoneNumber",
+    id: "phone",
     label: "Số điện thoại",
 
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "sex",
+    id: "gender",
     label: "Giới tính",
+  },
+];
 
-    format: (value) => value.toLocaleString("en-US"),
-  },
-];
-const staffs = [
-  {
-    id: 1,
-    staffId: "NV0001",
-    staffName: "Nguyễn Tiến Đạt",
-    position: "Nhân viên",
-    phoneNumber: "012345677",
-    sex: "Nam",
-  },
-  {
-    id: 2,
-    staffId: "NV0002",
-    staffName: "Hồ Quang Linh",
-    position: "Nhân viên",
-    phoneNumber: "012345677",
-    sex: "Nam",
-  },
-  {
-    id: 3,
-    staffId: "NV0003",
-    staffName: "Nguyễn Ngọc Thịnh",
-    position: "Nhân viên",
-    phoneNumber: "012345677",
-    sex: "Nam",
-  },
-  {
-    id: 4,
-    staffId: "NV0004",
-    staffName: "Nguyễn Đức Chí Đạt",
-    position: "Nhân viên",
-    phoneNumber: "012345677",
-    sex: "Nam",
-  },
-  {
-    id: 5,
-    staffId: "NV0005",
-    staffName: "Nguyễn Tiến Đạt",
-    position: "Nhân viên",
-    phoneNumber: "012345677",
-    sex: "Nam",
-  },
-  {
-    id: 6,
-    staffId: "NV0006",
-    staffName: "Hồ Quang Linh",
-    position: "Nhân viên",
-    phoneNumber: "012345677",
-    sex: "Nam",
-  },
-  {
-    id: 7,
-    staffId: "NV0007",
-    staffName: "Nguyễn Ngọc Thịnh",
-    position: "Nhân viên",
-    phoneNumber: "012345677",
-    sex: "Nam",
-  },
-  {
-    id: 8,
-    staffId: "NV0008",
-    staffName: "Nguyễn Đức Chí Đạt",
-    position: "Nhân viên",
-    phoneNumber: "012345677",
-    sex: "Nam",
-  },
-];
 const Staff = (props) => {
-  console.log("reder addstaff");
-  const [show, setShow] = useState(false);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [staffs, setStaffs] = useState([]);
+  const [position, setPosition] = useState();
+  const [selectedStaff, setSelectedStaff] = useState();
+  const [showFormAddStaff, setShowFormAddStaff] = useState(false);
+  const [showFormUpdateStaff, setShowFormUpdateStaff] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  useEffect(() => {
+    axios
+      .get("https://clothesapp123.herokuapp.com/api/users")
+      .then((res) => {
+        setStaffs(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, [showFormAddStaff, showFormUpdateStaff]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -138,18 +88,54 @@ const Staff = (props) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  //filter staffs by position
+  useEffect(() => {
+    axios
+      .get("https://clothesapp123.herokuapp.com/api/users/getUserByPosition", {
+        params: {
+          position: position,
+        },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((res) => {
+        setStaffs(res.data);
+      })
+      .catch((err) => {
+        alert("lỗi");
+      });
+  }, [position]);
+
   return (
     <div className="div_staff">
       <StyledModal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
-        open={show}
+        open={showFormAddStaff}
         onClose={() => {
-          setShow(false);
+          setShowFormAddStaff(false);
         }}
         BackdropComponent={Backdrop}
       >
-        <AddStaff onCloseForm={setShow} />
+        <AddStaff setShowFormAddStaff={setShowFormAddStaff} />
+      </StyledModal>
+      <StyledModal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={showFormUpdateStaff}
+        onClose={() => {
+          setShowFormUpdateStaff(false);
+        }}
+        BackdropComponent={Backdrop}
+      >
+        <UpdateStaff
+          staff={selectedStaff}
+          setStaff={setSelectedStaff}
+          setShowFormUpdateStaff={setShowFormUpdateStaff}
+        />
       </StyledModal>
 
       <div className="div_left">
@@ -162,15 +148,23 @@ const Staff = (props) => {
         </div>
         <div className="div_search">
           <div className="header_search">Chức vụ</div>
-          <select className="selectbox">
-            <option value="staff">Tất cả</option>
-            <option value="staff">Nhân viên</option>
-            <option value="management">Quản lý</option>
-            <option value="cashier">Thu ngân</option>
+          <select
+            onChange={(e) => {
+              setPosition(e.target.value);
+            }}
+            className="selectbox"
+            value={position}
+          >
+            <option value="all">Tất cả</option>
+            <option value="Nhân viên kho">Nhân viên kho</option>
+            <option value="Nhân viên thu ngân">Nhân viên thu ngân</option>
           </select>
         </div>
         <div>
-          <div onClick={() => setShow(true)} className="action-staff-btn1">
+          <div
+            onClick={() => setShowFormAddStaff(true)}
+            className="action-staff-btn1"
+          >
             <i class="bx bx-plus"></i>
             Thêm nhân viên{" "}
           </div>
@@ -216,6 +210,10 @@ const Staff = (props) => {
                     .map((row, index) => {
                       return (
                         <TableRow
+                          onClick={() => {
+                            setSelectedStaff(row);
+                            setShowFormUpdateStaff(true);
+                          }}
                           hover
                           role="checkbox"
                           key={row.code}
@@ -232,7 +230,11 @@ const Staff = (props) => {
                             />
                           </TableCell>
                           {columns.map((column) => {
-                            const value = row[column.id];
+                            let value = row[column.id];
+                            if (column.id === "_id") {
+                              value = value.substr(value.length - 7);
+                            }
+
                             return (
                               <TableCell key={column.id}>
                                 {column.format && typeof value === "number"
