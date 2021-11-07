@@ -8,24 +8,12 @@ import DatePicker from "@mui/lab/DatePicker";
 import useFormStaff from "../form_validate/useFormStaff";
 import validateStaff from "../form_validate/validateStaff";
 import axios from "axios";
-
-const AddStaff = ({ setShowFormAddStaff }) => {
+import formatDate from "../../../utils/formatDate";
+const AddStaff = ({ onCloseForm }) => {
   const inputAvatarRef = useRef(null);
   const birthdayRef = useRef(null);
-  const [staff, setStaff] = useState({
-    username: "",
-    password: "",
-    confirmPassword: "",
-    phone: "",
-    address: "",
-    birthday: new Date(),
-    sex: "",
-    email: "",
-    fullname: "",
-    gender: "Nam",
-    position: "Nhân viên thu ngân",
-  });
-
+  const [gender, setGender] = useState("male");
+  const [position, setPositon] = useState("warehousestaff");
   //Call API
   const submitForm = () => {
     var formStaff = new FormData();
@@ -33,9 +21,9 @@ const AddStaff = ({ setShowFormAddStaff }) => {
     formStaff.append("password", staff.password);
     formStaff.append("fullname", staff.fullname);
     formStaff.append("address", staff.address);
-    formStaff.append("birthday", staff.birthday);
-    formStaff.append("gender", staff.gender);
-    formStaff.append("position", staff.position);
+    formStaff.append("birthday", formatDate(staff.birthday));
+    formStaff.append("gender", gender);
+    formStaff.append("position", position);
     formStaff.append("email", staff.email);
     formStaff.append("phone", staff.phone);
     formStaff.append("image", avatar);
@@ -55,14 +43,15 @@ const AddStaff = ({ setShowFormAddStaff }) => {
       )
       .then((res) => {
         alert("Thêm nhân viên thành công");
-        setShowFormAddStaff(false);
+        onCloseForm(false);
       })
       .catch((err) => {
         alert("Thêm nhân viên thất bại");
+        onCloseForm(false);
       });
   };
-  const { handleChange, handleChangeBirthday, handleSubmit, errors } =
-    useFormStaff(submitForm, staff, setStaff, validateStaff);
+  const { handleChange, handleChangeBirthday, handleSubmit, staff, errors } =
+    useFormStaff(submitForm, validateStaff);
   const [avatar, setAvatar] = useState();
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -70,7 +59,7 @@ const AddStaff = ({ setShowFormAddStaff }) => {
     }
   };
   const onExitClick = () => {
-    setShowFormAddStaff(false);
+    onCloseForm(false);
   };
   return (
     <div className="add_staff-container">
@@ -168,14 +157,16 @@ const AddStaff = ({ setShowFormAddStaff }) => {
             <span>Giới tính</span>
 
             <select
-              value={staff.gender}
+              value={gender}
               className="add_staff-form-select"
               name="gender"
-              onChange={handleChange}
+              onChange={(e) => {
+                setGender(e.target.value);
+              }}
             >
-              <option value="Nam">Nam</option>
-              <option value="Nữ">Nữ</option>
-              <option value="Khác">Khác</option>
+              <option value="male">Nam</option>
+              <option value="female">Nữ</option>
+              <option value="different">Khác</option>
             </select>
           </div>
           <div className="add_staff-form-row">
@@ -192,14 +183,16 @@ const AddStaff = ({ setShowFormAddStaff }) => {
           <div className="add_staff-form-row">
             <span>Chức vụ</span>
             <select
-              value={staff.position}
-              onChange={handleChange}
+              onChange={(e) => {
+                setPositon(e.target.value);
+              }}
+              value={position}
               className="add_staff-form-select"
-              name="position"
+              name="active"
               id="active"
             >
-              <option value="Nhân viên thu ngân">Nhân viên thu ngân</option>
-              <option value="Nhân viên kho">Nhân viên kho</option>
+              <option value="warehousestaff">Nhân viên bán hàng</option>
+              <option value="cashier">Nhân viên thu ngân</option>
             </select>
           </div>
           <div className="add_staff-form-row">
