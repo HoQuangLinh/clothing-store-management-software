@@ -134,25 +134,25 @@ const products = [
   },
 ];
 
-const categoryShirt = ["Áo khoác", "Áo sơ mi", "Áo thun", "Áo tay lỡ"];
-const categoryPants = [
-  "Quần short",
-  "Quần thun dài",
-  "Quần tây âu",
-  "Quần jean",
-  "Quần short",
-  "Quần thun dài",
-  "Quần tây âu",
-  "Quần jean",
-  "Quần short",
-  "Quần thun dài",
-  "Quần tây âu",
-  "Quần jean",
-  "Quần short",
-  "Quần thun dài",
-  "Quần tây âu",
-  "Quần jean",
-];
+// const categoryShirt = ["Áo khoác", "Áo sơ mi", "Áo thun", "Áo tay lỡ"];
+// const categoryPants = [
+//   "Quần short",
+//   "Quần thun dài",
+//   "Quần tây âu",
+//   "Quần jean",
+//   "Quần short",
+//   "Quần thun dài",
+//   "Quần tây âu",
+//   "Quần jean",
+//   "Quần short",
+//   "Quần thun dài",
+//   "Quần tây âu",
+//   "Quần jean",
+//   "Quần short",
+//   "Quần thun dài",
+//   "Quần tây âu",
+//   "Quần jean",
+// ];
 
 const Products = () => {
   const [page, setPage] = React.useState(0);
@@ -167,33 +167,50 @@ const Products = () => {
     setPage(0);
   };
   return (
-    <div>
-      <ProductsNavbar />
-      <div className="row products_content">
+    <div className="div_product">
+      <div className="div_left">
         <div className="col-3">
           <div className="clothes-category-card">
-            <div className="clothes-category-card-heading">
-              <h3>Áo</h3>
-            </div>
-            <ul className="clothes-category-card-list">
-              {categoryShirt.map((value) => {
-                return <li>{value}</li>;
-              })}
-            </ul>
+            <div className="div_search">
+              <div className="header_search">Tìm kiếm</div>
+                <div className="search">
+                  <input type="text" placeholder="Tìm theo mã, tên sản phẩm" />
+                  <i className="bx bx-search"></i>
+                </div>
+              </div>
           </div>
           <div className="clothes-category-card">
-            <div className="clothes-category-card-heading">
-              <h3>Quần</h3>
-            </div>
-            <ul className="clothes-category-card-list">
-              {categoryPants.map((value) => {
-                return <li>{value}</li>;
-              })}
-            </ul>
+              <div className="div_search">
+                <div className="header_search">
+                  Các loại áo
+                </div>
+                <select className="selectbox">
+                  <option value="all">Tất cả</option>
+                  <option value="Áo khoác">Áo khoác</option>
+                  <option value="Áo sơ mi">Áo sơ mi</option>
+                  <option value="Áo thun">Áo thun</option>
+                  <option value="Áo tay lỡ">Áo tay lỡ</option>
+                </select>
+              </div>
           </div>
+            
+            <div className="clothes-category-card">
+              <div className="div_search">
+             <div className="header_search">Các loại quần</div>
+                <select className="selectbox">
+                  <option value="all">Tất cả</option>
+                  <option value="Quần short">Quần short</option>
+                  <option value="Quần Jean">Quần Jean</option>
+                  <option value="Quần Tây">Quần Tây</option>
+                  <option value="Quần thun">Quần thun</option>
+                </select>
+              </div>
+            </div>
         </div>
+        </div>
+        <div className="div_right">
         <div className="col-9" style={{ padding: "10px 0px 10px 10px" }}>
-          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <Paper sx={{ width: "135%", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
@@ -274,8 +291,10 @@ const Products = () => {
             />
           </Paper>
         </div>
+        <ProductsNavbar/>
       </div>
     </div>
+
   );
 };
 

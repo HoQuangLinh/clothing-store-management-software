@@ -1,35 +1,12 @@
-.products_content {
-  margin-top: 15px;
-}
-.clothes-category-card {
+.div_product{
   position: relative;
-  margin-bottom: 20px;
-  border-radius: 8px 0 0px 8px;
-  border: 1px solid #a19b9b;
-  height: 205px;
-  overflow: auto;
-  background: #ffffff;
+  display: flex;
+  
 }
 
-.clothes-category-card-heading {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color: #62b4ff;
-  padding: 10px;
-  border-radius: 8px 0px 0 0;
-  color: white;
-  font-size: 15px;
+.clothes-category-card {
+  margin-left: 10px;
 }
-.clothes-category-card-list {
-  padding: 20px 0;
-  border-radius: 0 0 10px 10px;
-  font-size: 15px;
-}
-.clothes-category-card-list > li {
-  display: block;
-  margin: 0 15px 15px 15px;
-  cursor: pointer;
-}
-.clothes-category-card-list > li:hover {
-}
+
+
+
