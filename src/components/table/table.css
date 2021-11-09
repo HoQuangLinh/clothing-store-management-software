@@ -18,6 +18,7 @@ tr {
 
 th,
 td {
+  text-transform: capitalize;
   padding: 10px 10px;
   font-size: 16px;
 }

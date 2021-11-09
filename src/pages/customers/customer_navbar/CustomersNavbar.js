@@ -13,10 +13,10 @@ const CustomersNavbar = () => {
         </div>
 
         <div className=" list-action-customers-btn">
-          <div className="action-customers-btn">
+          {/* <div className="action-customers-btn">
             <i class="bx bx-plus"></i>
             Thêm mới{" "}
-          </div>
+          </div> */}
 
           <div className="action-customers-btn">
             <i class="bx bxs-file-export"></i>Xuất file
