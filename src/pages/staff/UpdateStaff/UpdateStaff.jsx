@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "./updateStaff.css";
+import "./updatestaff.css";
 
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
