@@ -44,25 +44,21 @@ const ProductsNavbar = () => {
           <AddProduct onClose={handleClose} />
         </StyledModal>
       </div>
-        <div className="col-4">
-          <div className="row list-action-products-btn">
-            <div onClick={() => setShow(true)} className="action-products-btn">
-              <i class="bx bx-plus"></i>
-              Thêm mới{" "}
-            </div>
-            <div className="action-products-btn">
-              <i class="bx bxs-file-import"></i>
-              Import
-            </div>
-            <div className="action-products-btn">
-              <i class="bx bxs-file-export"></i>Xuất file
-            </div>
-          </div>
-         
+
+      <div className="row list-action-products-btn">
+        <div onClick={() => setShow(true)} className="action-products-btn">
+          <i class="bx bx-plus"></i>
+          Thêm mới{" "}
         </div>
-        
+        <div className="action-products-btn">
+          <i class="bx bxs-file-import"></i>
+          Import
+        </div>
+        <div className="action-products-btn">
+          <i class="bx bxs-file-export"></i>Xuất file
+        </div>
       </div>
-      
+    </div>
   );
 };
 

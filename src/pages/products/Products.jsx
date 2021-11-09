@@ -173,42 +173,40 @@ const Products = () => {
           <div className="clothes-category-card">
             <div className="div_search">
               <div className="header_search">Tìm kiếm</div>
-                <div className="search">
-                  <input type="text" placeholder="Tìm theo mã, tên sản phẩm" />
-                  <i className="bx bx-search"></i>
-                </div>
-              </div>
-          </div>
-          <div className="clothes-category-card">
-              <div className="div_search">
-                <div className="header_search">
-                  Các loại áo
-                </div>
-                <select className="selectbox">
-                  <option value="all">Tất cả</option>
-                  <option value="Áo khoác">Áo khoác</option>
-                  <option value="Áo sơ mi">Áo sơ mi</option>
-                  <option value="Áo thun">Áo thun</option>
-                  <option value="Áo tay lỡ">Áo tay lỡ</option>
-                </select>
-              </div>
-          </div>
-            
-            <div className="clothes-category-card">
-              <div className="div_search">
-             <div className="header_search">Các loại quần</div>
-                <select className="selectbox">
-                  <option value="all">Tất cả</option>
-                  <option value="Quần short">Quần short</option>
-                  <option value="Quần Jean">Quần Jean</option>
-                  <option value="Quần Tây">Quần Tây</option>
-                  <option value="Quần thun">Quần thun</option>
-                </select>
+              <div className="search">
+                <input type="text" placeholder="Tìm theo mã, tên sản phẩm" />
+                <i className="bx bx-search"></i>
               </div>
             </div>
+          </div>
+          <div className="clothes-category-card">
+            <div className="div_search">
+              <div className="header_search">Các loại áo</div>
+              <select className="selectbox">
+                <option value="all">Tất cả</option>
+                <option value="Áo khoác">Áo khoác</option>
+                <option value="Áo sơ mi">Áo sơ mi</option>
+                <option value="Áo thun">Áo thun</option>
+                <option value="Áo tay lỡ">Áo tay lỡ</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="clothes-category-card">
+            <div className="div_search">
+              <div className="header_search">Các loại quần</div>
+              <select className="selectbox">
+                <option value="all">Tất cả</option>
+                <option value="Quần short">Quần short</option>
+                <option value="Quần Jean">Quần Jean</option>
+                <option value="Quần Tây">Quần Tây</option>
+                <option value="Quần thun">Quần thun</option>
+              </select>
+            </div>
+          </div>
         </div>
-        </div>
-        <div className="div_right">
+      </div>
+      <div className="div_right">
         <div className="col-9" style={{ padding: "10px 0px 10px 10px" }}>
           <Paper sx={{ width: "135%", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
@@ -291,10 +289,9 @@ const Products = () => {
             />
           </Paper>
         </div>
-        <ProductsNavbar/>
+        <ProductsNavbar />
       </div>
     </div>
-
   );
 };
 
