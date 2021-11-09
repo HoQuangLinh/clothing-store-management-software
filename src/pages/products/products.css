@@ -4,20 +4,22 @@
 .clothes-category-card {
   position: relative;
   margin-bottom: 20px;
-  border-radius: 10px 0 0px 10px;
+  border-radius: 8px 0 0px 8px;
   border: 1px solid #a19b9b;
   height: 205px;
   overflow: auto;
   background: #ffffff;
 }
+
 .clothes-category-card-heading {
   position: sticky;
   top: 0;
   left: 0;
   background-color: #62b4ff;
   padding: 10px;
-  border-radius: 10px 0px 0 0;
+  border-radius: 8px 0px 0 0;
   color: white;
+  font-size: 15px;
 }
 .clothes-category-card-list {
   padding: 20px 0;

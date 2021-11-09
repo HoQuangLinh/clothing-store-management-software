@@ -5,16 +5,18 @@
   border: 1px solid #a19b9b;
   border-radius: 10px;
   background: #fff;
+  
 }
 .customer-card:first-child {
   margin-bottom: 20px;
 }
 .customer-card-heading {
-  padding: 13px;
+  padding: 12px;
+  font-size: 17px;
   background-color: #62b4ff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  color: white;
+  color: white
 }
 .customer-card-body {
   padding: 10px;

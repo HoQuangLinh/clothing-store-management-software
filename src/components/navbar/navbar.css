@@ -26,16 +26,16 @@
   position: relative;
   display: flex;
   align-items: center;
-  border-radius: var(--border-radius);
+  border-radius: 20px;
   border: 1px solid #67dbdb;
 }
 .navbar__search > input {
   background-color: #fff;
   height: 100%;
   width: 100%;
-  padding: 10px 60px 10px 20px;
+  padding: 7px 60px 7px 20px;
   font-size: 1rem;
-  border-radius: var(--border-radius);
+  border-radius: 20px;
   color: var(--txt-color);
 }
 .navbar__search > i {
