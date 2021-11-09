@@ -1,17 +1,5 @@
 import { useState, useEffect } from "react";
-const useFormStaff = (callback, validate) => {
-  const [staff, setStaff] = useState({
-    username: "",
-    password: "",
-    confirmPassword: "",
-    phone: "",
-    address: "",
-    birthday: new Date(),
-    sex: "",
-    email: "",
-    fullname: "",
-  });
-
+const useFormStaff = (callback, staff, setStaff, validate) => {
   const [errors, setErrors] = useState({});
   useEffect(() => {
     console.log(errors);
@@ -31,6 +19,7 @@ const useFormStaff = (callback, validate) => {
   };
   const handleChangeBirthday = (birthday) => {
     setStaff((prev) => {
+      console.log(birthday);
       return { ...prev, birthday: birthday };
     });
   };
@@ -43,6 +32,6 @@ const useFormStaff = (callback, validate) => {
     setErrors(validate(staff));
   };
 
-  return { handleChange, handleChangeBirthday, handleSubmit, staff, errors };
+  return { handleChange, handleChangeBirthday, handleSubmit, errors };
 };
 export default useFormStaff;

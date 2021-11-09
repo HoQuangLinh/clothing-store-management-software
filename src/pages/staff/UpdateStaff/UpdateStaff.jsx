@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from "react";
 import "./updatestaff.css";
 
@@ -217,7 +216,6 @@ const UpdateStaff = ({ staff, setStaff, setShowFormUpdateStaff }) => {
       </div>
     </div>
   );
-
 };
 
 export default UpdateStaff;
