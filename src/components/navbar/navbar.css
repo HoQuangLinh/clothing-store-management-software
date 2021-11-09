@@ -54,15 +54,14 @@
   justify-content: space-between;
 }
 .navbar__right-icon {
-  
   align-items: center;
   justify-content: space-between;
   font-size: 1.5rem;
 }
-.navbar__right-icon:hover, .navbar__right-icon:focus {
+.navbar__right-icon:hover,
+.navbar__right-icon:focus {
   background-color: #c4c4c4;
   border-radius: 50%;
-
 }
 .navbar__right-item > img {
   width: 100%;
@@ -83,26 +82,6 @@
   font-size: 1.5rem;
 }
 .navnar__paleteteShow {
-<<<<<<< HEAD
-  display: none;
-  width: 15rem;
-  height: 15rem;
-  margin-left: auto;
-  margin-right: 10%;
-  margin-top: 5%;
-  border: 1px solid black;
-  border-radius: var(--border-radius);
-}
-.navbar__PlaColor_blue{
-  width: 3rem;
-  height: 3rem;
-  background-color: blue;
-  
-}
-.show {
-  display: block;
-}
-=======
   position: absolute;
   display: none;
   width: 10rem;
@@ -115,12 +94,12 @@
   align-items: center;
   justify-content: space-between;
 }
-.navbar__PlaColor_row{
+.navbar__PlaColor_row {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.navbar__PlaColor_blue{
+.navbar__PlaColor_blue {
   background-color: blue;
   width: 2rem;
   height: 2rem;
@@ -129,7 +108,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.navbar__PlaColor_blue{
+.navbar__PlaColor_blue {
   background-color: blue;
   width: 2rem;
   height: 2rem;
@@ -138,7 +117,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.navbar__PlaColor_red{
+.navbar__PlaColor_red {
   background-color: red;
   width: 2rem;
   height: 2rem;
@@ -147,8 +126,8 @@
   align-items: center;
   justify-content: space-between;
 }
-.navbar__PlaColor_pink{
-  background-color:pink;
+.navbar__PlaColor_pink {
+  background-color: pink;
   width: 2rem;
   height: 2rem;
   margin: 0.5rem;
@@ -156,7 +135,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.navbar__PlaColor_yellow{
+.navbar__PlaColor_yellow {
   background-color: yellow;
   width: 2rem;
   height: 2rem;
@@ -165,7 +144,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.navbar__PlaColor_orange{
+.navbar__PlaColor_orange {
   background-color: orange;
   width: 2rem;
   height: 2rem;
@@ -174,7 +153,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.navbar__PlaColor_green{
+.navbar__PlaColor_green {
   background-color: green;
   width: 2rem;
   height: 2rem;
@@ -183,5 +162,6 @@
   align-items: center;
   justify-content: space-between;
 }
-.show{ display: block;}
->>>>>>> 033c490dff1858959e3c052388e8a626fd493daf
+.show {
+  display: block;
+}

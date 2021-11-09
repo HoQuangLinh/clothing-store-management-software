@@ -4,11 +4,7 @@
 .clothes-category-card {
   position: relative;
   margin-bottom: 20px;
-<<<<<<< HEAD
-  border-radius: 10px 0 0px 10px;
-=======
   border-radius: 8px 0 0px 8px;
->>>>>>> 033c490dff1858959e3c052388e8a626fd493daf
   border: 1px solid #a19b9b;
   height: 205px;
   overflow: auto;
@@ -21,14 +17,9 @@
   left: 0;
   background-color: #62b4ff;
   padding: 10px;
-<<<<<<< HEAD
-  border-radius: 10px 0px 0 0;
-  color: white;
-=======
   border-radius: 8px 0px 0 0;
   color: white;
   font-size: 15px;
->>>>>>> 033c490dff1858959e3c052388e8a626fd493daf
 }
 .clothes-category-card-list {
   padding: 20px 0;
