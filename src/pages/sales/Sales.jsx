@@ -13,6 +13,17 @@ import Checkbox from "@mui/material/Checkbox";
   var showdate = new Date();
   var displaytodaysdate = showdate.getDate()+'/'+(showdate.getMonth()+1)+'/'+showdate.getFullYear();
   var displaytime= showdate.getHours()+':'+showdate.getMinutes();
+  function createData(name, price, number, discount, totalPrice) {
+    return { name, price, number, discount, totalPrice };
+  }
+  
+  const rows = [
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+  ];
 const Sales = () => {
   const [showorder,setShoworder]=useState(false)
   const [show,setShow]=useState(false)
@@ -27,11 +38,35 @@ const Sales = () => {
       <div className="sales_body">
         <div className="sales_left" >
           <div className="sales_order" >
-          {
-            showorder&&<div className="sales_order_product">
-              <i onClick={()=>setShoworder(false)} className="bx bx-trash"></i>
-            </div>
-          }  
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Tên sản phẩm</TableCell>
+                  <TableCell align="right">Giá &nbsp;(NVĐ)</TableCell>
+                  <TableCell align="right">Số lượng</TableCell>
+                  <TableCell align="right">Giảm giá&nbsp;(%)</TableCell>
+                  <TableCell align="right">Tổng tiền&nbsp;(VNĐ)</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.price}</TableCell>
+                    <TableCell align="right">{row.number}</TableCell>
+                    <TableCell align="right">{row.discount}</TableCell>
+                    <TableCell align="right">{row.totalPrice}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
           </div>
           <div className="sales_products"> 
               <button onClick={()=>setShoworder(true)} className="product1" >
