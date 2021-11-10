@@ -27,9 +27,9 @@ const Backdrop = styled("div")`
   -webkit-tap-highlight-color: transparent;
 `;
 const ProductsNavbar = () => {
-  const [show, setShow] = useState(false);
+  const [showFormAddProduct, setShowFormAddProduct] = useState(false);
   const handleClose = () => {
-    setShow(false);
+    setShowFormAddProduct(false);
   };
   return (
     <div>
@@ -37,16 +37,19 @@ const ProductsNavbar = () => {
         <StyledModal
           aria-labelledby="unstyled-modal-title"
           aria-describedby="unstyled-modal-description"
-          open={show}
+          open={showFormAddProduct}
           onClose={handleClose}
           BackdropComponent={Backdrop}
         >
-          <AddProduct onClose={handleClose} />
+          <AddProduct setShowFormAddProduct={setShowFormAddProduct} />
         </StyledModal>
       </div>
 
       <div className="row list-action-products-btn">
-        <div onClick={() => setShow(true)} className="action-products-btn">
+        <div
+          onClick={() => setShowFormAddProduct(true)}
+          className="action-products-btn"
+        >
           <i class="bx bx-plus"></i>
           Thêm mới{" "}
         </div>

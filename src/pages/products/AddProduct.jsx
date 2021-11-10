@@ -1,66 +1,112 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import "../staff/addstaff/AddStaff.css";
 import "./AddProduct.css";
-
-const AddProduct = ({ onClose }) => {
+const AddProduct = ({ setShowFormAddProduct }) => {
+  const onExitClick = () => {
+    setShowFormAddProduct(false);
+  };
   return (
-    <div className="show_div_add">
-      <div className="header_div_add">
-        <button onClick={() => onClose()} className="btn_close">
+    <div className="add_product-container">
+      <div className="add_product-heading">
+        <h3 className="add_product-heading-title">Thêm mới sản phẩm</h3>
+        <div className="add_product-heading-info">
+          <p>Thông tin</p>
+          <div className="line-add"></div>
+        </div>
+        <div onClick={onExitClick} className="add_product-btn-exit">
           X
-        </button>
-        <b className="title">Thêm mới sản phẩm</b>
-        <div className="txtInfo">Thông tin</div>
-        <div className="line_add"></div>
+        </div>
       </div>
-      <div className="body_div_add">
-        <div className="info1_product">
-          <div className="form_row1_product">
-            <label className="label1_product">Mã sản phẩm</label>
-            <input
-              className="form_input1_product"
-              placeholder="Mã tự động"
-            ></input>
+      <div className="add_product-body">
+        <div className="add_product-form">
+          <div className="add_product-form-row">
+            <span>Mã sản phẩm</span>
+            <input type="text" />
           </div>
-          <div className="form_row2_product">
-            <label className="label1_product">Tên sản phẩm</label>
-            <input className="form_input1_product" type="text" id></input>
+          <div className="add_product-form-row">
+            <span>Giá vốn (đồng)</span>
+            <input />
           </div>
-          <div className="form_row3_product">
-            <label className="label1_product">Loại sản phẩm</label>
-            <input className="form_input1_product" type="text" id></input>
+          <div className="add_product-form-row">
+            <span>Loại sản phẩm</span>
+
+            <select className="add_product-form-select" name="gender">
+              <option value="Nam">Áo </option>
+
+              <option value="Nữ">Quần</option>
+            </select>
           </div>
-          <div className="form_row4_product">
-            <label className="label1_product">Hình ảnh sản phẩm</label>
+
+          <div className="add_product-form-row">
+            <span>Giá bán (đồng)</span>
+            <input name="fullname" type="text" />
           </div>
-          <div className="form_row5_product">
-            <div className="picture_product"></div>
-            <div className="picture2"></div>
-            <div className="picture3"></div>
-            <div className="picture4"></div>
+          <div className="add_product-form-row">
+            <span>Tên sản phẩm</span>
+            <input />
+            <p className="add_product-form-error"></p>
+          </div>
+          <div className="add_product-form-row">
+            <span>Tồn kho</span>
+            <input type="text" />
+          </div>
+          <div className="add_product-form-row">
+            <span style={{ width: "30%" }}>Size</span>
+            <div
+              style={{ width: "70%" }}
+              className="add_product-form-list-size"
+            >
+              <div className="add_product-form-size-item">
+                <input type="checkbox" />
+                <span>XXL</span>
+              </div>
+              <div className="add_product-form-size-item">
+                <input type="checkbox" />
+                <span>XL</span>
+              </div>
+              <div className="add_product-form-size-item">
+                <input type="checkbox" />
+                <span>L</span>
+              </div>
+              <div className="add_product-form-size-item">
+                <input type="checkbox" />
+                <span>M</span>
+              </div>
+              <div className="add_product-form-size-item">
+                <input type="checkbox" />
+                <span>S</span>
+              </div>
+            </div>
+          </div>
+          <div className="add_product-form-row">
+            <span>Màu sắc</span>
+            <input type="text" />
           </div>
         </div>
-        <div className="info2_product">
-          <div className="form_row1_product">
-            <label className="label2_product"> Giá vốn</label>
-            <input className="form_input2_product" type="text" id></input>
-          </div>
-          <div className="form_row2_product">
-            <label className="label2_product">Giá bán</label>
-            <input className="form_input2_product" type="text" id></input>
-          </div>
-          <div className="form_row3_product">
-            <label className="label2_product"> Tồn kho</label>
-            <input className="form_input2_product" type="text" id></input>
-          </div>
+      </div>
+      <div className="add_product-form-images">
+        <div className="add_product-form-image">
+          <p>Hình ảnh sản phẩm</p>
+          <img
+            style={{ height: 100 }}
+            src="https://res.cloudinary.com/hoquanglinh/image/upload/v1636559426/Linh/4fc20722-5368-e911-80d5-b82a72db46f2_a7cy10.png"
+            alt=""
+          />
         </div>
-        {/* <div className="div_picture">
-        <label className="label3"> Hình ảnh sản phẩm</label>
-        <div className="picture"></div>
-        </div> */}
-        <button onClick={() => onClose()} className="btn_Cancel">
+        <div className="add_product-form-image">
+          <p>Mã vạch</p>
+          <img
+            style={{ height: 100 }}
+            src="https://res.cloudinary.com/hoquanglinh/image/upload/v1636559426/Linh/4fc20722-5368-e911-80d5-b82a72db46f2_a7cy10.png"
+            alt=""
+          />
+        </div>
+      </div>
+      <div className="add_product-btn-row">
+        <button className="add_product-btn-save">Lưu</button>
+        <button onClick={onExitClick} className="add_product-btn-cancel">
           Bỏ qua
         </button>
-        <button className="btn_Save">Lưu</button>
       </div>
     </div>
   );
