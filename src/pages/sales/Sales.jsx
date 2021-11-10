@@ -17,7 +17,7 @@ const Sales = () => {
   const [showorder,setShoworder]=useState(false)
   const [show,setShow]=useState(false)
   return (
-    <div>
+    <div className="div_sale">
        <div className="sales_header">
         <div className="sales_search">
           <input type="text" placeholder="Tìm kiếm" />
