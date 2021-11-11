@@ -5,7 +5,7 @@ const NavBar = () => {
   /* When the user clicks on the button, 
   toggle between hiding and showing the dropdown content */
   function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
+    document.getElementById("myColor").classList.toggle("show");
   };
   return (
     <div>
@@ -23,12 +23,12 @@ const NavBar = () => {
         }
 
         <div className="navbar__right">
-          <div className="navbar__right-item">
+          <div className="navbar__right-icon">
             <i className="bx bx-bell"></i>
           </div>
           <div className="navbar__right-icon">
             <i className="bx bx-palette" onClick={myFunction} ></i>
-            <div id ="myDropdown" className="navnar__paleteteShow"> 
+            <div id ="myColor" className="navnar__paleteteShow"> 
               <div className = "navbar__PlaColor_row">
                 <div className = "navbar__PlaColor_blue"> </div>     
                 <div className = "navbar__PlaColor_red"> </div> 

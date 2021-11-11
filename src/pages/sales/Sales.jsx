@@ -23,6 +23,10 @@ import Checkbox from "@mui/material/Checkbox";
     createData('Eclair', 262, 16.0, 24, 6.0),
     createData('Cupcake', 305, 3.7, 67, 4.3),
     createData('Gingerbread', 356, 16.0, 49, 3.9),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
   ];
 const Sales = () => {
   const [showorder,setShoworder]=useState(false)
@@ -43,7 +47,7 @@ const Sales = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Tên sản phẩm</TableCell>
-                  <TableCell align="right">Giá &nbsp;(NVĐ)</TableCell>
+                  <TableCell align="right">Giá &nbsp;(VNĐ)</TableCell>
                   <TableCell align="right">Số lượng</TableCell>
                   <TableCell align="right">Giảm giá&nbsp;(%)</TableCell>
                   <TableCell align="right">Tổng tiền&nbsp;(VNĐ)</TableCell>
