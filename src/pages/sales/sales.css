@@ -29,7 +29,6 @@
     padding: 10px 60px 10px 20px;
     font-size: 1rem;
     border-radius: 30px;
-    border: 1px solid #67dbdb;
     color: var(--txt-color);
   }
   .sales_search > i {
