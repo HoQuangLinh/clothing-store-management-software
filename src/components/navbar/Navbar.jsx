@@ -1,6 +1,9 @@
 import React from "react";
 import "./navbar.css";
 import cr7 from "../../assets/images/cr7.jpg";
+function DropdownFuntion(){
+  document.getElementById("myDropdown").classList.toggle("show");
+}
 const NavBar = () => {
   return (
     <div>
@@ -22,7 +25,7 @@ const NavBar = () => {
             <i className="bx bx-bell"></i>
           </div>
           <div className="navbar__right-icon">
-            <i className="bx bx-palette"></i>
+            <i className="bx bx-palette" onClick={DropdownFuntion}></i>
             <div id="myDropdown" className="navnar__paleteteShow">
               <div className="navbar__PlaColor_row">
                 <div className="navbar__PlaColor_blue"> </div>
@@ -41,10 +44,6 @@ const NavBar = () => {
             <span>RonalDo</span>
           </div>
         </div>
-      </div>
-
-      <div id="myDropdown" className="navnar__paleteteShow">
-        <div className="navbar__PlaColor_blue"></div>
       </div>
     </div>
   );

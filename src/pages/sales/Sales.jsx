@@ -29,7 +29,7 @@ const Sales = () => {
   const [show,setShow]=useState(false)
   return (
     <div className="div_sale">
-       <div className="sales_header">
+      <div className="sales_header">
         <div className="sales_search">
           <input type="text" placeholder="Tìm kiếm" />
           <i className="bx bx-search"></i> 
