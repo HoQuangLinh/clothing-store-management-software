@@ -75,6 +75,7 @@ button {
 input {
   border: 2px solid transparent;
   outline: 0;
+  font-family: "Roboto", sans-serif;
 }
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

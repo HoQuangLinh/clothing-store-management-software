@@ -72,6 +72,7 @@ const AddStaff = ({ setShowFormAddStaff }) => {
   const onExitClick = () => {
     setShowFormAddStaff(false);
   };
+
   return (
     <div className="add_staff-container">
       <div className="add_staff-heading">
