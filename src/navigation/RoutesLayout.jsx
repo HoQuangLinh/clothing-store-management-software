@@ -7,7 +7,7 @@ import Products from "../pages/products/Products";
 import Orders from "../pages/orders/Orders";
 import Staff from "../pages/staff/Staff";
 import Revenues from "../pages/revenues/Revenues";
-
+import Returns from "../pages/returns/Returns";
 const RoutesLayout = () => {
   return (
     <Switch>
@@ -26,9 +26,11 @@ const RoutesLayout = () => {
       <Route path="/staffs">
         <Staff />
       </Route>
-
       <Route path="/revenues">
         <Revenues />
+      </Route>
+      <Route path="/returns">
+        <Returns />
       </Route>
       <Route path="/">
         <Dashboard></Dashboard>

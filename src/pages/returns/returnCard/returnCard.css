@@ -1,0 +1,31 @@
+.returns-card {
+    margin: 10px;
+    border: 1px solid #a19b9b;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+    width: 260px;
+    align-items:center;
+    justify-content:center;
+  }
+  .returns-card-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .returns-card-item > span {
+    padding-left: 10px;
+  }
+.opstion{
+    display:flex;
+    font-size:14;
+}
+.buttonUI {
+    color: white;
+    background-color: #FFCF54;
+    border-radius: 10px;
+    padding: 6px;
+    font-size: 14px;
+    display: flex;
+  }

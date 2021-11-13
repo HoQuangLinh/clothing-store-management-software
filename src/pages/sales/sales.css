@@ -10,11 +10,7 @@
     margin-top:-40px;
     margin-left: -20px;
     position: fixed; 
-    /* top: 100px; */
-    
-    
-  
-
+    /* top: 100px; */ 
 } 
 .sales_search {
     width: 300px;
@@ -44,8 +40,6 @@
   }
 .sales_body{
     display: flex;
-    
-   
 }
 .sales_right{
     width: 370px;

@@ -39,5 +39,10 @@
     "display_name": "Cài đặt",
     "route": "/settings",
     "icon": "bx bx-cog"
+  },
+  {
+    "display_name": "Đổi trả",
+    "route": "/returns",
+    "icon": "bx bx-repost"
   }
 ]
