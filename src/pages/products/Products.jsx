@@ -11,6 +11,32 @@ import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import "./products.css";
 import Checkbox from "@mui/material/Checkbox";
+import ModalUnstyled from "@mui/core/ModalUnstyled";
+import { styled, Box } from "@mui/system";
+import UpdateProduct from "../products/updateProduct/UpdateProduct";
+import Dialog from "../../components/dialog/Dialog";
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Backdrop = styled("div")`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
 
 const columns = [
   { id: "_id", label: "Mã sản phẩm" },
@@ -37,11 +63,15 @@ const columns = [
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [rerenderProducts, setRerenderProducts] = useState(false);
   const [shirts, setShirts] = useState([]);
   const [trousers, setTrousers] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchText, setSearchText] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [showFormUpdateProduct, setShowFormUpdateProduct] = useState(false);
+  const [showDialogDelete, setShowDialogDelete] = useState(false);
   //get product from API
   useEffect(() => {
     axios
@@ -52,24 +82,31 @@ const Products = () => {
       .catch((err) => {
         console.log(err.res);
       });
-  }, []);
+  }, [showFormUpdateProduct, selectedProduct, rerenderProducts]);
 
-  //find product by id or by name
-  const searchProduct = () => {
+  //get All products
+  const getAllProducts = () => {
     axios
-      .post("https://clothesapp123.herokuapp.com/api/products/find", {
-        searchText,
-      })
+      .get("https://clothesapp123.herokuapp.com/api/products/listProduct")
       .then((res) => {
-        console.log(res.data);
         setProducts(res.data);
       })
       .catch((err) => {
-        alert("lỗi");
-        if (err.response) {
-          console.log(err.response.data);
-        }
+        console.log(err.res);
       });
+  };
+  //find product by id or by name
+  const searchProduct = () => {
+    if (!searchText || !products) {
+      getAllProducts();
+    }
+    const productFilter = products.filter((product) => {
+      return (
+        product.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+        product._id.toLowerCase().indexOf(searchText) > -1
+      );
+    });
+    setProducts(productFilter);
   };
 
   //filter product by shirts
@@ -94,9 +131,8 @@ const Products = () => {
           console.log(err.response.data);
         }
       });
-  }, [shirts]);
+  }, []);
 
-  //
   //filter product by trousers
 
   useEffect(() => {
@@ -118,7 +154,7 @@ const Products = () => {
           console.log(err.response.data);
         }
       });
-  }, [trousers]);
+  }, []);
 
   //filter products by category
   const handleFilterProductsByCategory = (e) => {
@@ -127,6 +163,7 @@ const Products = () => {
         "https://clothesapp123.herokuapp.com/api/products/productByCategory",
         {
           params: {
+            name: e.target.name,
             category: e.target.value,
           },
           headers: {
@@ -142,6 +179,9 @@ const Products = () => {
         console.log("lỗi filter");
       });
   };
+  const handleCloseDialog = () => {
+    setShowDialogDelete(false);
+  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -150,8 +190,42 @@ const Products = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const handleDeleteProduct = () => {
+    axios
+      .delete(
+        `https://clothesapp123.herokuapp.com/api/products/deleteOnebyId/${selectedProduct._id}`
+      )
+      .then((res) => {
+        handleCloseDialog();
+        alert("Xoá sản phẩm thành công");
+        setSelectedProduct(null);
+      })
+      .catch("Lỗi, xin hãy thử lại sau");
+  };
   return (
     <div className="div_product">
+      <Dialog
+        title="Xoá sản phẩm"
+        content={`Bạn có muốn xoá sản phẩm: ${selectedProduct?.name} `}
+        open={showDialogDelete}
+        handleCancel={handleCloseDialog}
+        handleAction={handleDeleteProduct}
+      />
+      <StyledModal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={showFormUpdateProduct}
+        onClose={() => {
+          setShowFormUpdateProduct(false);
+        }}
+        BackdropComponent={Backdrop}
+      >
+        <UpdateProduct
+          product={selectedProduct}
+          setShowFormUpdateProduct={setShowFormUpdateProduct}
+          setProduct={setSelectedProduct}
+        />
+      </StyledModal>
       <div className="div_left">
         <div className="col-3">
           <div className="clothes-category-card">
@@ -181,7 +255,9 @@ const Products = () => {
             <div className="div_search">
               <div className="header_search">Các loại áo</div>
               <select
+                name="Áo"
                 onChange={handleFilterProductsByCategory}
+                onClick={handleFilterProductsByCategory}
                 className="selectbox"
               >
                 <option value="all">Tất cả</option>
@@ -200,7 +276,9 @@ const Products = () => {
             <div className="div_search">
               <div className="header_search">Các loại quần</div>
               <select
+                name="Quần"
                 onChange={handleFilterProductsByCategory}
+                onClick={handleFilterProductsByCategory}
                 className="selectbox"
               >
                 <option value="all">Tất cả</option>
@@ -254,13 +332,18 @@ const Products = () => {
                         backgroundColor: "#03a9f4",
                       }}
                     ></TableCell>
+                    <TableCell
+                      padding="checkbox"
+                      style={{
+                        backgroundColor: "#03a9f4",
+                      }}
+                    ></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {products
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
-                      console.log(row);
                       return (
                         <TableRow
                           hover
@@ -298,7 +381,29 @@ const Products = () => {
                               </TableCell>
                             );
                           })}
-                          <TableCell padding="checkbox">
+                          <TableCell
+                            onClick={() => {
+                              console.log("update");
+                              setSelectedProduct(row);
+                              console.log(row);
+                              setShowFormUpdateProduct(true);
+                            }}
+                            padding="checkbox"
+                          >
+                            <i
+                              style={{ fontSize: 18 }}
+                              class="bx bx-edit-alt"
+                            ></i>
+                          </TableCell>
+                          <TableCell
+                            onClick={() => {
+                              console.log("delete");
+                              console.log(row);
+                              setSelectedProduct(row);
+                              setShowDialogDelete(true);
+                            }}
+                            padding="checkbox"
+                          >
                             <i style={{ fontSize: 18 }} class="bx bx-trash"></i>
                           </TableCell>
                         </TableRow>
@@ -319,7 +424,7 @@ const Products = () => {
             />
           </Paper>
         </div>
-        <ProductsNavbar />
+        <ProductsNavbar setRerenderProducts={setRerenderProducts} />
       </div>
     </div>
   );

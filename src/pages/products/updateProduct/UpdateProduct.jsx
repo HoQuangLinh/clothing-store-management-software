@@ -1,28 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
-import "../staff/addstaff/AddStaff.css";
-import "./AddProduct.css";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+
+import "./updateProduct.css";
 import axios from "axios";
+import QRCode from "qrcode";
+import validateProduct from "../form_validate/validateProduct";
+import useFormProduct from "../form_validate/useFormProduct";
 
-import validateProduct from "./form_validate/validateProduct";
-import useFormProduct from "./form_validate/useFormProduct";
-
-const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
+const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
   const inputAvatarRef = useRef(null);
-  const [productId, setProductId] = useState();
   const [avatar, setAvatar] = useState();
   const [categories, setCategories] = useState([]);
-  const [categoryId, setCategoryId] = useState();
-  const [qrImage, setQrImage] = useState(
-    "https://res.cloudinary.com/hoquanglinh/image/upload/v1636559426/Linh/4fc20722-5368-e911-80d5-b82a72db46f2_a7cy10.png"
-  );
-  const [product, setProduct] = useState({
-    name: "",
-    category: "Áo",
-    costPrice: 0,
-    salePrice: 0,
-    desc: "",
-    discount: 0,
-  });
+
+  const [qrImage, setQrImage] = useState(product.qrCodeUrl);
+
+  const [categoryId, setCategoryId] = useState(product.categoryId);
 
   //get All cateogories
   useEffect(() => {
@@ -34,12 +25,12 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   }, []);
 
   const [options, setOptions] = useState([
-    { id: 0, size: "3XL", quantity: 0 },
-    { id: 1, size: "XXL", quantity: 0 },
-    { id: 2, size: "XL", quantity: 0 },
-    { id: 3, size: "L", quantity: 0 },
-    { id: 4, size: "M", quantity: 0 },
-    { id: 5, size: "S", quantity: 0 },
+    { id: 0, size: "3XL", quantity: product.options[0]?.quantity || 0 },
+    { id: 1, size: "XXL", quantity: product.options[1]?.quantity || 0 },
+    { id: 2, size: "XL", quantity: product.options[2]?.quantity || 0 },
+    { id: 3, size: "L", quantity: product.options[3]?.quantity || 0 },
+    { id: 4, size: "M", quantity: product.options[4]?.quantity || 0 },
+    { id: 5, size: "S", quantity: product.options[5]?.quantity || 0 },
   ]);
 
   const handleOptionChecked = (index) => {
@@ -106,9 +97,8 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   const submitForm = async () => {
     var optionsVal = await getOption();
 
-    console.log(product.category);
     const formProduct = new FormData();
-    formProduct.append("categoryId", categoryId);
+    formProduct.append("categoryId", product.categoryId);
     formProduct.append("name", product.name);
     formProduct.append("costPrice", product.costPrice);
     formProduct.append("discount", product.discount);
@@ -125,8 +115,8 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
     }
     //post to API
     axios
-      .post(
-        "https://clothesapp123.herokuapp.com/api/products/add",
+      .put(
+        `https://clothesapp123.herokuapp.com/api/products/updateProduct/${product._id}`,
         formProduct,
         {
           headers: {
@@ -136,16 +126,13 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        alert("Cập nhật sản phẩm thành công");
         setQrImage(res.data.qrCodeUrl);
-        setProductId(res.data._id);
-        setRerenderProducts(true);
-        alert("Thêm sản phẩm thành công");
       })
       .catch((error) => {
         if (error.response) {
-          alert("Thêm sản phẩm thất bại");
-          // Request made and server responded
+          alert("Cập nhật sản phẩm thất bại");
+
           console.log(error.response.data);
         }
       });
@@ -158,33 +145,33 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   );
 
   const onExitClick = () => {
-    setShowFormAddProduct(false);
+    setShowFormUpdateProduct(false);
   };
 
   return (
-    <div className="add_product-container">
-      <div className="add_product-heading">
-        <h3 className="add_product-heading-title">Thêm mới sản phẩm</h3>
-        <div className="add_product-heading-info">
+    <div className="update_product-container">
+      <div className="update_product-heading">
+        <h3 className="update_product-heading-title">Cập nhật sản phẩm</h3>
+        <div className="update_product-heading-info">
           <p>Thông tin</p>
           <div className="line-add"></div>
         </div>
-        <div onClick={onExitClick} className="add_product-btn-exit">
+        <div onClick={onExitClick} className="update_product-btn-exit">
           X
         </div>
       </div>
-      <div className="add_product-body">
-        <div className="add_product-form">
-          <div className="add_product-form-row">
+      <div className="update_product-body">
+        <div className="update_product-form">
+          <div className="update_product-form-row">
             <span>Mã sản phẩm</span>
             <input
-              value={productId}
               type="text"
               placeholder="Mã tự động"
+              value={product._id}
               readOnly
             />
           </div>
-          <div className="add_product-form-row">
+          <div className="update_product-form-row">
             <span>Giá vốn (đồng)</span>
             <input
               type="text"
@@ -193,17 +180,18 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
               value={product.costPrice}
               onChange={handleChange}
             />
-            <p className="add_product-form-error">{errors.costPrice}</p>
+            <p className="update_product-form-error">{errors.costPrice}</p>
           </div>
-          <div className="add_product-form-row">
+          <div className="update_product-form-row">
             <span>Loại sản phẩm</span>
 
             <select
-              name="category"
+              name="categoryId"
+              value={categoryId}
               onChange={(e) => {
                 setCategoryId(e.target.value);
               }}
-              className="add_product-form-select"
+              className="update_product-form-select"
             >
               {categories.map((category) => {
                 return (
@@ -214,7 +202,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
               })}
             </select>
           </div>
-          <div className="add_product-form-row">
+          <div className="update_product-form-row">
             <span>Giảm giá (%)</span>
             <input
               name="discount"
@@ -234,15 +222,15 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
                 class="bx bxs-down-arrow discount_type_item"
               ></i>
             </div>
-            <p className="add_product-form-error">{errors.countInStock}</p>
+            <p className="update_product-form-error">{errors.countInStock}</p>
           </div>
 
-          <div className="add_product-form-row">
+          <div className="update_product-form-row">
             <span>Tên sản phẩm</span>
             <input name="name" value={product.name} onChange={handleChange} />
-            <p className="add_product-form-error">{errors.name}</p>
+            <p className="update_product-form-error">{errors.name}</p>
           </div>
-          <div className="add_product-form-row">
+          <div className="update_product-form-row">
             <span>Giá bán (đồng)</span>
             <input
               type="text"
@@ -252,26 +240,27 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
               value={product.salePrice}
               onChange={handleChange}
             />
-            <p className="add_product-form-error">{errors.salePrice}</p>
+            <p className="update_product-form-error">{errors.salePrice}</p>
           </div>
-          <div className="add_product-form-row">
+          <div className="update_product-form-row">
             <span style={{ width: "30%" }}>Size</span>
             <div
               style={{ width: "70%" }}
-              className="add_product-form-list-size"
+              className="update_product-form-list-size"
             >
               {options.map((option, index) => {
                 return (
-                  <div className="add_product-form-size-item">
+                  <div className="update_product-form-size-item">
                     <input
                       onChange={() => handleOptionChecked(index)}
                       type="checkbox"
+                      checked={option.quantity > 0}
                     />
                     <span>{`${option.size}:`}</span>
                     <input
                       value={option.quantity}
                       type="text"
-                      className="add_product-form-size-count"
+                      className="update_product-form-size-count"
                       onChange={(e) => {
                         let newOptions = [...options];
                         let option = { ...newOptions[index] };
@@ -284,9 +273,9 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
                 );
               })}
             </div>
-            <p className="add_product-form-error">{errors.size}</p>
+            <p className="update_product-form-error">{errors.size}</p>
           </div>
-          <div className="add_product-form-row">
+          <div className="update_product-form-row">
             <span>Mô tả</span>
             <input
               name="desc"
@@ -294,12 +283,12 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
               value={product.desc}
               onChange={handleChange}
             />
-            <p className="add_product-form-error">{errors.desc}</p>
+            <p className="update_product-form-error">{errors.desc}</p>
           </div>
         </div>
       </div>
-      <div className="add_product-form-images">
-        <div className="add_product-form-image">
+      <div className="update_product-form-images">
+        <div className="update_product-form-image">
           <input
             ref={inputAvatarRef}
             type="file"
@@ -312,24 +301,20 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
               inputAvatarRef.current.click();
             }}
             style={{ height: 120, width: 120 }}
-            src={
-              avatar
-                ? URL.createObjectURL(avatar)
-                : "https://res.cloudinary.com/hoquanglinh/image/upload/v1636559426/Linh/4fc20722-5368-e911-80d5-b82a72db46f2_a7cy10.png"
-            }
+            src={avatar ? URL.createObjectURL(avatar) : product.imageDisplay}
             alt=""
           />
         </div>
-        <div className="add_product-form-image">
+        <div className="update_product-form-image">
           <p>Mã vạch</p>
           <img style={{ height: 120, width: 120 }} src={qrImage} alt="" />
         </div>
       </div>
-      <div className="add_product-btn-row">
-        <button onClick={handleSubmit} className="add_product-btn-save">
+      <div className="update_product-btn-row">
+        <button onClick={handleSubmit} className="update_product-btn-save">
           Lưu
         </button>
-        <button onClick={onExitClick} className="add_product-btn-cancel">
+        <button onClick={onExitClick} className="update_product-btn-cancel">
           Bỏ qua
         </button>
       </div>
@@ -337,4 +322,4 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

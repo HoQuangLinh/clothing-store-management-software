@@ -4,8 +4,6 @@ export default function validateProduct(product) {
 
   if (!product.name?.trim()) {
     errors.name = "Sản phẩm không được trống";
-  } else if (!/^[A-Za-z]+/.test(product.name.trim())) {
-    errors.name = "Sản phẩm không bắt đầu bằng số";
   }
 
   if (product.costPrice <= 0) {

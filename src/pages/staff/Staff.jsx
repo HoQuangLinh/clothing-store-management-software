@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Checkbox from "@mui/material/Checkbox";
+import Dialog from "../../components/dialog/Dialog";
 import axios from "axios";
 import "./staff.css";
 
@@ -68,7 +69,8 @@ const Staff = (props) => {
   const [showFormUpdateStaff, setShowFormUpdateStaff] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
+  const [textSearch, setTextSearch] = useState("");
+  const [showDialogDelete, setShowDialogDelete] = useState(false);
   useEffect(() => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/users")
@@ -78,12 +80,38 @@ const Staff = (props) => {
       .catch((err) => {
         console.log(err.response);
       });
-  }, [showFormAddStaff, showFormUpdateStaff]);
+  }, [showFormAddStaff, showFormUpdateStaff, selectedStaff]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+  const getAllStaff = () => {
+    axios
+      .get("https://clothesapp123.herokuapp.com/api/users")
+      .then((res) => {
+        setStaffs(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+  const handleSearchStaff = () => {
+    if (!textSearch) {
+      getAllStaff();
+    }
+    const staffFilter = staffs.filter((staff) => {
+      //Name: Ho Quang Linh
+      // textSearch: Quang
+      console.log();
+      return (
+        staff.fullname.toLowerCase().indexOf(textSearch.toLowerCase()) > -1 ||
+        staff._id.toLowerCase().indexOf(textSearch) > -1
+      );
+    });
+    console.log(staffFilter);
+    setStaffs(staffFilter);
+  };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -109,8 +137,33 @@ const Staff = (props) => {
       });
   }, [position]);
 
+  const handleCloseDialog = () => {
+    setShowDialogDelete(false);
+  };
+  const handleDeleteStaff = () => {
+    axios
+      .delete(
+        `https://clothesapp123.herokuapp.com/api/users/deleteOnebyId/${selectedStaff._id}`
+      )
+      .then((res) => {
+        handleCloseDialog();
+        alert("Xoá nhân thành công");
+        setSelectedStaff(null);
+      })
+      .catch(() => {
+        alert("Lỗi xin bạn hãy thử lại sau");
+        handleCloseDialog();
+      });
+  };
   return (
     <div className="div_staff">
+      <Dialog
+        title="Xoá nhân viên"
+        content={`Bạn có muốn xoá nhân viên: ${selectedStaff?.fullname} `}
+        open={showDialogDelete}
+        handleCancel={handleCloseDialog}
+        handleAction={handleDeleteStaff}
+      />
       <StyledModal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
@@ -142,8 +195,15 @@ const Staff = (props) => {
         <div className="div_search">
           <div className="header_search">Tìm kiếm</div>
           <div className="search">
-            <input type="text" placeholder="Tìm theo mã, tên nhân viên" />
-            <i className="bx bx-search"></i>
+            <input
+              value={textSearch}
+              onChange={(e) => {
+                setTextSearch(e.target.value);
+              }}
+              type="text"
+              placeholder="Tìm theo mã, tên nhân viên"
+            />
+            <i onClick={handleSearchStaff} className="bx bx-search"></i>
           </div>
         </div>
         <div className="div_search">
@@ -202,6 +262,18 @@ const Staff = (props) => {
                         {column.label}
                       </TableCell>
                     ))}
+                    <TableCell
+                      padding="checkbox"
+                      style={{
+                        backgroundColor: "#03a9f4",
+                      }}
+                    ></TableCell>
+                    <TableCell
+                      padding="checkbox"
+                      style={{
+                        backgroundColor: "#03a9f4",
+                      }}
+                    ></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -210,10 +282,6 @@ const Staff = (props) => {
                     .map((row, index) => {
                       return (
                         <TableRow
-                          onClick={() => {
-                            setSelectedStaff(row);
-                            setShowFormUpdateStaff(true);
-                          }}
                           hover
                           role="checkbox"
                           key={row.code}
@@ -243,6 +311,31 @@ const Staff = (props) => {
                               </TableCell>
                             );
                           })}
+                          <TableCell
+                            onClick={() => {
+                              console.log("update");
+                              setSelectedStaff(row);
+                              console.log(row);
+                              setShowFormUpdateStaff(true);
+                            }}
+                            padding="checkbox"
+                          >
+                            <i
+                              style={{ fontSize: 18 }}
+                              class="bx bx-edit-alt"
+                            ></i>
+                          </TableCell>
+                          <TableCell
+                            onClick={() => {
+                              console.log("delete");
+                              console.log(row);
+                              setSelectedStaff(row);
+                              setShowDialogDelete(true);
+                            }}
+                            padding="checkbox"
+                          >
+                            <i style={{ fontSize: 18 }} class="bx bx-trash"></i>
+                          </TableCell>
                         </TableRow>
                       );
                     })}

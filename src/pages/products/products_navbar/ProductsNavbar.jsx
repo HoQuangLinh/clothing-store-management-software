@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./products_navbar.css";
 import AddProduct from "./../AddProduct";
 import ModalUnstyled from "@mui/core/ModalUnstyled";
-
+import Dialog from "../../../components/dialog/Dialog";
 import { styled, Box } from "@mui/system";
+import axios from "axios";
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -26,10 +27,55 @@ const Backdrop = styled("div")`
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-tap-highlight-color: transparent;
 `;
-const ProductsNavbar = () => {
+const ProductsNavbar = ({ setRerenderProducts }) => {
   const [showFormAddProduct, setShowFormAddProduct] = useState(false);
+  const excelRef = useRef(null);
+  const [showExcelIcon, setShowExcelIcon] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [showDialogImport, setShowDialogImport] = useState(false);
   const handleClose = () => {
     setShowFormAddProduct(false);
+  };
+  const handleSelectFile = (e) => {
+    e.stopPropagation();
+
+    if (e.target.files) {
+      setShowExcelIcon(true);
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+  const handleShowModal = () => {
+    if (!showExcelIcon) {
+      alert("Vui lòng chọn file ở icon bên trái trước");
+    } else {
+      setShowDialogImport(true);
+    }
+  };
+  const handleImportFile = (e) => {
+    const excelFileProducts = new FormData();
+    excelFileProducts.append("file", selectedFile);
+    axios
+      .post(
+        "https://clothesapp123.herokuapp.com/api/products/import",
+        excelFileProducts,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((res) => {
+        alert("Thêm danh sách sản phẩm thành công");
+        setRerenderProducts(true);
+        setShowDialogImport(false);
+        setShowExcelIcon(false);
+      })
+      .catch((err) => {
+        alert("Lỗi nhập hàng, vui lòng kiểm tra lại file excel");
+        setShowDialogImport(false);
+        setShowExcelIcon(false);
+      });
   };
   return (
     <div>
@@ -41,7 +87,10 @@ const ProductsNavbar = () => {
           onClose={handleClose}
           BackdropComponent={Backdrop}
         >
-          <AddProduct setShowFormAddProduct={setShowFormAddProduct} />
+          <AddProduct
+            setRerenderProducts={setRerenderProducts}
+            setShowFormAddProduct={setShowFormAddProduct}
+          />
         </StyledModal>
       </div>
 
@@ -54,9 +103,42 @@ const ProductsNavbar = () => {
           Thêm mới{" "}
         </div>
         <div className="action-products-btn">
-          <i class="bx bxs-file-import"></i>
-          Import
+          <input
+            accept=".xlsx, .xls"
+            onClick={(e) => {
+              e.target.value = "";
+            }}
+            onChange={handleSelectFile}
+            ref={excelRef}
+            type="file"
+            style={{ display: "none" }}
+          />
+          {showExcelIcon && (
+            <i
+              onClick={(e) => {
+                excelRef.current.click();
+              }}
+              style={{ color: "green", fontSize: 25 }}
+              class="fas fa-file-excel"
+            ></i>
+          )}
+          {!showExcelIcon && (
+            <i
+              onClick={(e) => {
+                excelRef.current.click();
+              }}
+              class="bx bxs-file-import"
+            ></i>
+          )}
+          <div onClick={handleShowModal}>Import</div>
         </div>
+        <Dialog
+          title="Import file sản phẩm từ file excel"
+          content="Bạn có muốn import file excel này"
+          open={showDialogImport}
+          handleAction={handleImportFile}
+          handleCancel={setShowDialogImport}
+        />
         <div className="action-products-btn">
           <i class="bx bxs-file-export"></i>Xuất file
         </div>
