@@ -10,11 +10,33 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import "./orders.css";
 import Checkbox from "@mui/material/Checkbox";
-
+import ModalUnstyled from "@mui/core/ModalUnstyled";
 import { orders } from "../../assets/data/order";
 import "react-datepicker/dist/react-datepicker.css";
 import OrderCard from "./OrderCard/OrderCard";
-
+import { styled, Box } from "@mui/system";
+import OrderDetail from "./OrderDetail/orderDetail";
+const StyledModal = styled(ModalUnstyled)`
+  position: fixed;
+  z-index: 1300;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const Backdrop = styled("div")`
+  z-index: -1;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+`;
 const columns = [
   { id: "orderId", label: "Mã hoá đơn" },
   {
@@ -51,7 +73,8 @@ const columns = [
 
 const Orders = () => {
   const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
-
+  const [selectedReturns, setselectedReturns] = useState();
+  const [showNewFormReturn, setNewFormReturn] = useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -65,6 +88,21 @@ const Orders = () => {
   };
   return (
     <div>
+      <StyledModal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={showNewFormReturn}
+        onClose={() => {
+          setNewFormReturn(false);
+        }}
+        BackdropComponent={Backdrop}
+      >
+        <OrderDetail
+          staff={selectedReturns}
+          setStaff={setselectedReturns}
+          setNewFormReturn={setNewFormReturn}
+        />
+      </StyledModal>
       <OrdersNavbar />
       <div className="row products_content">
         <div className="col-3">
@@ -128,7 +166,7 @@ const Orders = () => {
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
-                  <TableRow>
+                  <TableRow >
                     <TableCell
                       padding="checkbox"
                       style={{
@@ -162,6 +200,10 @@ const Orders = () => {
                     .map((row, index) => {
                       return (
                         <TableRow
+                        onClick={() => {
+                          setselectedReturns(row);
+                          setNewFormReturn(true);
+                        }}
                           hover
                           role="checkbox"
                           key={row.code}
