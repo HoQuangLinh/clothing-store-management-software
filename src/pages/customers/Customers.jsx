@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomersNavbar from "./customer_navbar/CustomersNavbar";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -9,13 +9,14 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import DatePicker from "react-datepicker";
+import axios from "axios";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./customers.css";
 import Checkbox from "@mui/material/Checkbox";
 const columns = [
-  { id: "customerId", label: "Mã khách hàng" },
-  { id: "customerName", label: "Tên khách hàng" },
+  { id: "customerId", label: "Mã Khách hàng" },
+  { id: "name", label: "Tên khách hàng" },
   {
     id: "phone",
     label: "Số điện thoại",
@@ -34,11 +35,24 @@ const columns = [
   },
 ];
 
-const customers = [
+const ctm = [
   {
     id: 1,
     customerId: "1",
-    customerName: "Nguyễn Ngọc Thịnh",
+    name: "Nguyễn Ngọc Thịnh",
+    phone: "0352952482",
+    totalPrice: 20000,
+    points: 100,
+    list: [
+      {
+        asd: 123,
+      },
+    ],
+  },
+  {
+    id: 1,
+    customerId: "1",
+    name: "Nguyễn Ngọc Thịnh",
     phone: "0352952482",
     totalPrice: 20000,
     points: 100,
@@ -46,7 +60,7 @@ const customers = [
   {
     id: 1,
     customerId: "1",
-    customerName: "Nguyễn Ngọc Thịnh",
+    name: "Nguyễn Ngọc Thịnh",
     phone: "0352952482",
     totalPrice: 20000,
     points: 100,
@@ -54,7 +68,7 @@ const customers = [
   {
     id: 1,
     customerId: "1",
-    customerName: "Nguyễn Ngọc Thịnh",
+    name: "Nguyễn Ngọc Thịnh",
     phone: "0352952482",
     totalPrice: 20000,
     points: 100,
@@ -62,7 +76,7 @@ const customers = [
   {
     id: 1,
     customerId: "1",
-    customerName: "Nguyễn Ngọc Thịnh",
+    name: "Nguyễn Ngọc Thịnh",
     phone: "0352952482",
     totalPrice: 20000,
     points: 100,
@@ -70,7 +84,7 @@ const customers = [
   {
     id: 1,
     customerId: "1",
-    customerName: "Nguyễn Ngọc Thịnh",
+    name: "Nguyễn Ngọc Thịnh",
     phone: "0352952482",
     totalPrice: 20000,
     points: 100,
@@ -78,36 +92,38 @@ const customers = [
   {
     id: 1,
     customerId: "1",
-    customerName: "Nguyễn Ngọc Thịnh",
-    phone: "0352952482",
-    totalPrice: 20000,
-    points: 100,
-  },
-  {
-    id: 1,
-    customerId: "1",
-    customerName: "Nguyễn Ngọc Thịnh",
+    name: "Nguyễn Ngọc Thịnh",
     phone: "0352952482",
     totalPrice: 20000,
     points: 100,
   },
 ];
 
-const categoryShirt = ["Áo khoác", "Áo sơ mi", "Áo thun", "Áo tay lỡ"];
-
 const Customers = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const [customers, setCustomers] = useState(ctm);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+  useEffect(() => {
+    console.log("Chạy USe effect");
+    axios
+      .get("https://clothingshopapp.herokuapp.com/api/customers/list")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.res);
+      });
+  });
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   return (
     <div>
       <CustomersNavbar />

@@ -4,13 +4,16 @@
   display: flex;
   background-color: #fafafb;
 }
+
 .sales-body-container {
   width: 70%;
   padding: 0 20px;
   background-color: #fff;
 }
+
 .sales-bill-customer-container {
   width: 30%;
+  position: sticky;
 }
 .sales-header-container {
   margin-top: 10px;
@@ -25,10 +28,12 @@
   display: flex;
   align-items: center;
 
-  margin: 20px 30px;
+  margin: 0px 30px 20px;
 }
 .tab-bills ul li {
-  padding: 10px 25px;
+  user-select: none;
+  cursor: pointer;
+  padding: 10px 20px;
 }
 .tab-bills ul li.active {
   border-bottom: 3px solid rgb(3, 169, 244);
@@ -37,6 +42,7 @@
   background-color: rgb(3, 169, 244);
 }
 .sales-filter {
+  margin-right: 20px;
   margin-bottom: 20px;
 }
 
@@ -44,6 +50,7 @@
   display: flex;
 }
 .sales-card {
+  height: 280px;
   position: relative;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -59,7 +66,7 @@
 }
 .sales-card-img {
   vertical-align: bottom;
-  height: 200px;
+  height: 190px;
   object-fit: cover;
   display: flex;
   align-items: center;
@@ -127,7 +134,6 @@
   padding: 10px 15px;
 }
 .sales-bill-customer-container {
-  margin-top: 0px;
 }
 .sales-bill-customer {
   border-radius: 5px;
@@ -151,14 +157,18 @@
 }
 .sales-bill-search-container {
   position: relative;
-  margin: 0 30px;
+  margin: 0 15px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 .sales-bill-search {
   border-radius: 5px;
-
-  padding: 5px 20px;
+  width: 90%;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
+
   border: 1px solid #67dbdb;
 }
 .sales-bill-search > input {
@@ -167,13 +177,13 @@
 .sales-bill-list {
   z-index: 2;
   position: absolute;
-  top: 100%;
-  left: 0;
+  top: 40%;
+  left: 5%;
   background: #fff;
   box-shadow: 3px 3px 10px 6px rgba(0, 0, 0, 0.06);
   font-weight: 500;
   color: #333;
-  width: 100%;
+  width: 90%;
   max-height: 270px;
   overflow-x: hidden;
   overflow-y: auto;
@@ -221,7 +231,7 @@
   width: 20%;
 }
 .sales-order-detail-img > img {
-  height: 80%;
+  height: 60px;
   object-fit: cover;
 }
 .sales-order-detail-midle {

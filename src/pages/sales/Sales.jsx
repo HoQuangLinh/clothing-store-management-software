@@ -1,15 +1,231 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import AddCustomer from "./AddCustomer/AddCustomer";
+import axios from "axios";
 import ComboBox from "../../components/combobox/Combobox";
+
 import "./sales.css";
-const listProducts = Array.from(Array(10).keys());
-const listCustomers = Array.from(Array(10).keys());
-const orderDetail = Array.from(Array(10).keys());
+
 const Sales = () => {
+  const [categories, setCategories] = useState([]);
+  const [categoryActive, setCategoryActive] = useState("Tất cả");
   const [showListCustomers, setShowListCustomer] = useState(false);
-  const [customer, setCustomer] = useState();
+  const [products, setProducts] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [scroreInput, setScoreInput] = useState(0);
+  const [filterCustomers, setFilterCustomers] = useState([]);
+  const [showFormAddCustomer, setShowFormAddCustomer] = useState(false);
+  const [inputTextSearchCustomer, setInputTextSearchCustomer] = useState("");
+  const [currentCustomer, setCurrentCustomer] = useState([
+    {
+      name: "",
+      phone: "0333333888",
+      point: 0,
+    },
+    {
+      name: "",
+      phone: "0333333888",
+      point: 0,
+    },
+    {
+      name: "",
+      phone: "0333333888",
+      point: 0,
+    },
+    {
+      name: "",
+      phone: "0333333888",
+      point: 0,
+    },
+    {
+      name: "",
+      phone: "0333333888",
+      point: 0,
+    },
+  ]);
+
+  //get All cateogories
+  useEffect(() => {
+    axios
+      .get("https://clothesapp123.herokuapp.com/api/products/getAllCategories")
+      .then((res) => {
+        setCategories(res.data);
+      });
+  }, []);
+  //filter products by category
+  useEffect(() => {
+    axios
+      .get(
+        "https://clothesapp123.herokuapp.com/api/products/productByCategory",
+        {
+          params: {
+            category: categoryActive,
+          },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((res) => {
+        setProducts(res.data[0].productList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [categoryActive]);
+
+  // get All customers
+  useEffect(() => {
+    axios
+      .get("https://clothesapp123.herokuapp.com/api/customers/list")
+      .then((res) => {
+        setCustomers(res.data);
+      })
+      .catch((err) => {
+        console.log("Lỗi call api");
+      });
+  }, [showFormAddCustomer]);
+
+  const [activeTab, setActiveTab] = useState(0);
+  const [tabs, setTabs] = useState([
+    {
+      tabIndex: 0,
+
+      name: "Hoá đơn 1",
+    },
+    {
+      tabIndex: 1,
+      name: "Hoá đơn 2",
+    },
+    {
+      tabIndex: 2,
+      name: "Hoá đơn 3",
+    },
+    {
+      tabIndex: 3,
+      name: "Hoá đơn 4",
+    },
+    {
+      tabIndex: 4,
+      name: "Trả hàng",
+    },
+  ]);
+
+  const [orders, setOrders] = useState([
+    {
+      activeTab: 0,
+      orderDetails: [],
+    },
+    {
+      activeTab: 1,
+      orderDetails: [],
+    },
+    {
+      activeTab: 2,
+      orderDetails: [],
+    },
+    {
+      activeTab: 3,
+      orderDetails: [],
+    },
+    { activeTab: 4, orderDetails: [] },
+  ]);
+
+  const handleCancel = () => {
+    setShowFormAddCustomer(false);
+  };
+  const handleClickActiveStaff = (index) => {
+    setActiveTab(index);
+  };
+  //handle Score Input
+  const handleScoreInput = (e) => {
+    const score = e.target.value;
+    if (score <= currentCustomer[activeTab].point) {
+      setScoreInput(e.target.value);
+    }
+  };
+  const getDecreasePrice = () => {
+    //100 điểm được 15000
+    //x điểm thì được 15000*x/100
+    return (15000 * scroreInput) / 100;
+  };
+  const getTotalPrice = () => {
+    return getTempPrice() - getDecreasePrice();
+  };
+  //search customer by name or by phone
+  const searchCustomers = (searchText) => {
+    var originCustomers = customers;
+    if (!checkExistCustomer(searchText)) {
+      const newCurrentCustomer = [...currentCustomer];
+      newCurrentCustomer[activeTab] = {
+        name: "Khách lẻ",
+        phone: "",
+        point: 0,
+      };
+      setCurrentCustomer(newCurrentCustomer);
+    }
+    if (!searchText || !filterCustomers) {
+      setFilterCustomers(customers);
+    }
+    const customersFilter = originCustomers.filter((customer) => {
+      return (
+        customer.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+        customer.phone.indexOf(searchText) > -1
+      );
+    });
+    setFilterCustomers(customersFilter);
+  };
+
+  //handle add 1 item to orderDetail
+  const addItemToOrderDetail = (product) => {
+    var temp = [];
+    var result = [];
+    const orderItem = {
+      productId: product._id,
+      imageDisplay: product.imageDisplay,
+      productName: product.name,
+      salePrice: product.salePrice,
+      quantity: 1,
+    };
+    var newOrders = [...orders];
+
+    newOrders[activeTab] = {
+      ...newOrders[activeTab],
+      orderDetails: [...newOrders[activeTab].orderDetails, orderItem],
+    };
+
+    for (var order of newOrders[activeTab].orderDetails) {
+      if (!temp[order.productId]) {
+        temp[order.productId] = order;
+      } else {
+        temp[order.productId].quantity += order.quantity;
+      }
+    }
+
+    for (var i in temp) {
+      result.push(temp[i]);
+    }
+    newOrders[activeTab] = { ...newOrders[activeTab], orderDetails: result };
+    setOrders(newOrders);
+  };
+  const getTempPrice = () => {
+    let sum = 0;
+
+    orders[activeTab].orderDetails &&
+      orders[activeTab].orderDetails.forEach((orderItem) => {
+        sum += orderItem.quantity * orderItem.salePrice;
+      });
+    return sum;
+  };
+  const checkExistCustomer = (name) => {
+    return customers.some((customer) => {
+      return customer.name === name;
+    });
+  };
+
   return (
     <div className="sales-container">
+      <AddCustomer open={showFormAddCustomer} handleCancel={handleCancel} />
       <div className="sales-body-container">
         <div className="sales-header-container">
           <div className="sales-searchs">
@@ -18,44 +234,64 @@ const Sales = () => {
               <i className="bx bx-search"></i>
             </div>
           </div>
+          <div className="sales-filter">
+            <ComboBox
+              categoryActive={categoryActive}
+              setCategoryActive={setCategoryActive}
+              options={categories}
+            />
+          </div>
         </div>
         <div className="tab-bills">
           <ul>
-            <li className="active">Hoá đơn 1</li>
-            <li>Hoá đơn 2</li>
-            <li>Hoá đơn 3</li>
-            <li>Hoá đơn 4</li>
-            <li>Trả hàng</li>
+            {tabs.map((tab) => {
+              return (
+                <li
+                  onClick={() => {
+                    handleClickActiveStaff(tab.tabIndex);
+                  }}
+                  className={tab.tabIndex === activeTab ? "active" : ""}
+                >
+                  {tab.name}
+                </li>
+              );
+            })}
           </ul>
         </div>
-        <div className="sales-filter">
-          <ComboBox />
-        </div>
+
         <div className="sales-list-products row">
-          {listProducts.map((value) => {
+          {products.map((product) => {
             return (
               <div className=" col-4">
                 <div className="sales-card">
                   <div className="sales-card-img">
                     <img
                       className="sales-card-img"
-                      src="https://cf.shopee.vn/file/eb9c378d7d029a70af4171c495c8f2f4"
-                      alt=""
+                      src={product.imageDisplay}
+                      alt="Ảnh"
                     />
                   </div>
                   <div className="sales-card-desc">
                     <div className="sales-card-name">
-                      <p>
-                        Áo sơ mi trắng, thương hiệu handmake, chất coton siêu
-                        mềm mại
-                      </p>
+                      <p>{product.name}</p>
                     </div>
                     <div className="sales-card-prices">
-                      <p className="sales-card-cost-price">1,000,000đ</p>
-                      <p className="sales-card-sale-price">750,000đ</p>
+                      <p className="sales-card-cost-price">{`${product.costPrice.toLocaleString(
+                        "en"
+                      )}đ`}</p>
+                      <p className="sales-card-sale-price">{`${product.salePrice.toLocaleString(
+                        "en"
+                      )}đ`}</p>
                     </div>
                     <div className="sales-card-buy">
-                      <div className="sales-card-buy-btn">Bán ngay</div>
+                      <div
+                        onClick={() => {
+                          addItemToOrderDetail(product);
+                        }}
+                        className="sales-card-buy-btn"
+                      >
+                        Bán ngay
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -68,12 +304,29 @@ const Sales = () => {
         <div className="sales-bill-customer">
           <div className="sales-bill-customer-header">
             <p>Khách hàng</p>
-            <button className="btn-add">Thêm mới</button>
+            <button
+              onClick={() => {
+                setShowFormAddCustomer(true);
+              }}
+              className="btn-add"
+            >
+              Thêm mới
+            </button>
           </div>
           <div className="sales-bill-search-container">
             <div className="sales-bill-search">
               <input
-                value={customer}
+                onFocus={() => {
+                  setShowListCustomer(true);
+                  searchCustomers("");
+                }}
+                value={inputTextSearchCustomer}
+                onChange={(e) => {
+                  setInputTextSearchCustomer(e.target.value);
+
+                  setShowListCustomer(true);
+                  searchCustomers(e.target.value);
+                }}
                 type="text"
                 placeholder="Tìm kiếm khách hàng"
               />
@@ -86,16 +339,25 @@ const Sales = () => {
             </div>
             {showListCustomers && (
               <div className="sales-bill-list">
-                {listCustomers.map((value) => {
+                {filterCustomers.map((customer) => {
                   return (
                     <div
                       onClick={() => {
                         setShowListCustomer(!showListCustomers);
-                        setCustomer("Hồ Quang Linh");
+                        let newCurrentCustomer = [...currentCustomer];
+                        newCurrentCustomer[activeTab] = {
+                          name: customer.name,
+                          phone: customer.phone,
+                          point: customer.point,
+                        };
+                        setCurrentCustomer(newCurrentCustomer);
+                        setInputTextSearchCustomer(
+                          newCurrentCustomer[activeTab].name
+                        );
                       }}
                       className="sales-bill-list-item"
                     >
-                      Hồ Quang Linh
+                      {customer.name}
                     </div>
                   );
                 })}
@@ -104,10 +366,14 @@ const Sales = () => {
 
             <div className="sales-bill-customer-info">
               <div className="sales-bill-customer-info-item">
-                Khách hàng:&nbsp; <b>Hồ Quang Linh</b>
+                Khách hàng:&nbsp; <b>{currentCustomer[activeTab].name}</b>
               </div>
               <div className="sales-bill-customer-info-item">
-                Số điện thoại:&nbsp; <b>0352952481</b>
+                Số điện thoại:&nbsp; <b>{currentCustomer[activeTab].phone}</b>
+              </div>
+              <div className="sales-bill-customer-info-item">
+                Tổng điểm tích luỹ:&nbsp;{" "}
+                <b>{currentCustomer[activeTab].point}</b>
               </div>
             </div>
           </div>
@@ -116,46 +382,82 @@ const Sales = () => {
         <div className="sales-order-detail">
           <h3 className="sales-order-detail-header">Chi tiết hoá đơn</h3>
           <div className="sales-order-detail-body">
-            {orderDetail.map((value) => {
-              return (
-                <div className="sales-order-detail-item">
-                  <div className="sales-order-detail-img">
-                    <img
-                      src="https://cf.shopee.vn/file/eb9c378d7d029a70af4171c495c8f2f4"
-                      alt=""
-                    />
-                  </div>
-                  <div className="sales-order-detail-midle">
-                    <div className="sales-order-detail-name">
-                      <p>
-                        Áo sơ mi trắng, thương hiệu handmake, chất Áo sơ mi
-                        trắng, thương hiệu handmake, chất
-                      </p>
+            {orders[activeTab].orderDetails &&
+              orders[activeTab].orderDetails.map((orderItem, index) => {
+                return (
+                  <div className="sales-order-detail-item">
+                    <div className="sales-order-detail-img">
+                      <img src={orderItem.imageDisplay} alt="" />
                     </div>
-                    <div className="sales-order-detail-desc">
-                      <div className="group-count">
-                        <div className="group-count-item">
-                          <i class="bx bx-minus"></i>
-                        </div>
-                        <div className="group-count-item">
-                          <input type="text" value="50" />
-                        </div>
-                        <div className="group-count-item">
-                          <i class="bx bx-plus"></i>
-                        </div>
+                    <div className="sales-order-detail-midle">
+                      <div className="sales-order-detail-name">
+                        <p>{orderItem.productName}</p>
                       </div>
-                      <b>2,000,000đ</b>
+                      <div className="sales-order-detail-desc">
+                        <div className="group-count">
+                          <div className="group-count-item">
+                            <i
+                              onClick={() => {
+                                var newOrders = [...orders];
+                                if (
+                                  newOrders[activeTab].orderDetails[index]
+                                    .quantity > 0
+                                ) {
+                                  newOrders[activeTab].orderDetails[
+                                    index
+                                  ].quantity -= 1;
+                                  setOrders(newOrders);
+                                }
+                              }}
+                              class="bx bx-minus"
+                            ></i>
+                          </div>
+                          <div className="group-count-item">
+                            <input
+                              value={orderItem.quantity}
+                              onChange={(e) => {
+                                let newOrders = [...orders];
+                                let orderItem = {
+                                  ...newOrders[activeTab].orderDetails[index],
+                                };
+                                if (Math.floor(e.target.value) >= 0) {
+                                  orderItem.quantity = Math.floor(
+                                    e.target.value
+                                  );
+                                  newOrders[activeTab].orderDetails[index] =
+                                    orderItem;
+                                  setOrders(newOrders);
+                                }
+                              }}
+                            />
+                          </div>
+                          <div className="group-count-item">
+                            <i
+                              onClick={() => {
+                                var newOrders = [...orders];
+                                newOrders[activeTab].orderDetails[
+                                  index
+                                ].quantity += 1;
+                                setOrders(newOrders);
+                              }}
+                              class="bx bx-plus"
+                            ></i>
+                          </div>
+                        </div>
+                        <b>{`${(
+                          orderItem.salePrice * orderItem.quantity
+                        ).toLocaleString("en")}đ`}</b>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
         <div className="sales-prices">
           <div className="sales-prices-item">
             <p>Tạm tính</p>
-            <span>2,000,000đ</span>
+            <span>{`${getTempPrice().toLocaleString("en")}đ`}</span>
           </div>
           <div className="sales-prices-item">
             <p>Điểm tích luỹ</p>
@@ -163,15 +465,20 @@ const Sales = () => {
           </div>
           <div className="sales-prices-item">
             <p>Sử dụng điểm</p>
-            <input className="sales-score-used" type="text" value={100} />
+            <input
+              value={scroreInput}
+              onChange={handleScoreInput}
+              className="sales-score-used"
+              type="text"
+            />
           </div>
           <div className="sales-prices-item">
             <p>Giảm giá</p>
-            <b>1,000,000đ</b>
+            <b>{`${getDecreasePrice().toLocaleString("en")}đ`}</b>
           </div>
           <div className="sales-prices-item">
             <p>Tổng tiền</p>
-            <b>1,000,000đ</b>
+            <b>{`${getTotalPrice().toLocaleString("en")}đ`}</b>
           </div>
         </div>
         <div className="sales-checkout">
