@@ -2,10 +2,20 @@ import React, { useState, useEffect } from "react";
 import AddCustomer from "./AddCustomer/AddCustomer";
 import axios from "axios";
 import ComboBox from "../../components/combobox/Combobox";
-
+import { Link } from "react-router-dom";
 import "./sales.css";
 
 const Sales = () => {
+  let existCurrentCustomer;
+  let existCurrentOrders;
+  try {
+    existCurrentCustomer = JSON.parse(localStorage.getItem("currentCustomer"));
+    existCurrentOrders = JSON.parse(localStorage.getItem("orders"));
+  } catch {
+    existCurrentCustomer = localStorage.getItem("currentCustomer");
+    existCurrentOrders = localStorage.getItem("orders");
+  }
+
   const [categories, setCategories] = useState([]);
   const [categoryActive, setCategoryActive] = useState("Tất cả");
   const [showListCustomers, setShowListCustomer] = useState(false);
@@ -15,33 +25,63 @@ const Sales = () => {
   const [filterCustomers, setFilterCustomers] = useState([]);
   const [showFormAddCustomer, setShowFormAddCustomer] = useState(false);
   const [inputTextSearchCustomer, setInputTextSearchCustomer] = useState("");
-  const [currentCustomer, setCurrentCustomer] = useState([
+  const [orders, setOrders] = useState([
     {
-      name: "",
-      phone: "0333333888",
-      point: 0,
+      activeTab: 0,
+      orderDetails:
+        (existCurrentOrders && existCurrentOrders[0].orderDetails) || [],
     },
     {
-      name: "",
-      phone: "0333333888",
-      point: 0,
+      activeTab: 1,
+      orderDetails:
+        (existCurrentOrders && existCurrentOrders[1].orderDetails) || [],
     },
     {
-      name: "",
-      phone: "0333333888",
-      point: 0,
+      activeTab: 2,
+      orderDetails:
+        (existCurrentOrders && existCurrentOrders[2].orderDetails) || [],
     },
     {
-      name: "",
-      phone: "0333333888",
-      point: 0,
+      activeTab: 3,
+      orderDetails:
+        (existCurrentOrders && existCurrentOrders[3].orderDetails) || [],
     },
     {
-      name: "",
-      phone: "0333333888",
-      point: 0,
+      activeTab: 4,
+      orderDetails:
+        (existCurrentOrders && existCurrentOrders[4].orderDetails) || [],
     },
   ]);
+
+  const [currentCustomer, setCurrentCustomer] = useState(
+    existCurrentCustomer || [
+      {
+        name: "Khách lẻ",
+        phone: "",
+        point: 0,
+      },
+      {
+        name: "Khách lẻ",
+        phone: "",
+        point: 0,
+      },
+      {
+        name: "Khách lẻ",
+        phone: "",
+        point: 0,
+      },
+      {
+        name: "Khách lẻ",
+        phone: "",
+        point: 0,
+      },
+      {
+        name: "Khách lẻ",
+        phone: "",
+        point: 0,
+      },
+    ]
+  );
 
   //get All cateogories
   useEffect(() => {
@@ -111,26 +151,6 @@ const Sales = () => {
     },
   ]);
 
-  const [orders, setOrders] = useState([
-    {
-      activeTab: 0,
-      orderDetails: [],
-    },
-    {
-      activeTab: 1,
-      orderDetails: [],
-    },
-    {
-      activeTab: 2,
-      orderDetails: [],
-    },
-    {
-      activeTab: 3,
-      orderDetails: [],
-    },
-    { activeTab: 4, orderDetails: [] },
-  ]);
-
   const handleCancel = () => {
     setShowFormAddCustomer(false);
   };
@@ -163,6 +183,10 @@ const Sales = () => {
         point: 0,
       };
       setCurrentCustomer(newCurrentCustomer);
+      localStorage.setItem(
+        "currentCustomer",
+        JSON.stringify(newCurrentCustomer)
+      );
     }
     if (!searchText || !filterCustomers) {
       setFilterCustomers(customers);
@@ -207,11 +231,12 @@ const Sales = () => {
     }
     newOrders[activeTab] = { ...newOrders[activeTab], orderDetails: result };
     setOrders(newOrders);
+    localStorage.setItem("orders", JSON.stringify(newOrders));
   };
   const getTempPrice = () => {
     let sum = 0;
 
-    orders[activeTab].orderDetails &&
+    orders[activeTab]?.orderDetails &&
       orders[activeTab].orderDetails.forEach((orderItem) => {
         sum += orderItem.quantity * orderItem.salePrice;
       });
@@ -222,10 +247,16 @@ const Sales = () => {
       return customer.name === name;
     });
   };
-
+  const getAccumulatedPoint = () => {
+    //900000 được 100 điểm
+    //totalPrice ngàn được x điểm
+    //Điểm tích luỹ chỉ được sài cho mua kế tiếp
+    return Math.floor((getTotalPrice() * 100) / 900000);
+  };
   return (
     <div className="sales-container">
       <AddCustomer open={showFormAddCustomer} handleCancel={handleCancel} />
+
       <div className="sales-body-container">
         <div className="sales-header-container">
           <div className="sales-searchs">
@@ -346,11 +377,16 @@ const Sales = () => {
                         setShowListCustomer(!showListCustomers);
                         let newCurrentCustomer = [...currentCustomer];
                         newCurrentCustomer[activeTab] = {
+                          id: customer._id,
                           name: customer.name,
                           phone: customer.phone,
                           point: customer.point,
                         };
                         setCurrentCustomer(newCurrentCustomer);
+                        localStorage.setItem(
+                          "currentCustomer",
+                          JSON.stringify(newCurrentCustomer)
+                        );
                         setInputTextSearchCustomer(
                           newCurrentCustomer[activeTab].name
                         );
@@ -382,7 +418,7 @@ const Sales = () => {
         <div className="sales-order-detail">
           <h3 className="sales-order-detail-header">Chi tiết hoá đơn</h3>
           <div className="sales-order-detail-body">
-            {orders[activeTab].orderDetails &&
+            {orders[activeTab]?.orderDetails &&
               orders[activeTab].orderDetails.map((orderItem, index) => {
                 return (
                   <div className="sales-order-detail-item">
@@ -407,6 +443,10 @@ const Sales = () => {
                                     index
                                   ].quantity -= 1;
                                   setOrders(newOrders);
+                                  localStorage.setItem(
+                                    "orders",
+                                    JSON.stringify(newOrders)
+                                  );
                                 }
                               }}
                               class="bx bx-minus"
@@ -427,6 +467,10 @@ const Sales = () => {
                                   newOrders[activeTab].orderDetails[index] =
                                     orderItem;
                                   setOrders(newOrders);
+                                  localStorage.setItem(
+                                    "orders",
+                                    JSON.stringify(newOrders)
+                                  );
                                 }
                               }}
                             />
@@ -439,6 +483,10 @@ const Sales = () => {
                                   index
                                 ].quantity += 1;
                                 setOrders(newOrders);
+                                localStorage.setItem(
+                                  "orders",
+                                  JSON.stringify(newOrders)
+                                );
                               }}
                               class="bx bx-plus"
                             ></i>
@@ -461,7 +509,7 @@ const Sales = () => {
           </div>
           <div className="sales-prices-item">
             <p>Điểm tích luỹ</p>
-            <span>100</span>
+            <span>{getAccumulatedPoint()}</span>
           </div>
           <div className="sales-prices-item">
             <p>Sử dụng điểm</p>
@@ -481,9 +529,34 @@ const Sales = () => {
             <b>{`${getTotalPrice().toLocaleString("en")}đ`}</b>
           </div>
         </div>
-        <div className="sales-checkout">
-          <button>Thanh toán</button>
-        </div>
+
+        <Link
+          to={{
+            pathname: "/checkout",
+            state: {
+              order: {
+                activeTab: activeTab,
+                orderTotal: getTotalPrice(),
+                subTotal: getTempPrice(),
+                discount: getDecreasePrice(),
+                orderDetails: orders[activeTab]?.orderDetails,
+                customer: currentCustomer[activeTab],
+                user: JSON.parse(localStorage.getItem("user")),
+              },
+            },
+          }}
+        >
+          <div className="sales-checkout">
+            <button
+              onClick={() => {
+                currentCustomer[activeTab].point -= scroreInput;
+                currentCustomer[activeTab].point += getAccumulatedPoint();
+              }}
+            >
+              Thanh toán
+            </button>
+          </div>
+        </Link>
       </div>
     </div>
   );

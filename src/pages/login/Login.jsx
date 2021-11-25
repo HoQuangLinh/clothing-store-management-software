@@ -11,6 +11,7 @@ const Login = () => {
     axios
       .post("https://clothesapp123.herokuapp.com/api/users/login", user)
       .then((res) => {
+        localStorage.setItem("user", JSON.stringify(res.data));
         console.log(res.data);
         history.push("/home");
       })
