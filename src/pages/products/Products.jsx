@@ -163,7 +163,6 @@ const Products = () => {
         "https://clothesapp123.herokuapp.com/api/products/productByCategory",
         {
           params: {
-            name: e.target.name,
             category: e.target.value,
           },
           headers: {

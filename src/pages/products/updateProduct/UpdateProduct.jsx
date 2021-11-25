@@ -96,9 +96,9 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
   //Submit form
   const submitForm = async () => {
     var optionsVal = await getOption();
-
+    console.log(categoryId);
     const formProduct = new FormData();
-    formProduct.append("categoryId", product.categoryId);
+    formProduct.append("categoryId", categoryId);
     formProduct.append("name", product.name);
     formProduct.append("costPrice", product.costPrice);
     formProduct.append("discount", product.discount);
