@@ -24,12 +24,14 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
     discount: 0,
   });
 
-  //get All cateogories
+  //get All categories
   useEffect(() => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/products/getAllCategories")
       .then((res) => {
+        console.log(res.data);
         setCategories(res.data);
+        setCategoryId(res.data[0]._id);
       });
   }, []);
 
@@ -106,7 +108,6 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   const submitForm = async () => {
     var optionsVal = await getOption();
 
-    console.log(product.category);
     const formProduct = new FormData();
     formProduct.append("categoryId", categoryId);
     formProduct.append("name", product.name);
@@ -143,6 +144,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
         alert("Thêm sản phẩm thành công");
       })
       .catch((error) => {
+        console.log(error);
         if (error.response) {
           alert("Thêm sản phẩm thất bại");
           // Request made and server responded
