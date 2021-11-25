@@ -67,11 +67,13 @@ const Customers = () => {
   const [pointTo, setPointTo] = React.useState("");
   const [totalPriceFrom, setTotalPriceFrom] = React.useState("");
   const [totalPriceTo, setTotalPriceTo] = React.useState("");
+  const [SearchInput, setSearchInput] = React.useState("");
   const [defaultCustomer, setDefaultCustomer] = React.useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+  // Render First time
   useEffect(async () => {
     console.log("Chạy USe effect");
     await axios
@@ -92,32 +94,74 @@ const Customers = () => {
 
   // Search by strings
   const handleSearch = (searchInput) => {
-    console.log(searchInput);
-    if (searchInput == "") return setCustomers(defaultCustomer);
+    setSearchInput(searchInput);
+    console.log("Search working...");
     const customersFilter = defaultCustomer.filter((customer) => {
       console.log("Chạy filter");
       return (
-        customer.name.toLowerCase().indexOf(searchInput.toLowerCase()) > -1 ||
-        customer._id.toLowerCase().indexOf(searchInput.toLowerCase()) > -1 ||
-        customer.phone.toLowerCase().indexOf(searchInput.toLowerCase()) > -1 ||
-        String(customer.point).indexOf(searchInput.toLowerCase()) > -1
+        (customer.name.toLowerCase().indexOf(searchInput.toLowerCase()) > -1 ||
+          customer._id.toLowerCase().indexOf(searchInput.toLowerCase()) > -1 ||
+          customer.phone.toLowerCase().indexOf(searchInput.toLowerCase()) >
+            -1 ||
+          String(customer.point).indexOf(searchInput.toLowerCase()) > -1) &&
+        customer.totalPrice - 1 <
+          Number(
+            totalPriceTo == ""
+              ? Number.MAX_VALUE
+              : totalPriceTo.replace(/[^0-9]/g, "")
+          ) &&
+        customer.totalPrice + 1 >
+          Number(
+            totalPriceFrom == ""
+              ? Number.MIN_VALUE
+              : totalPriceFrom.replace(/[^0-9]/g, "")
+          ) &&
+        customer.point - 1 <
+          Number(
+            pointTo == "" ? Number.MAX_VALUE : pointTo.replace(/[^0-9]/g, "")
+          ) &&
+        customer.point + 1 >
+          Number(
+            pointFrom == ""
+              ? Number.MIN_VALUE
+              : pointFrom.replace(/[^0-9]/g, "")
+          )
       );
     });
     setCustomers(customersFilter);
   };
-
-  // Filter of point columns
+  //Search by point
   const handleSearchByPoint = (pointFrom, pointTo) => {
-    console.log(pointFrom);
-    console.log(pointTo);
-    if (pointFrom == "" || pointTo == "") {
-      return setCustomers(defaultCustomer);
-    }
     console.log("Search Point working...");
     const customerbyPoint = defaultCustomer.filter((customer) => {
       return (
-        customer.point < Number(pointTo.replace(/[^0-9]/g, "")) + 1 &&
-        customer.point > Number(pointFrom.replace(/[^0-9]/g, "")) - 1
+        (customer.name.toLowerCase().indexOf(SearchInput.toLowerCase()) > -1 ||
+          customer._id.toLowerCase().indexOf(SearchInput.toLowerCase()) > -1 ||
+          customer.phone.toLowerCase().indexOf(SearchInput.toLowerCase()) >
+            -1 ||
+          String(customer.point).indexOf(SearchInput.toLowerCase()) > -1) &&
+        customer.totalPrice - 1 <
+          Number(
+            totalPriceTo == ""
+              ? Number.MAX_VALUE
+              : totalPriceTo.replace(/[^0-9]/g, "")
+          ) &&
+        customer.totalPrice + 1 >
+          Number(
+            totalPriceFrom == ""
+              ? Number.MIN_VALUE
+              : totalPriceFrom.replace(/[^0-9]/g, "")
+          ) &&
+        customer.point - 1 <
+          Number(
+            pointTo == "" ? Number.MAX_VALUE : pointTo.replace(/[^0-9]/g, "")
+          ) &&
+        customer.point + 1 >
+          Number(
+            pointFrom == ""
+              ? Number.MIN_VALUE
+              : pointFrom.replace(/[^0-9]/g, "")
+          )
       );
     });
     setCustomers(customerbyPoint);
@@ -130,7 +174,7 @@ const Customers = () => {
       var total = 0;
       customer.listOrders.forEach((value) => {
         console.log("Vòng Trong");
-        if (value.status == "Đã Thanh Toán") total += value.orderTotal;
+        if (value.status == "Đã thanh toán") total += value.orderTotal;
       });
       console.log("Total Price:");
       console.log(total);
@@ -141,16 +185,36 @@ const Customers = () => {
   };
   // Search by total price
   const handleSearchByTotalPrice = (totalPriceFrom, totalPriceTo) => {
-    console.log(totalPriceFrom);
-    console.log(totalPriceTo);
-    if (totalPriceFrom == "" || totalPriceTo == "") {
-      return setCustomers(defaultCustomer);
-    }
     console.log("Search totalPrice working...");
     const customerbytotalPrice = defaultCustomer.filter((customer) => {
       return (
-        customer.totalPrice < Number(totalPriceTo.replace(/[^0-9]/g, "")) + 1 &&
-        customer.totalPrice > Number(totalPriceFrom.replace(/[^0-9]/g, "")) - 1
+        (customer.name.toLowerCase().indexOf(SearchInput.toLowerCase()) > -1 ||
+          customer._id.toLowerCase().indexOf(SearchInput.toLowerCase()) > -1 ||
+          customer.phone.toLowerCase().indexOf(SearchInput.toLowerCase()) >
+            -1 ||
+          String(customer.point).indexOf(SearchInput.toLowerCase()) > -1) &&
+        customer.totalPrice - 1 <
+          Number(
+            totalPriceTo == ""
+              ? Number.MAX_VALUE
+              : totalPriceTo.replace(/[^0-9]/g, "")
+          ) &&
+        customer.totalPrice + 1 >
+          Number(
+            totalPriceFrom == ""
+              ? Number.MIN_VALUE
+              : totalPriceFrom.replace(/[^0-9]/g, "")
+          ) &&
+        customer.point - 1 <
+          Number(
+            pointTo == "" ? Number.MAX_VALUE : pointTo.replace(/[^0-9]/g, "")
+          ) &&
+        customer.point + 1 >
+          Number(
+            pointFrom == ""
+              ? Number.MIN_VALUE
+              : pointFrom.replace(/[^0-9]/g, "")
+          )
       );
     });
     setCustomers(customerbytotalPrice);
