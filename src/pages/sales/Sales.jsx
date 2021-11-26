@@ -3,6 +3,7 @@ import AddCustomer from "./AddCustomer/AddCustomer";
 import axios from "axios";
 import ComboBox from "../../components/combobox/Combobox";
 import { Link } from "react-router-dom";
+import QrReader from "react-qr-reader";
 import "./sales.css";
 
 const Sales = () => {
@@ -25,6 +26,7 @@ const Sales = () => {
   const [filterCustomers, setFilterCustomers] = useState([]);
   const [showFormAddCustomer, setShowFormAddCustomer] = useState(false);
   const [inputTextSearchCustomer, setInputTextSearchCustomer] = useState("");
+  const [showScanQrCode, setShowScanQrcode] = useState(false);
   const [orders, setOrders] = useState([
     {
       activeTab: 0,
@@ -147,7 +149,7 @@ const Sales = () => {
     },
     {
       tabIndex: 4,
-      name: "Trả hàng",
+      name: "Hoá đơn 5",
     },
   ]);
 
@@ -199,7 +201,19 @@ const Sales = () => {
     });
     setFilterCustomers(customersFilter);
   };
-
+  //handle scan product
+  const handleScanProduct = (data) => {
+    if (data) {
+      console.log(JSON.parse(data));
+      const productScan = JSON.parse(data);
+      const prouduct = getProductByName(productScan.name);
+      addItemToOrderDetail(prouduct);
+    }
+  };
+  const getProductByName = (name) => {
+    const index = products.findIndex((product) => product.name === name);
+    return products[index];
+  };
   //handle add 1 item to orderDetail
   const addItemToOrderDetail = (product) => {
     var temp = [];
@@ -265,6 +279,16 @@ const Sales = () => {
               <i className="bx bx-search"></i>
             </div>
           </div>
+          <div className="sales-qr-btn">
+            <button
+              onClick={() => {
+                setShowScanQrcode(!showScanQrCode);
+              }}
+            >
+              {showScanQrCode && "Tắt webcam"}
+              {!showScanQrCode && "Quét mã vạch"}
+            </button>
+          </div>
           <div className="sales-filter">
             <ComboBox
               categoryActive={categoryActive}
@@ -291,6 +315,17 @@ const Sales = () => {
         </div>
 
         <div className="sales-list-products row">
+          {showScanQrCode && (
+            <div className="col-4">
+              <div className="sales-card">
+                <QrReader
+                  onScan={handleScanProduct}
+                  showViewFinder={false}
+                  delay={500}
+                />
+              </div>
+            </div>
+          )}
           {products.map((product) => {
             return (
               <div className=" col-4">
@@ -530,33 +565,35 @@ const Sales = () => {
           </div>
         </div>
 
-        <Link
-          to={{
-            pathname: "/checkout",
-            state: {
-              order: {
-                activeTab: activeTab,
-                orderTotal: getTotalPrice(),
-                subTotal: getTempPrice(),
-                discount: getDecreasePrice(),
-                orderDetails: orders[activeTab]?.orderDetails,
-                customer: currentCustomer[activeTab],
-                user: JSON.parse(localStorage.getItem("user")),
+        {getTempPrice() > 0 && (
+          <Link
+            to={{
+              pathname: "/checkout",
+              state: {
+                order: {
+                  activeTab: activeTab,
+                  orderTotal: getTotalPrice(),
+                  subTotal: getTempPrice(),
+                  discount: getDecreasePrice(),
+                  orderDetails: orders[activeTab]?.orderDetails,
+                  customer: currentCustomer[activeTab],
+                  user: JSON.parse(localStorage.getItem("user")),
+                },
               },
-            },
-          }}
-        >
-          <div className="sales-checkout">
-            <button
-              onClick={() => {
-                currentCustomer[activeTab].point -= scroreInput;
-                currentCustomer[activeTab].point += getAccumulatedPoint();
-              }}
-            >
-              Thanh toán
-            </button>
-          </div>
-        </Link>
+            }}
+          >
+            <div className="sales-checkout">
+              <button
+                onClick={() => {
+                  currentCustomer[activeTab].point -= scroreInput;
+                  currentCustomer[activeTab].point += getAccumulatedPoint();
+                }}
+              >
+                Thanh toán
+              </button>
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );

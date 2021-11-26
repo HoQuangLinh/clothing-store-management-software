@@ -20,9 +20,20 @@
   margin-left: 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 .sales-searchs {
   width: 40%;
+}
+.sales-qr-btn > button {
+  background-color: rgb(3, 169, 244);
+  padding: 8px 20px;
+  color: #fff;
+  border-radius: 10px;
+}
+.sales-filter {
+  margin-right: 20px;
 }
 .tab-bills ul {
   display: flex;
@@ -41,10 +52,6 @@
 .tab-bills ul li:hover {
   background-color: rgb(3, 169, 244);
 }
-.sales-filter {
-  margin-right: 20px;
-  margin-bottom: 20px;
-}
 
 .sales-list-products {
   display: flex;
@@ -55,6 +62,7 @@
   border-radius: 5px;
   border: 1px solid #ccc;
 }
+
 .sales-card:hover .sales-card-img {
   opacity: 0.8;
 }
