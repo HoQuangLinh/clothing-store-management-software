@@ -223,7 +223,7 @@ const Returns = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selectedReturns, setselectedReturns] = useState();
   const [showNewFormReturn, setNewFormReturn] = useState(false);
-  const [showFormReturnOneOrder, setShowFormReturnOneOrder] = useState(false);
+  const [showFormReturnOrder, setShowFormReturnOrder] = useState(false);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -251,9 +251,9 @@ const Returns = () => {
         />
       </StyledModal>
       <ReturnOrder
-        open={showFormReturnOneOrder}
-        handelCancel={() => {
-          setShowFormReturnOneOrder(false);
+        open={showFormReturnOrder}
+        handleCancel={() => {
+          setShowFormReturnOrder(false);
         }}
       />
       <div className="returns_header">
@@ -264,12 +264,18 @@ const Returns = () => {
         <div className="returns_datepicker">
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              inputFormat="dd/MM/yyyy"
+              views={["day", "month", "year"]}
+              label={value ? "" : "Chọn ngày"}
               value={value}
               onChange={(newValue) => {
                 setValue(newValue);
               }}
               renderInput={(params) => (
                 <TextField
+                  InputLabelProps={{
+                    shrink: false,
+                  }}
                   style={{
                     border: "1px solid #67dbdb",
                     borderRadius: 5,
@@ -285,7 +291,7 @@ const Returns = () => {
         <div className="returns_action">
           <button
             onClick={() => {
-              setShowFormReturnOneOrder(true);
+              setShowFormReturnOrder(true);
             }}
             className="returns_action_btn"
           >

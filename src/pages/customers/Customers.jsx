@@ -95,6 +95,7 @@ const Customers = () => {
   // Search by strings
   const handleSearch = (searchInput) => {
     setSearchInput(searchInput);
+    console.log(totalPriceFrom.replace(/[^0-9]/g, ""));
     console.log("Search working...");
     const customersFilter = defaultCustomer.filter((customer) => {
       console.log("Chạy filter");
@@ -106,23 +107,25 @@ const Customers = () => {
           String(customer.point).indexOf(searchInput.toLowerCase()) > -1) &&
         customer.totalPrice - 1 <
           Number(
-            totalPriceTo == ""
+            totalPriceTo.replace(/[^0-9]/g, "") == ""
               ? Number.MAX_VALUE
               : totalPriceTo.replace(/[^0-9]/g, "")
           ) &&
         customer.totalPrice + 1 >
           Number(
-            totalPriceFrom == ""
+            totalPriceFrom.replace(/[^0-9]/g, "") == ""
               ? Number.MIN_VALUE
               : totalPriceFrom.replace(/[^0-9]/g, "")
           ) &&
         customer.point - 1 <
           Number(
-            pointTo == "" ? Number.MAX_VALUE : pointTo.replace(/[^0-9]/g, "")
+            pointTo.replace(/[^0-9]/g, "") == ""
+              ? Number.MAX_VALUE
+              : pointTo.replace(/[^0-9]/g, "")
           ) &&
         customer.point + 1 >
           Number(
-            pointFrom == ""
+            pointFrom.replace(/[^0-9]/g, "") == ""
               ? Number.MIN_VALUE
               : pointFrom.replace(/[^0-9]/g, "")
           )
@@ -142,23 +145,25 @@ const Customers = () => {
           String(customer.point).indexOf(SearchInput.toLowerCase()) > -1) &&
         customer.totalPrice - 1 <
           Number(
-            totalPriceTo == ""
+            totalPriceTo.replace(/[^0-9]/g, "") == ""
               ? Number.MAX_VALUE
               : totalPriceTo.replace(/[^0-9]/g, "")
           ) &&
         customer.totalPrice + 1 >
           Number(
-            totalPriceFrom == ""
+            totalPriceFrom.replace(/[^0-9]/g, "") == ""
               ? Number.MIN_VALUE
               : totalPriceFrom.replace(/[^0-9]/g, "")
           ) &&
         customer.point - 1 <
           Number(
-            pointTo == "" ? Number.MAX_VALUE : pointTo.replace(/[^0-9]/g, "")
+            pointTo.replace(/[^0-9]/g, "") == ""
+              ? Number.MAX_VALUE
+              : pointTo.replace(/[^0-9]/g, "")
           ) &&
         customer.point + 1 >
           Number(
-            pointFrom == ""
+            pointFrom.replace(/[^0-9]/g, "") == ""
               ? Number.MIN_VALUE
               : pointFrom.replace(/[^0-9]/g, "")
           )
@@ -195,23 +200,25 @@ const Customers = () => {
           String(customer.point).indexOf(SearchInput.toLowerCase()) > -1) &&
         customer.totalPrice - 1 <
           Number(
-            totalPriceTo == ""
+            totalPriceTo.replace(/[^0-9]/g, "") == ""
               ? Number.MAX_VALUE
               : totalPriceTo.replace(/[^0-9]/g, "")
           ) &&
         customer.totalPrice + 1 >
           Number(
-            totalPriceFrom == ""
+            totalPriceFrom.replace(/[^0-9]/g, "") == ""
               ? Number.MIN_VALUE
               : totalPriceFrom.replace(/[^0-9]/g, "")
           ) &&
         customer.point - 1 <
           Number(
-            pointTo == "" ? Number.MAX_VALUE : pointTo.replace(/[^0-9]/g, "")
+            pointTo.replace(/[^0-9]/g, "") == ""
+              ? Number.MAX_VALUE
+              : pointTo.replace(/[^0-9]/g, "")
           ) &&
         customer.point + 1 >
           Number(
-            pointFrom == ""
+            pointFrom.replace(/[^0-9]/g, "") == ""
               ? Number.MIN_VALUE
               : pointFrom.replace(/[^0-9]/g, "")
           )

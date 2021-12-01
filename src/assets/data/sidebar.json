@@ -35,11 +35,7 @@
     "route": "/orders",
     "icon": "bx bx-store-alt"
   },
-  {
-    "display_name": "Cài đặt",
-    "route": "/settings",
-    "icon": "bx bx-cog"
-  },
+
   {
     "display_name": "Đổi trả",
     "route": "/returns",

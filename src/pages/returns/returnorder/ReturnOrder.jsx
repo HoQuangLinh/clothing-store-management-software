@@ -8,6 +8,8 @@ import { styled, Box } from "@mui/system";
 import ModalUnstyled from "@mui/core/ModalUnstyled";
 import axios from "axios";
 import "./returnorder.css";
+import dayjs from "dayjs";
+import moment from "moment";
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -31,20 +33,58 @@ const Backdrop = styled("div")`
 `;
 
 const ReturnOrder = ({ open, handleCancel }) => {
-  const [orders, setOrders] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [pageNumberLimit, setpageNumberLimit] = useState(5);
+  const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(5);
+  const [minPageNumberLimit, setminPageNumberLimit] = useState(1);
+  const [orders, setOrders] = useState([]);
+  const [originOrders, setOriginOrders] = useState([]);
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [orderFilter, setOrderFilter] = useState({
+    orderId: "",
+    customerName: "",
+    phone: "",
+  });
+  const pages = [];
+
+  for (let i = 2; i <= Math.ceil(orders.length / itemsPerPage); i++) {
+    pages.push(i);
+  }
+  const currentOrders = orders.slice(
+    currentPage * itemsPerPage - itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  const renderPageNumbers = pages.map((number) => {
+    if (number <= maxPageNumberLimit && number >= minPageNumberLimit) {
+      return (
+        <div
+          onClick={() => {
+            setCurrentPage(number);
+          }}
+          class={`cell ${currentPage === number ? "active" : null}`}
+        >
+          {number}
+        </div>
+      );
+    }
+    return null;
+  });
+
   useEffect(() => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/orders/list")
       .then((res) => {
         console.log(res.data);
         setOrders(res.data);
+        setOriginOrders(res.data);
       })
       .catch((err) => {
         alert("Lỗi call api");
       });
   }, []);
+  console.log(orderFilter);
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
     var day = date.getDate();
@@ -52,6 +92,44 @@ const ReturnOrder = ({ open, handleCancel }) => {
     var year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
+  const handlePreviousPagination = () => {
+    setCurrentPage(currentPage - 1);
+    if (currentPage - 1 < minPageNumberLimit) {
+      setminPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      setmaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+    }
+  };
+  const handleNextPagination = () => {
+    console.log({ currentPage, maxPageNumberLimit });
+    setCurrentPage(currentPage + 1);
+    if (currentPage + 1 > maxPageNumberLimit) {
+      setminPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      setmaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+    }
+  };
+  const handleFilter = (orderId, name, phone, fromDate, toDate) => {
+    if (!orderId && !name && !phone && !fromDate && !toDate) {
+      setOrders(originOrders);
+    } else {
+      setCurrentPage(1);
+      const fromDateTime = (fromDate && fromDate.getTime()) || 0;
+      const toDateTime = (toDate && toDate.getTime()) || new Date().getTime();
+      var orderFiltered = originOrders.filter((order) => {
+        const dateOrder = new Date(order.dateOrder);
+
+        return (
+          fromDateTime < dateOrder.getTime() &&
+          toDateTime > dateOrder.getTime() &&
+          order._id.indexOf(orderId) >= 0 &&
+          order.customer?.name.toLowerCase().indexOf(name.toLowerCase()) >= 0 &&
+          order.customer?.phone.indexOf(phone) >= 0
+        );
+      });
+
+      setOrders(orderFiltered);
+    }
+  };
+
   return (
     <StyledModal
       aria-labelledby="unstyled-modal-title"
@@ -61,7 +139,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
       BackdropComponent={Backdrop}
     >
       <div className="return-order-container">
-        <div className="return-order-btn-exit">
+        <div onClick={() => handleCancel()} className="return-order-btn-exit">
           <i class="bx bx-x"></i>
         </div>
         <div className="return-order-header">
@@ -74,6 +152,22 @@ const ReturnOrder = ({ open, handleCancel }) => {
               <div className="return-order-card-body">
                 <div className="return-order-card-item">
                   <input
+                    value={orderFilter.orderId}
+                    onChange={(e) => {
+                      setOrderFilter((prev) => {
+                        return {
+                          ...prev,
+                          orderId: e.target.value,
+                        };
+                      });
+                      handleFilter(
+                        e.target.value,
+                        orderFilter.customerName,
+                        orderFilter.phone,
+                        fromDate,
+                        toDate
+                      );
+                    }}
                     placeholder="Theo mã hoá đơn"
                     type="text"
                     className="return-order-card-input"
@@ -81,6 +175,22 @@ const ReturnOrder = ({ open, handleCancel }) => {
                 </div>
                 <div className="return-order-card-item">
                   <input
+                    value={orderFilter.customerName}
+                    onChange={(e) => {
+                      handleFilter(
+                        orderFilter.orderId,
+                        e.target.value,
+                        orderFilter.phone,
+                        fromDate,
+                        toDate
+                      );
+                      setOrderFilter((prev) => {
+                        return {
+                          ...prev,
+                          customerName: e.target.value,
+                        };
+                      });
+                    }}
                     placeholder="Theo tên khách hàng"
                     type="text"
                     className="return-order-card-input"
@@ -88,6 +198,22 @@ const ReturnOrder = ({ open, handleCancel }) => {
                 </div>
                 <div className="return-order-card-item">
                   <input
+                    value={orderFilter.phone}
+                    onChange={(e) => {
+                      handleFilter(
+                        orderFilter.orderId,
+                        orderFilter.customerName,
+                        e.target.value,
+                        fromDate,
+                        toDate
+                      );
+                      setOrderFilter((prev) => {
+                        return {
+                          ...prev,
+                          phone: e.target.value,
+                        };
+                      });
+                    }}
                     placeholder="Theo số điện thoại"
                     type="text"
                     className="return-order-card-input"
@@ -101,6 +227,8 @@ const ReturnOrder = ({ open, handleCancel }) => {
                 <div className="return-order-card-date-picker">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
+                      inputFormat="dd/MM/yyyy"
+                      views={["day", "month", "year"]}
                       InputProps={{
                         disableUnderline: true,
                       }}
@@ -108,6 +236,13 @@ const ReturnOrder = ({ open, handleCancel }) => {
                       value={fromDate}
                       onChange={(newValue) => {
                         setFromDate(newValue);
+                        handleFilter(
+                          orderFilter.orderId,
+                          orderFilter.customerName,
+                          orderFilter.phone,
+                          newValue,
+                          toDate
+                        );
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -124,10 +259,20 @@ const ReturnOrder = ({ open, handleCancel }) => {
                 <div className="return-order-card-date-picker">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
+                      minDate={fromDate}
+                      inputFormat="dd/MM/yyyy"
+                      views={["day", "month", "year"]}
                       label={toDate ? "" : "Đến ngày"}
                       value={toDate}
                       onChange={(newValue) => {
                         setToDate(newValue);
+                        handleFilter(
+                          orderFilter.orderId,
+                          orderFilter.customerName,
+                          orderFilter.phone,
+                          fromDate,
+                          newValue
+                        );
                       }}
                       InputProps={{
                         disableUnderline: true,
@@ -161,14 +306,18 @@ const ReturnOrder = ({ open, handleCancel }) => {
               </thead>
               <tbody>
                 {orders &&
-                  orders.slice(0, 6).map((order) => {
+                  currentOrders.map((order, index) => {
                     return (
                       <tr>
-                        <td>{order._id.substr(order._id.length - 6)}</td>
+                        <td>{order._id.substr(order._id.length - 10)}</td>
                         <td>{formateDate(order.dateOrder)}</td>
 
-                        <td>{order.customer?.phone} </td>
-                        <td>{order.customer?.name}</td>
+                        <td>
+                          {order.customer ? order.customer.phone : "Không có"}{" "}
+                        </td>
+                        <td>
+                          {order.customer ? order.customer.name : "Khách lẻ"}
+                        </td>
                         <td>{`${order.orderTotal.toLocaleString("en")}đ`}</td>
                         <td>
                           <Link to="/returnOrderDetail">
@@ -182,6 +331,61 @@ const ReturnOrder = ({ open, handleCancel }) => {
                   })}
               </tbody>
             </table>
+            {/**Start Pagination */}
+            {pages.length > 1 && (
+              <div class="pagination">
+                <div class="pagination-left">
+                  <button
+                    disabled={currentPage === 1 ? true : false}
+                    onClick={handlePreviousPagination}
+                    class="cell"
+                    id="prev-btn"
+                  >
+                    <i class="fas fa-caret-left"></i>
+                  </button>
+                  <div
+                    onClick={() => {
+                      setCurrentPage(1);
+                      setminPageNumberLimit(1);
+                      setmaxPageNumberLimit(pageNumberLimit);
+                    }}
+                    className={`cell ${currentPage === 1 ? "active" : ""}`}
+                  >
+                    1
+                  </div>
+                  {minPageNumberLimit > 1 && (
+                    <div onClick={handlePreviousPagination} class="cell">
+                      {" "}
+                      &hellip;
+                    </div>
+                  )}
+
+                  {renderPageNumbers}
+
+                  {maxPageNumberLimit < pages.length && (
+                    <div onClick={handleNextPagination} class="cell">
+                      {" "}
+                      &hellip;
+                    </div>
+                  )}
+
+                  <button
+                    disabled={
+                      currentPage === pages[pages.length - 1] ? true : false
+                    }
+                    onClick={handleNextPagination}
+                    class="cell"
+                    id="next-btn"
+                  >
+                    <i class="fas fa-caret-right"></i>
+                  </button>
+                </div>
+                <div class="pagination-right">
+                  <p>Số hàng mỗi dòng: 7 / Tổng số hoá đơn</p>
+                </div>
+              </div>
+            )}
+            {/**Pagination */}
           </div>
         </div>
       </div>
