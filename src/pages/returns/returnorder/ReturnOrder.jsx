@@ -76,7 +76,6 @@ const ReturnOrder = ({ open, handleCancel }) => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/orders/list")
       .then((res) => {
-        console.log(res.data);
         setOrders(res.data);
         setOriginOrders(res.data);
       })
@@ -84,7 +83,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
         alert("Lỗi call api");
       });
   }, []);
-  console.log(orderFilter);
+
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
     var day = date.getDate();
@@ -100,7 +99,6 @@ const ReturnOrder = ({ open, handleCancel }) => {
     }
   };
   const handleNextPagination = () => {
-    console.log({ currentPage, maxPageNumberLimit });
     setCurrentPage(currentPage + 1);
     if (currentPage + 1 > maxPageNumberLimit) {
       setminPageNumberLimit(minPageNumberLimit + pageNumberLimit);
@@ -320,7 +318,14 @@ const ReturnOrder = ({ open, handleCancel }) => {
                         </td>
                         <td>{`${order.orderTotal.toLocaleString("en")}đ`}</td>
                         <td>
-                          <Link to="/returnOrderDetail">
+                          <Link
+                            to={{
+                              pathname: "/returnOrderDetail",
+                              state: {
+                                orderId: order._id,
+                              },
+                            }}
+                          >
                             <button className="return-order-table-btn-select">
                               Chọn
                             </button>

@@ -1,23 +1,67 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./checkout.css";
+
 import { useReactToPrint } from "react-to-print";
 import { useLocation, useHistory } from "react-router-dom";
 import QRCode from "qrcode";
 import axios from "axios";
 import { Alert } from "react-bootstrap";
-const RefundBill = () => {
+const ReturnBill = () => {
   let history = useHistory();
   let location = useLocation();
-  const order = location.state.order;
-  const [orderId, setOrderId] = useState("");
+  const returnOrder = location.state.returnOrder;
+  const [returnOrderId, setReturnOrderId] = useState("");
   const [qrImage, setQrImage] = useState("");
-
+  console.log(returnOrder);
+  useEffect(() => {
+    QRCode.toDataURL(
+      JSON.stringify({
+        orderTotal: returnOrder.order.orderId,
+        customer: returnOrder.customer.name,
+        point: returnOrder.point,
+        totalReturnPrice: returnOrder.totalReturnPrice,
+      })
+    ).then((url) => {
+      setQrImage(url);
+    });
+  }, []);
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
   const handleCheckout = () => {
-    handlePrint();
+    const returnOrderApi = {
+      cashier: returnOrder.user.userId,
+      order: returnOrder.order.orderId,
+      returnTempPrice: returnOrder.returnTempPrice,
+      returnFee: returnOrder.returnFee,
+      totalReturnPrice: returnOrder.totalReturnPrice,
+      point: returnOrder.point,
+      customer: returnOrder.customer._id,
+      returnOrderDetails: returnOrder.orderDetails.map((orderItem) => {
+        return {
+          orderDetail: orderItem._id,
+          oldQuantity: orderItem.oldQuantity,
+          returnedQuantity: orderItem.returnedQuantity,
+        };
+      }),
+    };
+    axios
+      .post("https://clothesapp123.herokuapp.com/api/returnOrder", {
+        ...returnOrderApi,
+      })
+      .then((res) => {
+        setQrImage(res.data.qrCodeUrl);
+        setReturnOrderId(res.data._id);
+
+        handlePrint();
+        history.push("/returnOrderDetail", {
+          orderId: returnOrder.order.orderId,
+        });
+        alert("Trả hàng thành công");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const getDate = () => {
     const today = new Date();
@@ -30,7 +74,7 @@ const RefundBill = () => {
     <div ref={componentRef} className="invoice-container">
       <div className="invoice-header">
         <h3>HOÁ ĐƠN TRẢ HÀNG</h3>
-        <h4>Mã trả hàng: </h4>
+        <h4>Mã trả hàng:{returnOrderId} </h4>
         <p>Ngày lập hoá đơn: {getDate()}</p>
       </div>
       <div className="invoice-info">
@@ -44,9 +88,9 @@ const RefundBill = () => {
             <img src={qrImage} alt="" />
           </div>
           <div className="invoice-info-p">
-            <p>Khách hàng: </p>
-            <p>Số điện thoại: </p>
-            <p>Nhân viên bán hàng: </p>
+            <p>Khách hàng: {returnOrder.customer.name || "Khách lẻ"} </p>
+            <p>Số điện thoại: {returnOrder.customer.phone || "Không có"} </p>
+            <p>Nhân viên bán hàng: {returnOrder.user.fullname} </p>
           </div>
         </div>
       </div>
@@ -62,17 +106,19 @@ const RefundBill = () => {
             </tr>
           </thead>
           <tbody>
-            {order.orderDetails.map((orderItem, index) => {
-              if (orderItem.quantity) {
+            {returnOrder.orderDetails.map((orderItem, index) => {
+              if (orderItem.returnedQuantity) {
                 return (
                   <tr>
                     <td>{index + 1}</td>
-                    <td>{orderItem.productName}</td>
+                    <td>{orderItem.product.name}</td>
 
-                    <td>{`${orderItem.salePrice.toLocaleString("en")}đ`}</td>
-                    <td>{orderItem.quantity}</td>
+                    <td>{`${orderItem.product.salePrice.toLocaleString(
+                      "en"
+                    )}đ`}</td>
+                    <td>{orderItem.returnedQuantity}</td>
                     <td>{`${(
-                      orderItem.salePrice * orderItem.quantity
+                      orderItem.product.salePrice * orderItem.returnedQuantity
                     ).toLocaleString("en")}đ`}</td>
                   </tr>
                 );
@@ -88,11 +134,18 @@ const RefundBill = () => {
           </p>
         </div>
         <div className="table-footer-right">
-          <p>{`Tạm tính ${order.subTotal.toLocaleString("en")}đ`}</p>
-          {order.discount > 0 && (
-            <p>{`Giảm giá: ${order.discount.toLocaleString("en")}đ`}</p>
+          <p>{`Tổng tiền hoàn trả ${returnOrder.returnTempPrice.toLocaleString(
+            "en"
+          )}đ`}</p>
+
+          {returnOrder.returnFee > 0 && (
+            <p>{`Phí trả hàng: ${returnOrder.returnFee.toLocaleString(
+              "en"
+            )}đ`}</p>
           )}
-          <b>{`Tổng tiền: ${order.orderTotal.toLocaleString("en")}đ`}</b>
+          <b>{`Tiền trả khách: ${returnOrder.totalReturnPrice?.toLocaleString(
+            "en"
+          )}đ`}</b>
         </div>
       </div>
       <div className="invoice-confirm-row">
@@ -107,7 +160,9 @@ const RefundBill = () => {
 
         <button
           onClick={() => {
-            history.push("/returns");
+            history.push("/returnOrderDetail", {
+              orderId: returnOrder.order.orderId,
+            });
           }}
           className="invoice-confirm-cancel"
         >
@@ -118,4 +173,4 @@ const RefundBill = () => {
   );
 };
 
-export default RefundBill;
+export default ReturnBill;

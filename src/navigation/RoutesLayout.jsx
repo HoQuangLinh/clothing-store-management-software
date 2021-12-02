@@ -10,6 +10,7 @@ import Revenues from "../pages/revenues/Revenues";
 import Returns from "../pages/returns/Returns";
 import Checkout from "../pages/sales/checkout/Checkout";
 import ReturnOrderDetail from "../pages/returns/returnorderdetail/ReturnOrderDetail";
+import ReturnBill from "../pages/returns/return-bill/ReturnBill";
 const RoutesLayout = () => {
   return (
     <Switch>
@@ -39,6 +40,9 @@ const RoutesLayout = () => {
       </Route>
       <Route path="/returnOrderDetail">
         <ReturnOrderDetail />
+      </Route>
+      <Route path="/returnBill">
+        <ReturnBill />
       </Route>
       <Route path="/">
         <Dashboard></Dashboard>
