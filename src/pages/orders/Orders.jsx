@@ -44,7 +44,7 @@ const Backdrop = styled("div")`
 
 const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [itemsPerPage, setItemsPerPage] = useState(7);
   const [pageNumberLimit, setpageNumberLimit] = useState(5);
   const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setminPageNumberLimit] = useState(1);
@@ -161,14 +161,14 @@ const Orders = () => {
                 <input
                   placeholder="Theo mã hoá đơn"
                   type="text"
-                  className="return-order-card-input"
+                  className="order-card-input"
                 />
               </div>
               <div className="order-card-item">
                 <input
                   placeholder="Theo tên khách hàng"
                   type="text"
-                  className="return-order-card-input"
+                  className="order-card-input"
                 />
               </div>
               <div className="order-card-item">
@@ -257,9 +257,10 @@ const Orders = () => {
                 <tr>
                   <th>Mã hoá đơn</th>
                   <th>Ngày tạo</th>
-                  <th>Số điện thoại</th>
                   <th>Khách hàng</th>
+                  <th>Nhân viên</th>
                   <th>Tổng cộng</th>
+                  <th>Trạng thái</th>
                 </tr>
               </thead>
               <tbody>
@@ -272,14 +273,13 @@ const Orders = () => {
                         <td>{formateDate(order.dateOrder)}</td>
 
                         <td>
-                          {order.customer ? order.customer.phone : "Không có"}{" "}
-                        </td>
-                        <td>
                           {order.customer ? order.customer.name : "Khách lẻ"}
                         </td>
+                        <td>{order.user.fullname}</td>
                         <td>{`${(
                           order.orderTotal - (order?.totalReturnPrice || 0)
                         ).toLocaleString("en")}đ`}</td>
+                        <td>{order.status}</td>
                       </tr>
                     );
                   })}
