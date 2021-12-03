@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import OrdersNavbar from "./orders_navbar/Orders_Navbar";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -6,15 +6,19 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
+
 import TableRow from "@mui/material/TableRow";
+import TextField from "@mui/material/TextField";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
 import "./orders.css";
 import Checkbox from "@mui/material/Checkbox";
 import ModalUnstyled from "@mui/core/ModalUnstyled";
-import { orders } from "../../assets/data/order";
+import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
-import OrderCard from "./OrderCard/OrderCard";
-import { styled, Box } from "@mui/system";
+
+import { styled } from "@mui/system";
 import OrderDetail from "./OrderDetail/orderDetail";
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
@@ -37,214 +41,306 @@ const Backdrop = styled("div")`
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-tap-highlight-color: transparent;
 `;
-const columns = [
-  { id: "orderId", label: "Mã hoá đơn" },
-  {
-    id: "customer",
-    label: "Tên khách hàng",
-
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "seller",
-    label: "Người bán",
-
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "dateCreated",
-    label: "Thời gian tạo",
-
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "totalPrice",
-    label: "Tổng tiền",
-
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "status",
-    label: "Trạng thái",
-
-    format: (value) => value.toLocaleString("en-US"),
-  },
-];
 
 const Orders = () => {
-  const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
-  const [selectedReturns, setselectedReturns] = useState();
-  const [showNewFormReturn, setNewFormReturn] = useState(false);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [pageNumberLimit, setpageNumberLimit] = useState(5);
+  const [maxPageNumberLimit, setmaxPageNumberLimit] = useState(5);
+  const [minPageNumberLimit, setminPageNumberLimit] = useState(1);
+  const [orders, setOrders] = useState([]);
+  const [originOrders, setOriginOrders] = useState([]);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [orderFilter, setOrderFilter] = useState({
+    orderId: "",
+    customerName: "",
+    phone: "",
+  });
+  const pages = [];
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  for (let i = 2; i <= Math.ceil(orders.length / itemsPerPage); i++) {
+    pages.push(i);
+  }
+  console.log(Math.ceil(orders.length / 9));
+
+  const currentOrders = orders.slice(
+    currentPage * itemsPerPage - itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  const renderPageNumbers = pages.map((number) => {
+    if (number <= maxPageNumberLimit && number >= minPageNumberLimit) {
+      return (
+        <div
+          onClick={() => {
+            setCurrentPage(number);
+          }}
+          class={`cell ${currentPage === number ? "active" : null}`}
+        >
+          {number}
+        </div>
+      );
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    axios
+      .get("https://clothesapp123.herokuapp.com/api/orders/list")
+      .then((res) => {
+        setOrders(res.data);
+        setOriginOrders(res.data);
+      })
+      .catch((err) => {
+        alert("Lỗi call api");
+      });
+  }, []);
+
+  const formateDate = (dateStr) => {
+    var date = new Date(dateStr);
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+  const handlePreviousPagination = () => {
+    setCurrentPage(currentPage - 1);
+    if (currentPage - 1 < minPageNumberLimit) {
+      setminPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      setmaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+    }
+  };
+  const handleNextPagination = () => {
+    setCurrentPage(currentPage + 1);
+    if (currentPage + 1 > maxPageNumberLimit) {
+      setminPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      setmaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+    }
+  };
+  const handleFilter = (orderId, name, phone, fromDate, toDate) => {
+    if (!orderId && !name && !phone && !fromDate && !toDate) {
+      setOrders(originOrders);
+    } else {
+      setCurrentPage(1);
+      const fromDateTime = (fromDate && fromDate.getTime()) || 0;
+      const toDateTime = (toDate && toDate.getTime()) || new Date().getTime();
+      var orderFiltered = originOrders.filter((order) => {
+        const dateOrder = new Date(order.dateOrder);
+        if (order.customer) {
+          return (
+            fromDateTime < dateOrder.getTime() &&
+            toDateTime > dateOrder.getTime() &&
+            order._id.indexOf(orderId) >= 0 &&
+            order.customer &&
+            order.customer?.name.toLowerCase().indexOf(name.toLowerCase()) >=
+              0 &&
+            order.customer &&
+            order.customer?.phone.indexOf(phone) >= 0
+          );
+        } else {
+          return (
+            fromDateTime < dateOrder.getTime() &&
+            toDateTime > dateOrder.getTime() &&
+            order._id.indexOf(orderId) >= 1
+          );
+        }
+      });
+
+      setOrders(orderFiltered);
+    }
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
   return (
     <div>
-      <StyledModal
-        aria-labelledby="unstyled-modal-title"
-        aria-describedby="unstyled-modal-description"
-        open={showNewFormReturn}
-        onClose={() => {
-          setNewFormReturn(false);
-        }}
-        BackdropComponent={Backdrop}
-      >
-        <OrderDetail
-          staff={selectedReturns}
-          setStaff={setselectedReturns}
-          setNewFormReturn={setNewFormReturn}
-        />
-      </StyledModal>
-      <OrdersNavbar />
-      <div className="row products_content">
-        <div className="col-3">
+      <div className="row order-container">
+        <div className="col-3 order-card-list">
           <div className="order-card">
-            <h3 className="order-card-title">Thời gian</h3>
-            <div className="order-card-item">
-              <input
-                type="radio"
-                name="choose_date"
-                onClick={() => {
-                  setOpenDatePickerModal(false);
-                }}
-              />
-              <span>Tháng này</span>
-            </div>
-            <div className="order-card-item">
-              <input
-                type="radio"
-                name="choose_date"
-                onClick={() => {
-                  setOpenDatePickerModal(true);
-                }}
-              />
-              <span>Lựa chọn khác</span>
-
-              {openDatePickerModal && (
-                <div className="date-time-modal">
-                  <div className="div-date-picker-item">
-                    <label htmlFor="">Từ ngày</label>
-                    <input type="date" />
-                  </div>
-                  <div className="div-date-picker-item">
-                    <label htmlFor="">Đến ngày</label>
-                    <input type="date" name="" id="" />
-                  </div>
-                </div>
-              )}
+            <h4 className="order-card-heading">Tìm kiếm</h4>
+            <div className="order-card-body">
+              <div className="order-card-item">
+                <input
+                  placeholder="Theo mã hoá đơn"
+                  type="text"
+                  className="return-order-card-input"
+                />
+              </div>
+              <div className="order-card-item">
+                <input
+                  placeholder="Theo tên khách hàng"
+                  type="text"
+                  className="return-order-card-input"
+                />
+              </div>
+              <div className="order-card-item">
+                <input
+                  placeholder="Theo tên người bán"
+                  type="text"
+                  className="order-card-input"
+                />
+              </div>
             </div>
           </div>
           <div className="order-card">
-            <h3 className="order-card-title">Trạng thái</h3>
-            <div className="order-card-item">
-              <input type="checkbox" />
-              <span>Đã huỷ</span>
-            </div>
-            <div className="order-card-item">
-              <input type="checkbox" />
-              <span>Không thể xử lý</span>
-            </div>
-            <div className="order-card-item">
-              <input type="checkbox" />
-              <span>Hoàn thành</span>
+            <h4 className="order-card-heading">Thời gian</h4>
+            <div className="order-card-body">
+              <div className="order-card-date-picker">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    inputFormat="dd/MM/yyyy"
+                    views={["day", "month", "year"]}
+                    InputProps={{
+                      disableUnderline: true,
+                    }}
+                    label={fromDate ? "" : "Từ ngày"}
+                    value={fromDate}
+                    onChange={(newValue) => {
+                      setFromDate(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        InputLabelProps={{
+                          shrink: false,
+                        }}
+                        {...params}
+                        variant="standard"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              </div>
+              <div className="order-card-date-picker">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    minDate={fromDate}
+                    inputFormat="dd/MM/yyyy"
+                    views={["day", "month", "year"]}
+                    label={toDate ? "" : "Đến ngày"}
+                    value={toDate}
+                    onChange={(newValue) => {
+                      setToDate(newValue);
+                    }}
+                    InputProps={{
+                      disableUnderline: true,
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        InputLabelProps={{
+                          shrink: false,
+                        }}
+                        {...params}
+                        variant="standard"
+                        size="small"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              </div>
             </div>
           </div>
+          <div className="order-card">
+            <h4 className="order-card-heading">Trạng thái</h4>
 
-          <OrderCard title="Người bán" />
-          <OrderCard title="Khách hàng" />
+            <div className="order-card-item">
+              <Checkbox />
+              <span>Đã thanh toán</span>
+            </div>
+            <div className="order-card-item">
+              <Checkbox />
+              <span>Đã trả hàng</span>
+            </div>
+          </div>
         </div>
         <div className="col-9" style={{ padding: "10px 0px 10px 10px" }}>
-          <Paper sx={{ width: "100%", overflow: "hidden" }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow >
-                    <TableCell
-                      padding="checkbox"
-                      style={{
-                        backgroundColor: "#03a9f4",
-                      }}
-                    >
-                      <Checkbox
-                        color="primary"
-                        inputProps={{
-                          "aria-label": "select all desserts",
-                        }}
-                      />
-                    </TableCell>
-                    {columns.map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{
-                          minWidth: column.minWidth,
-                          backgroundColor: "#03a9f4",
-                        }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {orders
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      return (
-                        <TableRow
-                        onClick={() => {
-                          setselectedReturns(row);
-                          setNewFormReturn(true);
-                        }}
-                          hover
-                          role="checkbox"
-                          key={row.code}
-                          style={
-                            index % 2 == 1 ? { backgroundColor: "#e8e8e8" } : {}
-                          }
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              color="primary"
-                              inputProps={{
-                                "aria-label": "select all desserts",
-                              }}
-                            />
-                          </TableCell>
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[6, 12, 100]}
-              component="div"
-              count={orders.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper>
+          <div class="order-table-container">
+            <table id="order-table">
+              <thead>
+                <tr>
+                  <th>Mã hoá đơn</th>
+                  <th>Ngày tạo</th>
+                  <th>Số điện thoại</th>
+                  <th>Khách hàng</th>
+                  <th>Tổng cộng</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders &&
+                  currentOrders.map((order, index) => {
+                    // console.log(currentOrders);
+                    return (
+                      <tr>
+                        <td>{order._id.substr(order._id.length - 10)}</td>
+                        <td>{formateDate(order.dateOrder)}</td>
+
+                        <td>
+                          {order.customer ? order.customer.phone : "Không có"}{" "}
+                        </td>
+                        <td>
+                          {order.customer ? order.customer.name : "Khách lẻ"}
+                        </td>
+                        <td>{`${(
+                          order.orderTotal - (order?.totalReturnPrice || 0)
+                        ).toLocaleString("en")}đ`}</td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+            {/**Start Pagination */}
+            {pages.length >= 1 && (
+              <div class="pagination">
+                <div class="pagination-left">
+                  <button
+                    disabled={currentPage === 1 ? true : false}
+                    onClick={handlePreviousPagination}
+                    class="cell"
+                    id="prev-btn"
+                  >
+                    <i class="fas fa-caret-left"></i>
+                  </button>
+                  <div
+                    onClick={() => {
+                      setCurrentPage(1);
+                      setminPageNumberLimit(1);
+                      setmaxPageNumberLimit(pageNumberLimit);
+                    }}
+                    className={`cell ${currentPage === 1 ? "active" : ""}`}
+                  >
+                    1
+                  </div>
+                  {minPageNumberLimit > 1 && (
+                    <div onClick={handlePreviousPagination} class="cell">
+                      {" "}
+                      &hellip;
+                    </div>
+                  )}
+
+                  {renderPageNumbers}
+
+                  {maxPageNumberLimit < pages.length && (
+                    <div onClick={handleNextPagination} class="cell">
+                      {" "}
+                      &hellip;
+                    </div>
+                  )}
+
+                  <button
+                    disabled={
+                      currentPage === pages[pages.length - 1] ? true : false
+                    }
+                    onClick={handleNextPagination}
+                    class="cell"
+                    id="next-btn"
+                  >
+                    <i class="fas fa-caret-right"></i>
+                  </button>
+                </div>
+                <div class="pagination-right">
+                  <p>Số hàng mỗi dòng: {itemsPerPage} / Tổng số hoá đơn</p>
+                </div>
+              </div>
+            )}
+            {/**Pagination */}
+          </div>
         </div>
       </div>
     </div>

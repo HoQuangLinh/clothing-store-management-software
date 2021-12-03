@@ -67,7 +67,7 @@ const ReturnOrderDetail = () => {
 
     return Math.floor((getReturnTemplePrice() * 100) / 900000);
   };
-  console.log(returnOrder);
+
   const getReturnOrderChecked = () => {
     const orderDetails = returnOrder.orderDetails;
     var orderDetailsChecked = orderDetails?.filter(
@@ -75,17 +75,12 @@ const ReturnOrderDetail = () => {
     );
     return { ...returnOrder, orderDetails: orderDetailsChecked };
   };
+
   return (
     <div className="return-order-detail-container">
       <div className="return-order-detail-container-heading">
-        <div className="navbar__search">
-          <input type="text" placeholder="Tìm kiếm sản phẩm" />
-          <i className="bx bx-search"></i>
-        </div>
-        <div className="return-order-detail-select-all">
-          <Checkbox checked />
-          <span>Chọn tất cả (10 sản phẩm)</span>
-        </div>
+        <h3>Chi tiết hoá đơn</h3>
+
         <button
           onClick={() => {
             history.push("/returns");
@@ -98,8 +93,10 @@ const ReturnOrderDetail = () => {
       <div className="return-order-detail-container-body">
         <div className="return-order-detail-container-body-left">
           <div className="return-order-detail-container-body-left-list">
-            {!returnOrder && <h3>Hoá đơn này đã trả hết hàng</h3>}
-            {returnOrder &&
+            {returnOrder.orderDetails?.length === 0 && (
+              <h3>Hoá đơn này đã hết hàng</h3>
+            )}
+            {returnOrder.orderDetails?.length > 0 &&
               returnOrder.orderDetails?.map((orderItem, index) => {
                 return (
                   orderItem.product &&

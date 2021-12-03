@@ -3,7 +3,7 @@
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-right: 340px;
 }
 
@@ -13,11 +13,9 @@
   color: #fff;
   border-radius: 5px;
   background-color: rgb(3, 169, 244);
+  margin-right: 10px;
 }
-.return-order-detail-select-all > input {
-  margin-right: 5px;
-  font-size: 20px;
-}
+
 .return-order-detail-container-body {
   display: flex;
 }

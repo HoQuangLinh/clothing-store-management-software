@@ -8,8 +8,7 @@ import { styled, Box } from "@mui/system";
 import ModalUnstyled from "@mui/core/ModalUnstyled";
 import axios from "axios";
 import "./returnorder.css";
-import dayjs from "dayjs";
-import moment from "moment";
+
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -52,10 +51,14 @@ const ReturnOrder = ({ open, handleCancel }) => {
   for (let i = 2; i <= Math.ceil(orders.length / itemsPerPage); i++) {
     pages.push(i);
   }
-  const currentOrders = orders.slice(
-    currentPage * itemsPerPage - itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const getCurrentOrders = () => {
+    return orders
+      .filter((order) => order.orderDetails.length > 0)
+      .slice(
+        currentPage * itemsPerPage - itemsPerPage,
+        currentPage * itemsPerPage
+      );
+  };
   const renderPageNumbers = pages.map((number) => {
     if (number <= maxPageNumberLimit && number >= minPageNumberLimit) {
       return (
@@ -114,14 +117,24 @@ const ReturnOrder = ({ open, handleCancel }) => {
       const toDateTime = (toDate && toDate.getTime()) || new Date().getTime();
       var orderFiltered = originOrders.filter((order) => {
         const dateOrder = new Date(order.dateOrder);
-
-        return (
-          fromDateTime < dateOrder.getTime() &&
-          toDateTime > dateOrder.getTime() &&
-          order._id.indexOf(orderId) >= 0 &&
-          order.customer?.name.toLowerCase().indexOf(name.toLowerCase()) >= 0 &&
-          order.customer?.phone.indexOf(phone) >= 0
-        );
+        if (order.customer) {
+          return (
+            fromDateTime < dateOrder.getTime() &&
+            toDateTime > dateOrder.getTime() &&
+            order._id.indexOf(orderId) >= 0 &&
+            order.customer &&
+            order.customer?.name.toLowerCase().indexOf(name.toLowerCase()) >=
+              0 &&
+            order.customer &&
+            order.customer?.phone.indexOf(phone) >= 0
+          );
+        } else {
+          return (
+            fromDateTime < dateOrder.getTime() &&
+            toDateTime > dateOrder.getTime() &&
+            order._id.indexOf(orderId) >= 1
+          );
+        }
       });
 
       setOrders(orderFiltered);
@@ -304,7 +317,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
               </thead>
               <tbody>
                 {orders &&
-                  currentOrders.map((order, index) => {
+                  getCurrentOrders().map((order, index) => {
                     return (
                       <tr>
                         <td>{order._id.substr(order._id.length - 10)}</td>
@@ -316,7 +329,9 @@ const ReturnOrder = ({ open, handleCancel }) => {
                         <td>
                           {order.customer ? order.customer.name : "Khách lẻ"}
                         </td>
-                        <td>{`${order.orderTotal.toLocaleString("en")}đ`}</td>
+                        <td>{`${(
+                          order.orderTotal - (order?.totalReturnPrice || 0)
+                        ).toLocaleString("en")}đ`}</td>
                         <td>
                           <Link
                             to={{

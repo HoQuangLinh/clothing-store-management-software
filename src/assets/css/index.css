@@ -85,10 +85,6 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-tr {
-  cursor: pointer;
-}
-
 .page-header {
   margin-top: 0;
   margin-bottom: 20px;
