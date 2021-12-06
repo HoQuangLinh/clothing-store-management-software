@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../assets/images/favicon.ico";
+import logo from "../../assets/images/logo.png";
 import "./sidebar.css";
 import sidebar from "../../assets/data/sidebar.json";
 import SidebarItem from "./SidebarItem";
@@ -9,7 +9,7 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="sidebar__logo">CLOTHES</div>
+      <img className="logoshop" src={logo}/>
       {sidebar.map((item, index) => {
         return (
           <Link to={item.route}>
