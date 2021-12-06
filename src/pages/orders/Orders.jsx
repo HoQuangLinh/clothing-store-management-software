@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import OrdersNavbar from "./orders_navbar/Orders_Navbar";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-
-import TableRow from "@mui/material/TableRow";
+import { useHistory } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -19,7 +11,7 @@ import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { styled } from "@mui/system";
-import OrderDetail from "./OrderDetail/orderDetail";
+import OrderDetail from "./OrderDetail/OrderDetail";
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -43,6 +35,8 @@ const Backdrop = styled("div")`
 `;
 
 const Orders = () => {
+  const history = useHistory();
+  const [showFormOrderDetail, setShowFormOrderDetail] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [pageNumberLimit, setpageNumberLimit] = useState(5);
@@ -55,14 +49,23 @@ const Orders = () => {
   const [orderFilter, setOrderFilter] = useState({
     orderId: "",
     customerName: "",
-    phone: "",
+    seller: "",
+    listStatus: [
+      {
+        status: "Đã thanh toán",
+        checked: false,
+      },
+      {
+        status: "Đã trả hàng",
+        checked: false,
+      },
+    ],
   });
   const pages = [];
 
   for (let i = 2; i <= Math.ceil(orders.length / itemsPerPage); i++) {
     pages.push(i);
   }
-  console.log(Math.ceil(orders.length / 9));
 
   const currentOrders = orders.slice(
     currentPage * itemsPerPage - itemsPerPage,
@@ -84,18 +87,55 @@ const Orders = () => {
     return null;
   });
 
+  console.log({
+    minPageNumberLimit,
+    maxPageNumberLimit,
+    pages,
+    orders,
+    currentOrders,
+  });
   useEffect(() => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/orders/list")
       .then((res) => {
-        setOrders(res.data);
-        setOriginOrders(res.data);
+        setOrders(
+          res.data.filter(
+            (order) => order.orderTotal - (order?.totalReturnPrice || 0) !== 0
+          )
+        );
+        setOriginOrders(
+          res.data.filter(
+            (order) => order.orderTotal - (order?.totalReturnPrice || 0) !== 0
+          )
+        );
       })
       .catch((err) => {
         alert("Lỗi call api");
       });
   }, []);
-
+  useEffect(() => {
+    setCurrentPage(1);
+    const listStatusChecked = orderFilter.listStatus.filter(
+      (status) => status.checked === true
+    );
+    if (
+      listStatusChecked.length === orderFilter.listStatus.length ||
+      listStatusChecked.length === 0
+    ) {
+      handleFilter(
+        orderFilter.orderId,
+        orderFilter.customerName,
+        orderFilter.seller,
+        fromDate,
+        toDate
+      );
+    } else {
+      const newOrder = orders.filter(
+        (order) => order.status === listStatusChecked[0].status
+      );
+      setOrders(newOrder);
+    }
+  }, [orderFilter, fromDate, toDate]);
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
     var day = date.getDate();
@@ -117,31 +157,52 @@ const Orders = () => {
       setmaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
     }
   };
-  const handleFilter = (orderId, name, phone, fromDate, toDate) => {
-    if (!orderId && !name && !phone && !fromDate && !toDate) {
+  const handleFilter = (orderId, customerName, seller, fromDate, toDate) => {
+    if (!orderId && !customerName && !seller && !fromDate && !toDate) {
       setOrders(originOrders);
     } else {
       setCurrentPage(1);
+
       const fromDateTime = (fromDate && fromDate.getTime()) || 0;
-      const toDateTime = (toDate && toDate.getTime()) || new Date().getTime();
+      const toDateTime =
+        (toDate && toDate.getTime() + 24 * 3600 * 1000) || new Date().getTime();
       var orderFiltered = originOrders.filter((order) => {
         const dateOrder = new Date(order.dateOrder);
+
         if (order.customer) {
+          console.log(
+            fromDateTime <= dateOrder.getTime() &&
+              toDateTime > dateOrder.getTime() &&
+              order._id.indexOf(orderId) >= 0 &&
+              order.customer &&
+              order.customer?.name
+                .toLowerCase()
+                .indexOf(customerName.toLowerCase()) >= 0 &&
+              order.customer &&
+              order.user.fullname.indexOf(seller) >= 0
+          );
           return (
-            fromDateTime < dateOrder.getTime() &&
+            fromDateTime <= dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
             order._id.indexOf(orderId) >= 0 &&
             order.customer &&
-            order.customer?.name.toLowerCase().indexOf(name.toLowerCase()) >=
-              0 &&
+            order.customer?.name
+              .toLowerCase()
+              .indexOf(customerName.toLowerCase()) >= 0 &&
             order.customer &&
-            order.customer?.phone.indexOf(phone) >= 0
+            order.user.fullname.indexOf(seller) >= 0
           );
         } else {
+          console.log(
+            fromDateTime <= dateOrder.getTime() &&
+              toDateTime > dateOrder.getTime() &&
+              order._id.indexOf(orderId) >= 0
+          );
           return (
-            fromDateTime < dateOrder.getTime() &&
+            fromDateTime <= dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
-            order._id.indexOf(orderId) >= 1
+            order._id.indexOf(orderId) >= 0 &&
+            !customerName
           );
         }
       });
@@ -152,6 +213,17 @@ const Orders = () => {
 
   return (
     <div>
+      <StyledModal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={showFormOrderDetail}
+        onClose={() => {
+          setShowFormOrderDetail(false);
+        }}
+        BackdropComponent={Backdrop}
+      >
+        <OrderDetail setShowFormOrderDetail={setShowFormOrderDetail} />
+      </StyledModal>
       <div className="row order-container">
         <div className="col-3 order-card-list">
           <div className="order-card">
@@ -162,6 +234,15 @@ const Orders = () => {
                   placeholder="Theo mã hoá đơn"
                   type="text"
                   className="order-card-input"
+                  value={orderFilter.orderId}
+                  onChange={(e) => {
+                    setOrderFilter((prev) => {
+                      return {
+                        ...prev,
+                        orderId: e.target.value,
+                      };
+                    });
+                  }}
                 />
               </div>
               <div className="order-card-item">
@@ -169,6 +250,15 @@ const Orders = () => {
                   placeholder="Theo tên khách hàng"
                   type="text"
                   className="order-card-input"
+                  value={orderFilter.customerName}
+                  onChange={(e) => {
+                    setOrderFilter((prev) => {
+                      return {
+                        ...prev,
+                        customerName: e.target.value,
+                      };
+                    });
+                  }}
                 />
               </div>
               <div className="order-card-item">
@@ -176,6 +266,15 @@ const Orders = () => {
                   placeholder="Theo tên người bán"
                   type="text"
                   className="order-card-input"
+                  value={orderFilter.seller}
+                  onChange={(e) => {
+                    setOrderFilter((prev) => {
+                      return {
+                        ...prev,
+                        seller: e.target.value,
+                      };
+                    });
+                  }}
                 />
               </div>
             </div>
@@ -241,11 +340,31 @@ const Orders = () => {
             <h4 className="order-card-heading">Trạng thái</h4>
 
             <div className="order-card-item">
-              <Checkbox />
+              <Checkbox
+                onChange={() => {
+                  let newListStatus = orderFilter.listStatus;
+                  newListStatus[0].checked = !newListStatus[0].checked;
+                  setOrderFilter({
+                    ...orderFilter,
+                    listStatus: newListStatus,
+                  });
+                }}
+                value={orderFilter.listStatus[0]}
+              />
               <span>Đã thanh toán</span>
             </div>
             <div className="order-card-item">
-              <Checkbox />
+              <Checkbox
+                value={orderFilter.listStatus[1]}
+                onChange={() => {
+                  let newListStatus = orderFilter.listStatus;
+                  newListStatus[1].checked = !newListStatus[1].checked;
+                  setOrderFilter({
+                    ...orderFilter,
+                    listStatus: newListStatus,
+                  });
+                }}
+              />
               <span>Đã trả hàng</span>
             </div>
           </div>
@@ -268,10 +387,15 @@ const Orders = () => {
                   currentOrders.map((order, index) => {
                     // console.log(currentOrders);
                     return (
-                      <tr>
+                      <tr
+                        onClick={() => {
+                          history.push("/orderDetail", {
+                            orderId: order._id,
+                          });
+                        }}
+                      >
                         <td>{order._id.substr(order._id.length - 10)}</td>
                         <td>{formateDate(order.dateOrder)}</td>
-
                         <td>
                           {order.customer ? order.customer.name : "Khách lẻ"}
                         </td>

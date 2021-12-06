@@ -93,9 +93,11 @@ const ReturnOrderDetail = () => {
       <div className="return-order-detail-container-body">
         <div className="return-order-detail-container-body-left">
           <div className="return-order-detail-container-body-left-list">
-            {returnOrder.orderDetails?.length === 0 && (
-              <h3>Hoá đơn này đã hết hàng</h3>
-            )}
+            {console.log(returnOrder)}
+            {(returnOrder.orderDetails?.length === 0 ||
+              returnOrder.orderDetails?.every((orderItem) => {
+                return orderItem?.orderDetail?.quantity === 0;
+              })) && <h3>Hoá đơn này đã hết hàng</h3>}
             {returnOrder.orderDetails?.length > 0 &&
               returnOrder.orderDetails?.map((orderItem, index) => {
                 return (

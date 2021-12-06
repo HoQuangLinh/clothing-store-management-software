@@ -76,3 +76,7 @@
   z-index: 5;
   padding-top: 40px;
 }
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-error
+  .MuiOutlinedInput-notchedOutline {
+  border-color: blue !important;
+}

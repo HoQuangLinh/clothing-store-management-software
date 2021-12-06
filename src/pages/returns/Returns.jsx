@@ -10,191 +10,51 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import ReturnForm from "./returns_NewForm/returnForm";
+import ReturnDetail from "./return_detail/ReturnDetail";
 import ModalUnstyled from "@mui/core/ModalUnstyled";
 import TextField from "@mui/material/TextField";
 import { styled, Box } from "@mui/system";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import ReturnOrder from "./returnorder/ReturnOrder";
+import axios from "axios";
+import moment from "moment";
 const columns = [
-  { id: "ID", label: "Mã Hóa Đơn" },
-  { id: "Datetime", label: "Ngày tạo" },
   {
-    id: "Customers",
-    label: "Khách hàng",
+    id: "order._id",
+    label: "Mã Hóa Đơn",
+  },
+  { id: "dateOrder", label: "Ngày tạo" },
+  {
+    id: "order.customer.name",
+    label: "Tên khách hàng",
 
     //format: (value) => value.toLocaleString('en-US'),
   },
-  {
-    id: "Staff",
-    label: "Nhân viên",
 
-    //format: (value) => value.toLocaleString('en-US'),
-  },
   {
-    id: "PhoneNumber",
+    id: "order.customer.phone",
     label: "Số điện thoại",
 
     //format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: "TotalPrice",
-    label: "Tổng tiền (VNĐ)",
+    id: "returnFee",
+    label: "Phí trả hàng",
 
-    format: (value) => value.toFixed(2),
+    //format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: "totalReturnPrice",
+    label: "Tiền trả khách",
   },
 ];
-
-function createData(ID, Datetime, Customers, Staff, PhoneNumber, TotalPrice) {
-  return { ID, Datetime, Customers, Staff, PhoneNumber, TotalPrice };
-}
-
-const rows = [
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-  createData(
-    "HD0123",
-    "12/10/2021",
-    "Chí Đạt",
-    "Hồ Linh",
-    "0808150877",
-    "150000000"
-  ),
-];
+const formateDate = (dateStr) => {
+  var date = new Date(dateStr);
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -217,13 +77,62 @@ const Backdrop = styled("div")`
   -webkit-tap-highlight-color: transparent;
 `;
 const Returns = () => {
-  const [value, setValue] = React.useState(null);
+  const [listReturnOrders, setListReturnOrders] = useState([]);
+  const [originReturnOrders, setOriginReturnOrders] = useState([]);
 
+  const [returnOrderId, setReturnOrderId] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [selectedReturns, setselectedReturns] = useState();
+
   const [showNewFormReturn, setNewFormReturn] = useState(false);
   const [showFormReturnOrder, setShowFormReturnOrder] = useState(false);
+  const [filter, setFiler] = useState({
+    searchText: "",
+    date: "",
+  });
+  useEffect(() => {
+    axios
+      .get("https://clothesapp123.herokuapp.com/api/returnOrder")
+      .then((res) => {
+        setListReturnOrders(res.data);
+        setOriginReturnOrders(res.data);
+      });
+  }, []);
+  useEffect(() => {
+    if (!filter.searchText && !filter.date) {
+      console.log(originReturnOrders);
+      setListReturnOrders(originReturnOrders);
+    } else {
+      var newListReturnOrders = originReturnOrders.filter((returnOrder) => {
+        const dateReturn = new Date(returnOrder.dateReturn);
+        const dateApi = moment([
+          dateReturn.getFullYear(),
+          dateReturn.getMonth(),
+          dateReturn.getDate(),
+        ]);
+        console.log(new Date(filter.date).getDate());
+        const dateFilter = moment([
+          new Date(filter.date).getFullYear(),
+          new Date(filter.date).getMonth(),
+          new Date(filter.date).getDate(),
+        ]);
+        console.log(dateApi.diff(dateFilter, "days"));
+        return (
+          (returnOrder.order._id.indexOf(
+            filter.searchText.replace(/\s/g, "")
+          ) >= 0 ||
+            returnOrder.order.customer?.name.indexOf(
+              filter.searchText.replace(/\s/g, "")
+            ) >= 0 ||
+            returnOrder.order.customer?.phone.indexOf(
+              filter.searchText.replace(/\s/g, "")
+            ) >= 0) &&
+          dateApi.diff(dateFilter, "days") === 0
+        );
+      });
+      setListReturnOrders(newListReturnOrders);
+    }
+  }, [filter]);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -244,9 +153,8 @@ const Returns = () => {
         }}
         BackdropComponent={Backdrop}
       >
-        <ReturnForm
-          staff={selectedReturns}
-          setStaff={setselectedReturns}
+        <ReturnDetail
+          returnOrderId={returnOrderId}
           setNewFormReturn={setNewFormReturn}
         />
       </StyledModal>
@@ -258,18 +166,30 @@ const Returns = () => {
       />
       <div className="returns_header">
         <div className="returns_search">
-          <input type="text" placeholder="Tìm kiếm" />
+          <input
+            value={filter.searchText}
+            onChange={(e) => {
+              setFiler({ ...filter, searchText: e.target.value });
+            }}
+            type="text"
+            placeholder="Tìm kiếm"
+          />
           <i className="bx bx-search"></i>
         </div>
         <div className="returns_datepicker">
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              InputProps={{
+                disableUnderline: true,
+              }}
+              error={false}
+              helperText={null}
               inputFormat="dd/MM/yyyy"
               views={["day", "month", "year"]}
-              label={value ? "" : "Chọn ngày"}
-              value={value}
-              onChange={(newValue) => {
-                setValue(newValue);
+              label={filter.date ? "" : "Chọn ngày"}
+              value={filter.date}
+              onChange={(newDate) => {
+                setFiler({ ...filter, date: newDate });
               }}
               renderInput={(params) => (
                 <TextField
@@ -321,36 +241,40 @@ const Returns = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
+                {listReturnOrders
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
+                  .map((returnOrder) => {
                     return (
                       <TableRow
+                        onClick={() => {
+                          setReturnOrderId(returnOrder._id);
+                          setNewFormReturn(true);
+                        }}
                         hover
-                        role="checkbox"
                         tabIndex={-1}
-                        key={row.code}
                       >
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
                         <TableCell>
-                          <button
-                            className="buttonDoiTra"
-                            onClick={() => {
-                              setselectedReturns(row);
-                              setNewFormReturn(true);
-                            }}
-                          >
-                            Đã trả hàng
-                          </button>
+                          {returnOrder.order._id.substr(
+                            returnOrder.order._id.length - 10
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {formateDate(returnOrder.dateReturn)}
+                        </TableCell>
+                        <TableCell>
+                          {returnOrder.order.customer?.name || "Khách lẻ"}
+                        </TableCell>
+                        <TableCell>
+                          {returnOrder.order.customer?.phone || "Không có"}
+                        </TableCell>
+                        <TableCell>{`${returnOrder.returnFee.toLocaleString(
+                          "en"
+                        )} đ`}</TableCell>
+                        <TableCell>{`${returnOrder.totalReturnPrice.toLocaleString(
+                          "en"
+                        )} đ`}</TableCell>
+                        <TableCell>
+                          <button className="buttonDoiTra">Đã trả hàng</button>
                         </TableCell>
                       </TableRow>
                     );
@@ -361,7 +285,7 @@ const Returns = () => {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={rows.length}
+            count={listReturnOrders.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

@@ -52,12 +52,10 @@ const ReturnOrder = ({ open, handleCancel }) => {
     pages.push(i);
   }
   const getCurrentOrders = () => {
-    return orders
-      .filter((order) => order.orderDetails.length > 0)
-      .slice(
-        currentPage * itemsPerPage - itemsPerPage,
-        currentPage * itemsPerPage
-      );
+    return orders.slice(
+      currentPage * itemsPerPage - itemsPerPage,
+      currentPage * itemsPerPage
+    );
   };
   const renderPageNumbers = pages.map((number) => {
     if (number <= maxPageNumberLimit && number >= minPageNumberLimit) {
@@ -79,8 +77,16 @@ const ReturnOrder = ({ open, handleCancel }) => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/orders/list")
       .then((res) => {
-        setOrders(res.data);
-        setOriginOrders(res.data);
+        setOrders(
+          res.data.filter(
+            (order) => order.orderTotal - (order?.totalReturnPrice || 0) !== 0
+          )
+        );
+        setOriginOrders(
+          res.data.filter(
+            (order) => order.orderTotal - (order?.totalReturnPrice || 0) !== 0
+          )
+        );
       })
       .catch((err) => {
         alert("Lỗi call api");
@@ -113,6 +119,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
       setOrders(originOrders);
     } else {
       setCurrentPage(1);
+
       const fromDateTime = (fromDate && fromDate.getTime()) || 0;
       const toDateTime = (toDate && toDate.getTime()) || new Date().getTime();
       var orderFiltered = originOrders.filter((order) => {
@@ -352,7 +359,8 @@ const ReturnOrder = ({ open, handleCancel }) => {
               </tbody>
             </table>
             {/**Start Pagination */}
-            {pages.length > 1 && (
+            {console.log(pages.length)}
+            {pages.length >= 1 && (
               <div class="pagination">
                 <div class="pagination-left">
                   <button

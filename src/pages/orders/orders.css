@@ -6,9 +6,10 @@
   padding-bottom: 30px;
   background-color: #eeeeee;
   padding-top: 25px;
-  align-items: center;
 }
-
+.order-table-container {
+  margin-top: 20px;
+}
 .order-card {
   margin-bottom: 20px;
   padding: 25px 20px;
