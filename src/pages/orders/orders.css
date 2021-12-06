@@ -52,6 +52,7 @@
 
   border: 1px solid #ddd;
   border-radius: 10px;
+  border-spacing: 0;
 }
 #order-table th:first-child {
   border-top-left-radius: 10px;

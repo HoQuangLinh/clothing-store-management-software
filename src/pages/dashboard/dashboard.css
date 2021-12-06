@@ -1,3 +1,59 @@
-.red {
-  background-color: red;
+.dashboard-overview {
+  margin-top: -30px;
+}
+.dashboard-overview-row {
+  display: flex;
+  padding: 0 60px;
+}
+.dashboard-overview-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 15px;
+  height: 130px;
+  background-color: rebeccapurple;
+  margin: 0 10px 20px;
+  padding: 30px;
+  position: relative;
+}
+.dashboard-overview-card-img {
+  background-image: none;
+  width: 80px;
+  height: 80px;
+}
+.dashboard-overview-card-heading {
+  color: #fff;
+  font-weight: bold;
+}
+.dashboard-overview-card-body {
+  margin-top: 10px;
+  color: #fff;
+  font-size: 23px;
+}
+.table-dashboard-container {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+#dashboard-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#dashboard-table td {
+  border-top: 1px solid #f1f1f1;
+  padding: 15px;
+  text-align: center;
+}
+
+#dashboard-table th {
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  padding: 15px 12px;
+  text-align: center;
+  background-color: rgb(3, 169, 244);
+  color: #fff;
+  font-weight: bold;
+}
+.dashboard-chart {
+  padding: 20px;
 }

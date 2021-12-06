@@ -1,0 +1,8 @@
+.bar-container {
+  height: 550px;
+  border: 1px solid #ddd;
+  padding: 10px 50px 50px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  background-color: #fff;
+}

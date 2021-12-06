@@ -1,177 +1,154 @@
-import React, { useEffect, useState } from "react";
-import DashBoardCard from "../../components/dashboard-card/DashBoardCard";
-import Table from "../../components/table/Table";
+import React from "react";
 import "./dashboard.css";
-import axios from "axios";
-import Badge from "../../components/badge/Badge";
-import Chart from "react-apexcharts";
-
-const customerColumns = ["User", "Total Order", "Total Spending"];
-const orderColumns = ["Order Id", "User", "Total Price", "Date", "Status"];
+import revenueIcon from "../../assets/images/dashboardIcon1.png";
+import dashboardOrderIcon from "../../assets/images/dashboardOrderIcon1.png";
+import dashboardCostIcon from "../../assets/images/dashboardCost.png";
+import marginIcon from "../../assets/images/dashboardRevenueIcon.png";
+import BarChart from "../../components/barchart/BarChart";
 const Dashboard = () => {
-  const [topCustomer, setTopCustomer] = useState([]);
-  const [latestOrders, setLatestOrders] = useState([]);
-
-  // get top customer from API
-  useEffect(() => {
-    axios.get("http://localhost:3004/topCustomers").then((response) => {
-      setTopCustomer(response.data);
-    });
-  }, []);
-
-  //get latest orders from API
-  useEffect(() => {
-    axios.get("http://localhost:3004/getLatestOrders").then((res) => {
-      setLatestOrders(res.data);
-    });
-  }, []);
-  const orderStatus = {
-    shipping: "primary",
-    pending: "warning",
-    paid: "success",
-    refund: "danger",
+  const listClothes = [];
+  const clothes = [0, 1, 2, 3, 4];
+  const listMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  for (var i = 0; i < 10; i++) {
+    listClothes[i] = "Áo thun tay lỡ";
+  }
+  const dataClothes = {
+    labels: listClothes,
+    datasets: [
+      {
+        data: [124, 193, 35, 54, 24, 35, 56, 66, 76, 86],
+        backgroundColor: "#62B4FF",
+        borderColor: "#62B4FF",
+        borderWidth: 1,
+      },
+    ],
   };
-  console.log(`order status ${orderStatus.shipping}`);
-  const renderCustomerHead = (columns) => {
-    return (
-      <thead>
-        <tr>
-          {columns.map((value, index) => (
-            <th>{value}</th>
-          ))}
-        </tr>
-      </thead>
-    );
-  };
-  const renderCustomerBody = (customers) => {
-    return (
-      <tbody>
-        {customers.map((customer, index) => (
-          <tr>
-            <td>{customer.user}</td>
-            <td>{customer.total_order}</td>
-            <td>{customer.total_spending}</td>
-          </tr>
-        ))}
-      </tbody>
-    );
-  };
-  const renderLatestOrderBody = (orders) => (
-    <tbody>
-      {orders.map((order, index) => (
-        <tr>
-          <td>{order.order_id}</td>
-          <td>{order.user}</td>
-          <td>{order.total_price}</td>
-          <td>{order.date}</td>
-          <td>
-            <Badge type={orderStatus[order.status]}>{order.status}</Badge>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  );
-  const renderLatestOrderHead = (columns) => (
-    <thead>
-      <tr>
-        {columns.map((value, index) => (
-          <th>{value}</th>
-        ))}
-      </tr>
-    </thead>
-  );
-  const options = {
-    dataLabels: {
-      enabled: false,
-    },
-    chart: {
-      id: "apexchart-example",
-    },
-    xaxis: {
-      categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    },
-  };
-  const series = [
-    {
-      name: "Revenue ",
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 100, 100, 200],
-    },
-  ];
   return (
     <div>
-      <div className="dashboard-content">
-        <div className="row">
+      <div className="dashboard-overview">
+        <div className="dashboard-overview-row row">
           <div className="col-6">
-            <div className="row">
-              <div className="col-6">
-                <DashBoardCard
-                  name="Customer"
-                  quantity="1000"
-                  icon="fas fa-user-friends"
-                />
+            <div
+              style={{ background: "#3B76EF" }}
+              className="dashboard-overview-card"
+            >
+              <div className="dashboard-overview-card-content">
+                <div className="dashboard-overview-card-heading">
+                  <h3>Tổng doanh thu</h3>
+                </div>
+                <div className="dashboard-overview-card-body">
+                  <h3>10,000,000 đồng</h3>
+                </div>
               </div>
-              <div className="col-6">
-                <DashBoardCard
-                  name="Orders"
-                  quantity="2000"
-                  icon="fas fa-receipt "
-                />
-              </div>
-              <div className="col-6">
-                <DashBoardCard
-                  name="Income"
-                  icon="fas fa-hryvnia"
-                  quantity="2300"
-                />
-              </div>
-              <div className="col-6">
-                <DashBoardCard
-                  name="Visited"
-                  quantity="3000"
-                  icon="fas fa-eye"
-                />
+              <div className="dashboard-overview-card-img">
+                <img src={revenueIcon} alt="" />
               </div>
             </div>
           </div>
-          <div className="col-6 ">
-            <div className=" full-height">
-              <Chart
-                options={options}
-                series={series}
-                type="bar"
-                width="100%"
-                height="100%"
-              />
-            </div>
-          </div>
-          <div className="col-5">
-            <div className="card">
-              <div className="card__header">
-                <h3>Top customers</h3>
+          <div className="col-6">
+            <div
+              style={{ background: "#63C7FF" }}
+              className="dashboard-overview-card "
+            >
+              <div className="dashboard-overview-card-content">
+                <div className="dashboard-overview-card-heading">
+                  <h3>Tổng chi phí</h3>
+                </div>
+                <div className="dashboard-overview-card-body">
+                  <h3>10,000,000 đồng</h3>
+                </div>
               </div>
-
-              <Table
-                theadData={customerColumns}
-                tbodyData={topCustomer}
-                renderHead={renderCustomerHead}
-                renderBody={renderCustomerBody}
-              />
-            </div>
-          </div>
-          <div className="col-7">
-            <div className="card">
-              <div className="card__header">
-                <h3>Latest Orders</h3>
+              <div className="dashboard-overview-card-img">
+                <img src={dashboardCostIcon} alt="" />
               </div>
-              <Table
-                theadData={orderColumns}
-                tbodyData={latestOrders}
-                renderHead={renderLatestOrderHead}
-                renderBody={renderLatestOrderBody}
-              />
             </div>
           </div>
         </div>
+        <div className="dashboard-overview-row row">
+          <div className="col-6">
+            <div
+              style={{ background: "#A66DD4" }}
+              className="dashboard-overview-card "
+            >
+              <div className="dashboard-overview-card-content">
+                <div className="dash-board-overview-card-content">
+                  <div className="dashboard-overview-card-heading">
+                    <h3>Tổng đơn hàng</h3>
+                  </div>
+                  <div className="dashboard-overview-card-body">
+                    <h3>100 đơn hàng</h3>
+                  </div>
+                </div>
+              </div>
+              <div className="dashboard-overview-card-img">
+                <img src={dashboardOrderIcon} alt="" />
+              </div>
+            </div>
+          </div>
+          <div className="col-6">
+            <div
+              style={{ background: "#00A856" }}
+              className="dashboard-overview-card "
+            >
+              <div className="dash-board-overview-card-content">
+                <div className="dashboard-overview-card-heading">
+                  <h3>Lợi nhuận</h3>
+                </div>
+                <div className="dashboard-overview-card-body">
+                  <h3>10,000,000 đồng</h3>
+                </div>
+              </div>
+              <div className="dashboard-overview-card-img">
+                <img src={marginIcon} alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/**end dashboard overview */}
+      {/**table dashboard */}
+      <div className="table-dashboard-container">
+        <div class="card">
+          <div class="card-header">
+            <h3>Top 5 sản phẩm có doanh thu cao nhất trong ngày</h3>
+          </div>
+          <div class="card-content">
+            <table id="dashboard-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Mã sản phẩm</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Giá bán</th>
+                  <th>Số lượng bán</th>
+                  <th>Lợi nhuận</th>
+                </tr>
+              </thead>
+              <tbody>
+                {clothes.map((value) => {
+                  return (
+                    <tr>
+                      <td>{value}</td>
+                      <td>122212cdsd</td>
+                      <td>Bộ áo khoác dành cho người lơn, chất cotton</td>
+                      <td>2,000,000đ</td>
+                      <td>20</td>
+                      <td>10,000,000đ</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      {/**end table dashboard */}
+      <div className="dashboard-chart">
+        <BarChart
+          title="Top 10 sản phẩm bán chạy theo số lượng "
+          data={dataClothes}
+          horizontal
+        />
       </div>
     </div>
   );

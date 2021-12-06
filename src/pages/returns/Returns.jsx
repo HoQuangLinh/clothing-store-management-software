@@ -100,7 +100,6 @@ const Returns = () => {
   }, []);
   useEffect(() => {
     if (!filter.searchText && !filter.date) {
-      console.log(originReturnOrders);
       setListReturnOrders(originReturnOrders);
     } else {
       var newListReturnOrders = originReturnOrders.filter((returnOrder) => {
@@ -283,6 +282,7 @@ const Returns = () => {
             </Table>
           </TableContainer>
           <TablePagination
+            labelRowsPerPage="Số hàng hiển thị"
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
             count={listReturnOrders.length}

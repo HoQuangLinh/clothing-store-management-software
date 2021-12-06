@@ -378,6 +378,7 @@ const Customers = () => {
               </Table>
             </TableContainer>
             <TablePagination
+              labelRowsPerPage="Số hàng hiển thị"
               rowsPerPageOptions={[6, 12, 100]}
               component="div"
               count={customers.length}
