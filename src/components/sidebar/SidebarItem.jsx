@@ -6,7 +6,7 @@ const SidebarItem = (props) => {
   return (
     <div onClick={props.onClick} className="sidebar__item">
       <div className={`sidebar__item-inner ${active}`}>
-        <i style={{ color: "#000" }} className={props.icon}></i>
+        <i className={props.icon}></i>
         <span>{props.title}</span>
       </div>
     </div>

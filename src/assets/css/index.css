@@ -163,3 +163,9 @@ img {
 .justify-space-between {
   justify-content: space-between;
 }
+table {
+  overflow-y: auto;
+  width: 100%;
+
+  border-spacing: 0;
+}

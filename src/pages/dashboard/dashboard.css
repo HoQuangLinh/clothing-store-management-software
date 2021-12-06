@@ -56,4 +56,6 @@
 }
 .dashboard-chart {
   padding: 20px;
+
+  border-radius: var(--border-radius);
 }
