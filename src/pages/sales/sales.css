@@ -79,6 +79,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
 }
 .sales-card-img > img {
   height: 100%;

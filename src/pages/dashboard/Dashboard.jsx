@@ -34,7 +34,7 @@ const Dashboard = () => {
             >
               <div className="dashboard-overview-card-content">
                 <div className="dashboard-overview-card-heading">
-                  <h3>Tổng doanh thu</h3>
+                  <h3>Doanh thu trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
                   <h3>10,000,000 đồng</h3>
@@ -52,7 +52,7 @@ const Dashboard = () => {
             >
               <div className="dashboard-overview-card-content">
                 <div className="dashboard-overview-card-heading">
-                  <h3>Tổng chi phí</h3>
+                  <h3>Chi phí trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
                   <h3>10,000,000 đồng</h3>
@@ -73,7 +73,7 @@ const Dashboard = () => {
               <div className="dashboard-overview-card-content">
                 <div className="dash-board-overview-card-content">
                   <div className="dashboard-overview-card-heading">
-                    <h3>Tổng đơn hàng</h3>
+                    <h3>Số đơn trong ngày</h3>
                   </div>
                   <div className="dashboard-overview-card-body">
                     <h3>100 đơn hàng</h3>
@@ -92,7 +92,7 @@ const Dashboard = () => {
             >
               <div className="dash-board-overview-card-content">
                 <div className="dashboard-overview-card-heading">
-                  <h3>Lợi nhuận</h3>
+                  <h3>Lợi nhuận trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
                   <h3>10,000,000 đồng</h3>

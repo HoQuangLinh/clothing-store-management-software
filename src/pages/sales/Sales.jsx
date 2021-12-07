@@ -342,9 +342,11 @@ const Sales = () => {
                       <p>{product.name}</p>
                     </div>
                     <div className="sales-card-prices">
-                      <p className="sales-card-cost-price">{`${product.costPrice.toLocaleString(
-                        "en"
-                      )}đ`}</p>
+                      {product.discount > 0 && (
+                        <p className="sales-card-cost-price">{`${product.costPrice.toLocaleString(
+                          "en"
+                        )}đ`}</p>
+                      )}
                       <p className="sales-card-sale-price">{`${product.salePrice.toLocaleString(
                         "en"
                       )}đ`}</p>
@@ -399,6 +401,7 @@ const Sales = () => {
               <i
                 onClick={() => {
                   setShowListCustomer(!showListCustomers);
+                  searchCustomers(inputTextSearchCustomer);
                 }}
                 className="bx bx-search"
               ></i>
