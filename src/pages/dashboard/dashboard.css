@@ -34,6 +34,11 @@
   padding: 20px;
   margin-bottom: 20px;
 }
+.card-header {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
 #dashboard-table {
   border-collapse: collapse;
   width: 100%;

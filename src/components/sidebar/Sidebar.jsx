@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import logo from "../../assets/images/favicon.ico";
+
 import "./sidebar.css";
 import sidebar from "../../assets/data/sidebar.json";
 import SidebarItem from "./SidebarItem";
 import { Link } from "react-router-dom";
+import logo from "../../assets/images/logo.png";
 const Sidebar = () => {
   let [curentIndex, setCurentIndex] = useState(0);
 
   return (
     <div className="sidebar">
-      <div className="sidebar__logo">CLOTHES</div>
+      <img style={{ height: "150px" }} src={logo} alt="" />
+
       {sidebar.map((item, index) => {
         return (
           <Link to={item.route}>

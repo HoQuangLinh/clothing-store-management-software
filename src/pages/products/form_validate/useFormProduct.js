@@ -11,7 +11,12 @@ const useFormProduct = (callback, product, setProduct, validate) => {
   const handleChange = (e) => {
     var { name, value } = e.target;
 
-    if (name === "costPrice" || name === "salePrice" || name === "discount") {
+    if (
+      name === "costPrice" ||
+      name === "salePrice" ||
+      name === "discount" ||
+      name === "originPrice"
+    ) {
       value = Math.floor(value);
     }
 

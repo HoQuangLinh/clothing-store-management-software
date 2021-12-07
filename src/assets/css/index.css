@@ -111,10 +111,6 @@ input:-webkit-autofill:active {
   margin-bottom: 10px;
 }
 
-.card > div ~ div {
-  margin-top: 30px;
-}
-
 .card__footer {
   text-align: center;
   text-transform: capitalize;

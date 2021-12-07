@@ -103,7 +103,7 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
     formProduct.append("costPrice", product.costPrice);
     formProduct.append("discount", product.discount);
     formProduct.append("salePrice", product.salePrice);
-    formProduct.append("desc", product.desc);
+    formProduct.append("originPrice", product.originPrice);
 
     formProduct.append("image", avatar);
 
@@ -276,14 +276,15 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
             <p className="update_product-form-error">{errors.size}</p>
           </div>
           <div className="update_product-form-row">
-            <span>Mô tả</span>
+            <span>Giá nhập</span>
             <input
-              name="desc"
+              pattern="[0-9]*"
+              name="originPrice"
               type="text"
-              value={product.desc}
+              value={product.originPrice}
               onChange={handleChange}
             />
-            <p className="update_product-form-error">{errors.desc}</p>
+            <p className="update_product-form-error">{errors.originPrice}</p>
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
     category: "Áo",
     costPrice: 0,
     salePrice: 0,
-    desc: "",
+    originPrice: 0,
     discount: 0,
   });
 
@@ -114,7 +114,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
     formProduct.append("costPrice", product.costPrice);
     formProduct.append("discount", product.discount);
     formProduct.append("salePrice", product.salePrice);
-    formProduct.append("desc", product.desc);
+    formProduct.append("originPrice", product.originPrice);
 
     formProduct.append("image", avatar);
 
@@ -289,14 +289,15 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
             <p className="add_product-form-error">{errors.size}</p>
           </div>
           <div className="add_product-form-row">
-            <span>Mô tả</span>
+            <span>Giá nhập hàng</span>
             <input
-              name="desc"
+              pattern="[0-9]*"
+              name="originPrice"
               type="text"
-              value={product.desc}
+              value={product.originPrice}
               onChange={handleChange}
             />
-            <p className="add_product-form-error">{errors.desc}</p>
+            <p className="add_product-form-error">{errors.originPrice}</p>
           </div>
         </div>
       </div>
