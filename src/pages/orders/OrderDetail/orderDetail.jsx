@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./orderdetail.css";
+import "./orderDetail.css";
 import { useLocation, useHistory } from "react-router";
 import NumberFormat from "react-number-format";
 

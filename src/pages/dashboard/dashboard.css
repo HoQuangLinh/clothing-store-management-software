@@ -105,6 +105,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 20px;
 }
 .avt-customer {
   width: 130px;
@@ -162,9 +163,10 @@
   margin: 5px;
 }
 .div-char {
-  width: 600px;
+  width: 780px;
   height: 410px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
