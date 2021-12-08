@@ -1,6 +1,8 @@
 import React from "react";
 import "./dashboard.css";
 import revenueIcon from "../../assets/images/dashboardIcon1.png";
+import topcustomer from "../../assets/images/top.png";
+import star from "../../assets/images/star.png";
 import dashboardOrderIcon from "../../assets/images/dashboardOrderIcon1.png";
 import dashboardCostIcon from "../../assets/images/dashboardCost.png";
 import marginIcon from "../../assets/images/dashboardRevenueIcon.png";
@@ -30,7 +32,7 @@ const Dashboard = () => {
       </h2>
       <div className="dashboard-overview">
         <div className="dashboard-overview-row row">
-          <div className="col-6">
+          <div className="col-3">
             <div
               style={{ background: "#3B76EF" }}
               className="dashboard-overview-card"
@@ -48,7 +50,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-3">
             <div
               style={{ background: "#63C7FF" }}
               className="dashboard-overview-card "
@@ -66,9 +68,9 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="dashboard-overview-row row">
-          <div className="col-6">
+        
+       
+          <div className="col-3">
             <div
               style={{ background: "#A66DD4" }}
               className="dashboard-overview-card "
@@ -79,7 +81,7 @@ const Dashboard = () => {
                     <h3>Số đơn trong ngày</h3>
                   </div>
                   <div className="dashboard-overview-card-body">
-                    <h3>100 đơn hàng</h3>
+                    <h3>100 đơn</h3>
                   </div>
                 </div>
               </div>
@@ -88,7 +90,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-3">
             <div
               style={{ background: "#00A856" }}
               className="dashboard-overview-card "
@@ -106,9 +108,39 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        </div>
+      </div>
       </div>
       {/**end dashboard overview */}
+      <div className="div-customer-chart">
+        <div className="div-top-customer">
+          <h3 className="title-header">Top 1 Customer</h3>
+          <div className="div-info-top-customer"> 
+            <div className="avt-customer">
+              <img src={topcustomer} alt="" />
+            </div>
+            <div className="info-customer">
+              <p className="name">Nguyễn Đỗ Hoàng Minh Anh</p>
+              <p className="phonenumber">SĐT: 0123456789</p>
+              <div className="div-icon">
+                <img className="icon-star" src={star} alt="" />
+                <img className="icon-star" src={star} alt="" />
+                <img className="icon-star" src={star} alt="" />
+                <img className="icon-star" src={star} alt="" />
+                <img className="icon-star" src={star} alt="" />
+              </div>
+            </div>
+            <div className="div-total-point">
+              <p className="title-total">Tổng điểm tích lũy</p>
+              <p className="point">10.000 điểm</p>
+              
+            </div>
+          </div>
+        </div>
+        <div className="div-char">
+
+        </div>
+
+      </div>
       {/**table dashboard */}
       <div className="table-dashboard-container">
         <div class="card">
