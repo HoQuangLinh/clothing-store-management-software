@@ -7,6 +7,7 @@ import dashboardOrderIcon from "../../assets/images/dashboardOrderIcon1.png";
 import dashboardCostIcon from "../../assets/images/dashboardCost.png";
 import marginIcon from "../../assets/images/dashboardRevenueIcon.png";
 import BarChart from "../../components/barchart/BarChart";
+import { LineChart } from "../../components/linechart/LineChart";
 const Dashboard = () => {
   const listClothes = [];
   const clothes = [0, 1, 2, 3, 4];
@@ -66,8 +67,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        
-       
+
           <div className="col-3">
             <div
               style={{ background: "#A66DD4" }}
@@ -106,13 +106,16 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-      </div>
+        </div>
       </div>
       {/**end dashboard overview */}
+
       <div className="div-customer-chart">
         <div className="div-top-customer">
-          <h3 className="title-header">Top 1 Customer</h3>
-          <div className="div-info-top-customer"> 
+          <div className="div-customer-header">
+            <h3 className="title-header">Top 1 khách hàng</h3>
+          </div>
+          <div className="div-info-top-customer">
             <div className="avt-customer">
               <img src={topcustomer} alt="" />
             </div>
@@ -130,14 +133,15 @@ const Dashboard = () => {
             <div className="div-total-point">
               <p className="title-total">Tổng điểm tích lũy</p>
               <p className="point">10.000 điểm</p>
-              
             </div>
           </div>
         </div>
         <div className="div-char">
-
+          <div className="div-customer-header">
+            <h3 className="title-header">Số khách ghé mua</h3>
+          </div>
+          <LineChart />
         </div>
-
       </div>
       {/**table dashboard */}
       <div className="table-dashboard-container">
