@@ -1,9 +1,13 @@
+.header-title{
+  margin-left: 30px;
+  margin-top: -10px;
+}
 .dashboard-overview {
-  margin-top: -30px;
+  display: flex;
 }
 .dashboard-overview-row {
   display: flex;
-  padding: 0 60px;
+  padding: 20px 10px;
 }
 .dashboard-overview-card {
   display: flex;
@@ -13,13 +17,15 @@
   height: 130px;
   background-color: rebeccapurple;
   margin: 0 10px 20px;
-  padding: 30px;
+  padding: 20px;
   position: relative;
+  box-shadow: 0 2px 15px rgb(0 0 0 / 30%);
 }
 .dashboard-overview-card-img {
   background-image: none;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
+  margin-left: 20px;
 }
 .dashboard-overview-card-heading {
   color: #fff;
@@ -28,10 +34,11 @@
 .dashboard-overview-card-body {
   margin-top: 10px;
   color: #fff;
-  font-size: 23px;
+  font-size: 15px;
 }
 .table-dashboard-container {
   padding: 20px;
+  margin-top: -20px;
   margin-bottom: 20px;
 }
 .card-header {

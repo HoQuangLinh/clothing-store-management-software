@@ -25,6 +25,9 @@ const Dashboard = () => {
   };
   return (
     <div>
+      <h2 className="header-title">
+        Tổng quan
+      </h2>
       <div className="dashboard-overview">
         <div className="dashboard-overview-row row">
           <div className="col-6">
@@ -37,7 +40,7 @@ const Dashboard = () => {
                   <h3>Doanh thu trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>10,000,000 đồng</h3>
+                  <h3>10,000,000 VND</h3>
                 </div>
               </div>
               <div className="dashboard-overview-card-img">
@@ -55,7 +58,7 @@ const Dashboard = () => {
                   <h3>Chi phí trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>10,000,000 đồng</h3>
+                  <h3>10,000,000 VND</h3>
                 </div>
               </div>
               <div className="dashboard-overview-card-img">
@@ -95,7 +98,7 @@ const Dashboard = () => {
                   <h3>Lợi nhuận trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>10,000,000 đồng</h3>
+                  <h3>10,000,000 VND</h3>
                 </div>
               </div>
               <div className="dashboard-overview-card-img">
