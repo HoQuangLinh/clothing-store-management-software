@@ -72,7 +72,13 @@ const ReturnOrder = ({ open, handleCancel }) => {
     }
     return null;
   });
-
+  console.log({
+    minPageNumberLimit,
+    maxPageNumberLimit,
+    pages,
+    orders,
+    curentOrder: getCurrentOrders(),
+  });
   useEffect(() => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/orders/list")
@@ -95,6 +101,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
 
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
+    date.setUTCHours(0, 0, 0, 0);
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
@@ -121,10 +128,23 @@ const ReturnOrder = ({ open, handleCancel }) => {
       setCurrentPage(1);
 
       const fromDateTime = (fromDate && fromDate.getTime()) || 0;
-      const toDateTime = (toDate && toDate.getTime()) || new Date().getTime();
+
+      const toDateTime =
+        (toDate && toDate.getTime() + 3600 * 24 * 1000) || new Date().getTime();
       var orderFiltered = originOrders.filter((order) => {
         const dateOrder = new Date(order.dateOrder);
+        dateOrder.setUTCHours(0, 0, 0, 0);
         if (order.customer) {
+          console.log(
+            fromDateTime <= dateOrder.getTime() &&
+              toDateTime > dateOrder.getTime() &&
+              order._id.indexOf(orderId) >= 0 &&
+              order.customer &&
+              order.customer?.name.toLowerCase().indexOf(name.toLowerCase()) >=
+                0 &&
+              order.customer &&
+              order.customer?.phone.indexOf(phone) >= 0
+          );
           return (
             fromDateTime < dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
@@ -136,10 +156,17 @@ const ReturnOrder = ({ open, handleCancel }) => {
             order.customer?.phone.indexOf(phone) >= 0
           );
         } else {
+          console.log(order);
+          console.log(
+            fromDateTime < dateOrder.getTime() &&
+              toDateTime > dateOrder.getTime() &&
+              order._id.indexOf(orderId) >= 1
+          );
           return (
             fromDateTime < dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
-            order._id.indexOf(orderId) >= 1
+            order._id.indexOf(orderId) >= 0 &&
+            !name
           );
         }
       });
@@ -253,7 +280,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
                       label={fromDate ? "" : "Từ ngày"}
                       value={fromDate}
                       onChange={(newValue) => {
-                        setFromDate(newValue);
+                        setFromDate(new Date(newValue));
                         handleFilter(
                           orderFilter.orderId,
                           orderFilter.customerName,
@@ -283,13 +310,13 @@ const ReturnOrder = ({ open, handleCancel }) => {
                       label={toDate ? "" : "Đến ngày"}
                       value={toDate}
                       onChange={(newValue) => {
-                        setToDate(newValue);
+                        setToDate(new Date(newValue));
                         handleFilter(
                           orderFilter.orderId,
                           orderFilter.customerName,
                           orderFilter.phone,
                           fromDate,
-                          newValue
+                          new Date(newValue)
                         );
                       }}
                       InputProps={{
