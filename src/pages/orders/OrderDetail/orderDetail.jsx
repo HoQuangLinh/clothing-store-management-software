@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./orderDetail.css";
+import "./orderdetail.css";
 import { useLocation, useHistory } from "react-router";
 import NumberFormat from "react-number-format";
 
@@ -11,6 +11,7 @@ const OrderDetail = () => {
   const [order, setOrder] = useState([]);
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
+    date.setUTCHours(0, 0, 0, 0);
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
@@ -122,7 +123,7 @@ const OrderDetail = () => {
                 {order?._id?.substr(order._id.length - 10)}
               </b>
             </div>
-            {order.totalReturnPrice && (
+            {order.totalReturnPrice > 0 && (
               <div className="refund-payment-row">
                 <span>Tổng giá trị hoá đơn :</span>
                 <b style={{ color: "#237fcd" }}>{`${(

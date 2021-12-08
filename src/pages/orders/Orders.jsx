@@ -87,13 +87,13 @@ const Orders = () => {
     return null;
   });
 
-  console.log({
-    minPageNumberLimit,
-    maxPageNumberLimit,
-    pages,
-    orders,
-    currentOrders,
-  });
+  // console.log({
+  //   minPageNumberLimit,
+  //   maxPageNumberLimit,
+  //   pages,
+  //   orders,
+  //   currentOrders,
+  // });
   useEffect(() => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/orders/list")
@@ -138,6 +138,7 @@ const Orders = () => {
   }, [orderFilter, fromDate, toDate]);
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
+    date.setUTCHours(0, 0, 0, 0);
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
@@ -165,22 +166,11 @@ const Orders = () => {
 
       const fromDateTime = (fromDate && fromDate.getTime()) || 0;
       const toDateTime =
-        (toDate && toDate.getTime() + 24 * 3600 * 1000) || new Date().getTime();
+        (toDate && toDate.getTime() + 3600 * 24 * 1000) || new Date().getTime();
       var orderFiltered = originOrders.filter((order) => {
         const dateOrder = new Date(order.dateOrder);
-
+        dateOrder.setUTCHours(0, 0, 0, 0);
         if (order.customer) {
-          console.log(
-            fromDateTime <= dateOrder.getTime() &&
-              toDateTime > dateOrder.getTime() &&
-              order._id.indexOf(orderId) >= 0 &&
-              order.customer &&
-              order.customer?.name
-                .toLowerCase()
-                .indexOf(customerName.toLowerCase()) >= 0 &&
-              order.customer &&
-              order.user.fullname.indexOf(seller) >= 0
-          );
           return (
             fromDateTime <= dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
@@ -193,11 +183,6 @@ const Orders = () => {
             order.user.fullname.indexOf(seller) >= 0
           );
         } else {
-          console.log(
-            fromDateTime <= dateOrder.getTime() &&
-              toDateTime > dateOrder.getTime() &&
-              order._id.indexOf(orderId) >= 0
-          );
           return (
             fromDateTime <= dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
@@ -293,7 +278,7 @@ const Orders = () => {
                     label={fromDate ? "" : "Từ ngày"}
                     value={fromDate}
                     onChange={(newValue) => {
-                      setFromDate(newValue);
+                      setFromDate(new Date(newValue));
                     }}
                     renderInput={(params) => (
                       <TextField
@@ -316,7 +301,7 @@ const Orders = () => {
                     label={toDate ? "" : "Đến ngày"}
                     value={toDate}
                     onChange={(newValue) => {
-                      setToDate(newValue);
+                      setToDate(new Date(newValue));
                     }}
                     InputProps={{
                       disableUnderline: true,
@@ -385,7 +370,10 @@ const Orders = () => {
               <tbody>
                 {orders &&
                   currentOrders.map((order, index) => {
-                    // console.log(currentOrders);
+                    console.log({
+                      order: order.dateOrder,
+                      dateFontend: formateDate(order.dateOrder),
+                    });
                     return (
                       <tr
                         onClick={() => {

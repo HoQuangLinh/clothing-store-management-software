@@ -25,9 +25,7 @@ const Dashboard = () => {
   };
   return (
     <div>
-      <h2 className="header-title">
-        Tổng quan
-      </h2>
+      <h2 className="header-title">Tổng quan</h2>
       <div className="dashboard-overview">
         <div className="dashboard-overview-row row">
           <div className="col-6">
