@@ -136,11 +136,13 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="div-char">
+        <div className="div-info-char">
           <div className="div-customer-header">
             <h3 className="title-header">Số khách ghé mua</h3>
           </div>
-          <LineChart />
+          <div className="div-char">
+            <LineChart />
+          </div>
         </div>
       </div>
       {/**table dashboard */}
