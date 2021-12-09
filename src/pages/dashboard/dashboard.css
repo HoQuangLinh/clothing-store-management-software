@@ -1,10 +1,12 @@
 .header-title {
-  margin-left: 50px;
+  margin-left: 70px;
   margin-top: -10px;
 }
 .dashboard-overview {
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-left: 10px;
 }
 .dashboard-overview-row {
   display: flex;
@@ -40,7 +42,6 @@
 }
 .table-dashboard-container {
   padding: 20px;
-  margin-top: 5px;
   margin-bottom: 20px;
 }
 .card-header {
@@ -70,7 +71,6 @@
 }
 .dashboard-chart {
   padding: 20px;
-
   border-radius: var(--border-radius);
 }
 
@@ -81,8 +81,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 30px;
-  margin-bottom: 50px;
+  padding: 0px 50px;
+  margin-bottom: 75px;
+  
 }
 .div-customer-header {
   color: #000;
@@ -95,6 +96,7 @@
 }
 .div-top-customer {
   margin-top: 70px;
+  margin-left: 5px;
 }
 .div-info-top-customer {
   margin-top: 15px;
@@ -105,7 +107,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 10px;
+
 }
 .avt-customer {
   width: 130px;
@@ -162,11 +165,21 @@
   width: 20px;
   margin: 5px;
 }
-.div-char {
-  width: 780px;
-  height: 410px;
+.div-info-char{
+  width: 750px;
+  height: 450px;
+  margin-top: 80px;
+  margin-left: 30px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 1px 2px 10px rgb(0 0 0 / 20%);
+}
+.div-char {
+  width: 95%;
+  height: 85%;
+  
+
   
 }
