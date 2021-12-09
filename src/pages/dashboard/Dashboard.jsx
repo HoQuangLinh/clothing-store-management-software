@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import revenueIcon from "../../assets/images/dashboardIcon1.png";
 import topcustomer from "../../assets/images/top.png";
@@ -8,7 +8,40 @@ import dashboardCostIcon from "../../assets/images/dashboardCost.png";
 import marginIcon from "../../assets/images/dashboardRevenueIcon.png";
 import BarChart from "../../components/barchart/BarChart";
 import { LineChart } from "../../components/linechart/LineChart";
+import axios from "axios";
 const Dashboard = () => {
+  const [revenueToday, setRevenueToday] = useState(0);
+  const [expensiveToday, setExpensiveToday] = useState(0);
+  const [countNumberToday, setCountNumberToday] = useState(0);
+  const [profitToday, setProfitToday] = useState(0);
+  useEffect(() => {
+    axios
+      .get(
+        "https://clothesapp123.herokuapp.com/api/orders/revenue/revenueToday"
+      )
+      .then((res) => {
+        console.log(res.data);
+        setRevenueToday(res.data[0].total);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get(
+        "https://clothesapp123.herokuapp.com/api/orders/revenue/getExpensiveToday"
+      )
+      .then((res) => {
+        setExpensiveToday(res.data[0].totalExpensive);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get(
+        "https://clothesapp123.herokuapp.com/api/orders/revenue/getCountOrderToday"
+      )
+      .then((res) => {
+        setCountNumberToday(res.data[0].countOrder);
+      });
+  }, []);
   const listClothes = [];
   const clothes = [0, 1, 2, 3, 4];
   const listMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -41,7 +74,7 @@ const Dashboard = () => {
                   <h3>Doanh thu trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>10,000,000 VND</h3>
+                  <h3>{revenueToday?.toLocaleString("en")} VND</h3>
                 </div>
               </div>
               <div className="dashboard-overview-card-img">
@@ -59,7 +92,7 @@ const Dashboard = () => {
                   <h3>Chi phí trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>10,000,000 VND</h3>
+                  <h3>{expensiveToday?.toLocaleString("en")} VND</h3>
                 </div>
               </div>
               <div className="dashboard-overview-card-img">
@@ -79,7 +112,7 @@ const Dashboard = () => {
                     <h3>Số đơn trong ngày</h3>
                   </div>
                   <div className="dashboard-overview-card-body">
-                    <h3>100 đơn</h3>
+                    <h3>{countNumberToday?.toLocaleString("en")} đơn</h3>
                   </div>
                 </div>
               </div>
@@ -98,7 +131,9 @@ const Dashboard = () => {
                   <h3>Lợi nhuận trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>10,000,000 VND</h3>
+                  <h3>
+                    {(revenueToday - expensiveToday).toLocaleString("en")} VND
+                  </h3>
                 </div>
               </div>
               <div className="dashboard-overview-card-img">
