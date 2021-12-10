@@ -1,7 +1,7 @@
 .revenues-container {
 }
 .revuenues-filter {
-  position: fixed;
+  /* position: fixed; */
   margin-left: 20px;
 }
 .revenues-title {
@@ -9,8 +9,7 @@
   margin-bottom: 20px;
 }
 .revenues-card {
-  width: 230px;
-  height: 120px;
+  /* width: 230px; */
   border: 1px solid #a19b9b;
   border-radius: 10px;
   padding: 15px;
@@ -22,4 +21,23 @@
 }
 .revenues-card-row > span {
   margin-left: 10px;
+}
+.revenues-card-row {
+  padding: 4px 0;
+}
+.revenues-card-row.submit {
+  text-align: center;
+}
+.revenues-card-row > button {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 12px;
+  background: #62b4ff;
+  color: #fff;
+}
+@media (min-width: 1024px) {
+  .revenues-card-row > button {
+    padding: 6px 25px;
+    margin-top: 5px;
+  }
 }
