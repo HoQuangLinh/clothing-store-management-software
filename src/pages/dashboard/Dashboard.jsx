@@ -13,18 +13,15 @@ const Dashboard = () => {
   const [revenueToday, setRevenueToday] = useState(0);
   const [expensiveToday, setExpensiveToday] = useState(0);
   const [countNumberToday, setCountNumberToday] = useState(0);
-  const [top1Customer, setTop1Customer] = useState({});
-  const [totalCustomerThisWeek, setTotalCustomerThisWeek] = useState();
-  const [totalCustomerLastWeek, setTotalCustomerLastWeek] = useState();
-  const [topProductByRevenue, setTopProductByRevenue] = useState();
-  const [topProductByQuantity, setTopProductByQuantity] = useState();
+  const [profitToday, setProfitToday] = useState(0);
   useEffect(() => {
     axios
       .get(
         "https://clothesapp123.herokuapp.com/api/orders/revenue/revenueToday"
       )
       .then((res) => {
-        setRevenueToday(res.data[0]?.total || 0);
+        console.log(res.data);
+        setRevenueToday(res.data[0].total);
       });
   }, []);
   useEffect(() => {
@@ -33,7 +30,7 @@ const Dashboard = () => {
         "https://clothesapp123.herokuapp.com/api/orders/revenue/getExpensiveToday"
       )
       .then((res) => {
-        setExpensiveToday(res.data[0]?.totalExpensive || 0);
+        setExpensiveToday(res.data[0].totalExpensive);
       });
   }, []);
   useEffect(() => {
@@ -42,125 +39,20 @@ const Dashboard = () => {
         "https://clothesapp123.herokuapp.com/api/orders/revenue/getCountOrderToday"
       )
       .then((res) => {
-        setCountNumberToday(res.data[0]?.countOrder || 0);
+        setCountNumberToday(res.data[0].countOrder);
       });
   }, []);
-  //get top 1 customer
-  useEffect(() => {
-    axios
-      .get(
-        "https://clothesapp123.herokuapp.com/api/customers/getTopCustomerByPoint/1"
-      )
-      .then((res) => {
-        setTop1Customer({
-          name: res.data[0].name,
-          phone: res.data[0].phone,
-          point: res.data[0].point,
-        });
-      });
-  }, []);
-  //get customer this week
-  useEffect(() => {
-    axios
-      .get(
-        "https://clothesapp123.herokuapp.com/api/orders/revenue/getTotalCustomerByThisWeek"
-      )
-      .then((res) => {
-        setTotalCustomerThisWeek(res.data);
-      });
-  }, []);
-
-  //get customer last week
-  useEffect(() => {
-    axios
-      .get(
-        "https://clothesapp123.herokuapp.com/api/orders/revenue/getTotalCustomerByLastWeek"
-      )
-      .then((res) => {
-        setTotalCustomerLastWeek(res.data);
-      });
-  }, []);
-
-  //get top product by renvenue
-  useEffect(() => {
-    axios
-      .get(
-        "https://clothesapp123.herokuapp.com/api/orders/revenue/getTopProductByRevenue/6"
-      )
-      .then((res) => {
-        setTopProductByRevenue(res.data);
-      });
-  }, []);
-  //get top product by quantity
-  useEffect(() => {
-    axios
-      .get(
-        "https://clothesapp123.herokuapp.com/api/orders/revenue/getTopProductByQuantity/6"
-      )
-      .then((res) => {
-        setTopProductByQuantity(res.data);
-      });
-  }, []);
-  const customerThisWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
-  const customerLastWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
-  const datalystCustomer = {
-    totalCustomerLastWeekApi: totalCustomerLastWeek?.forEach((data) => {
-      //return new Date(data._id).getDay();
-      // if(new Date(data._id).getDay())
-      const indexDate = new Date(data._id).getDay();
-      if (indexDate !== 0) {
-        customerLastWeekDataSets[indexDate - 1] = data.totalCustomer;
-      } else {
-        customerLastWeekDataSets[6] = data.totalCustomer;
-      }
-    }),
-    totalCustomerThisWeekApi: totalCustomerThisWeek?.forEach((data) => {
-      //return new Date(data._id).getDay();
-      // if(new Date(data._id).getDay())
-      const indexDate = new Date(data._id).getDay();
-      if (indexDate !== 0) {
-        customerThisWeekDataSets[indexDate - 1] = data.totalCustomer;
-      } else {
-        customerThisWeekDataSets[6] = data.totalCustomer;
-      }
-    }),
-  };
-
-  const dataCustomer = {
-    labels: [
-      "Thứ hai",
-      "Thứ ba",
-      "Thứ tư",
-      "Thứ năm",
-      "Thứ sáu",
-      "Thứ bảy",
-      "Chủ nhật",
-    ],
-    datasets: [
-      {
-        label: "Tuần trước",
-        data: customerLastWeekDataSets,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Tuần này",
-        data: customerThisWeekDataSets,
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
-  };
-
+  const listClothes = [];
+  const clothes = [0, 1, 2, 3, 4];
+  const listMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  for (var i = 0; i < 10; i++) {
+    listClothes[i] = "Áo thun tay lỡ";
+  }
   const dataClothes = {
-    labels: topProductByQuantity?.map((value) => {
-      return value.productName;
-    }),
+    labels: listClothes,
     datasets: [
       {
-        data: topProductByQuantity?.map((value) => {
-          return value.count;
-        }),
+        data: [124, 193, 35, 54, 24, 35, 56, 66, 76, 86],
         backgroundColor: "#62B4FF",
         borderColor: "#62B4FF",
         borderWidth: 1,
@@ -263,8 +155,8 @@ const Dashboard = () => {
               <img src={topcustomer} alt="" />
             </div>
             <div className="info-customer">
-              <p className="name">{top1Customer.name}</p>
-              <p className="phonenumber">SĐT: {top1Customer.phone}</p>
+              <p className="name">Nguyễn Đỗ Hoàng Minh Anh</p>
+              <p className="phonenumber">SĐT: 0123456789</p>
               <div className="div-icon">
                 <img className="icon-star" src={star} alt="" />
                 <img className="icon-star" src={star} alt="" />
@@ -275,9 +167,7 @@ const Dashboard = () => {
             </div>
             <div className="div-total-point">
               <p className="title-total">Tổng điểm tích lũy</p>
-              <p className="point">
-                {top1Customer.point?.toLocaleString("en")} điểm
-              </p>
+              <p className="point">10.000 điểm</p>
             </div>
           </div>
         </div>
@@ -286,7 +176,7 @@ const Dashboard = () => {
             <h3 className="title-header">Số khách ghé mua</h3>
           </div>
           <div className="div-char">
-            <LineChart data={dataCustomer} />
+            <LineChart />
           </div>
         </div>
       </div>
@@ -294,7 +184,7 @@ const Dashboard = () => {
       <div className="table-dashboard-container">
         <div class="card">
           <div class="card-header">
-            <h3>Top 6 sản phẩm có doanh thu cao nhất trong ngày</h3>
+            <h3>Top 5 sản phẩm có doanh thu cao nhất trong ngày</h3>
           </div>
           <div class="card-content">
             <table id="dashboard-table">
@@ -305,21 +195,19 @@ const Dashboard = () => {
                   <th>Tên sản phẩm</th>
                   <th>Giá bán</th>
                   <th>Số lượng bán</th>
-                  <th>Doanh thu</th>
+                  <th>Lợi nhuận</th>
                 </tr>
               </thead>
               <tbody>
-                {topProductByRevenue?.map((product, index) => {
+                {clothes.map((value) => {
                   return (
                     <tr>
-                      <td>{index + 1}</td>
-                      <td>{product._id.substr(product._id.length - 9)}</td>
-                      <td>{product.productName}</td>
-                      <td>{`${product.salePrice.toLocaleString("en")}đ`}</td>
-                      <td>{product.count.toLocaleString("en")}</td>
-                      <td>{`${product.totalSalePrice.toLocaleString(
-                        "en"
-                      )}đ`}</td>
+                      <td>{value}</td>
+                      <td>122212cdsd</td>
+                      <td>Bộ áo khoác dành cho người lơn, chất cotton</td>
+                      <td>2,000,000đ</td>
+                      <td>20</td>
+                      <td>10,000,000đ</td>
                     </tr>
                   );
                 })}
@@ -331,7 +219,7 @@ const Dashboard = () => {
       {/**end table dashboard */}
       <div className="dashboard-chart">
         <BarChart
-          title="Top 6 sản phẩm bán chạy theo số lượng "
+          title="Top 10 sản phẩm bán chạy theo số lượng "
           data={dataClothes}
           horizontal
         />

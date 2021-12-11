@@ -52,13 +52,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
 }
 .navbar__right-icon {
   align-items: center;
   justify-content: space-between;
   font-size: 1.5rem;
-  cursor: pointer;
 }
 .navbar__right-icon:hover,
 .navbar__right-icon:focus {
@@ -70,7 +68,6 @@
   margin-right: 5px;
 }
 .navbar__right-item ~ .navbar__right-item {
-  user-select: none;
   margin-left: 15px;
 }
 .navbar__right-item ~ .navbar__right-icon {
@@ -84,7 +81,87 @@
 .navbar__right-item > i {
   font-size: 1.5rem;
 }
-
+.navnar__paleteteShow {
+  position: absolute;
+  display: none;
+  width: 10rem;
+  height: 6rem;
+  margin-top: 2%;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid black;
+  border-radius: var(--border-radius);
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__PlaColor_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__PlaColor_blue {
+  background-color: blue;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__PlaColor_blue {
+  background-color: blue;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__PlaColor_red {
+  background-color: red;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__PlaColor_pink {
+  background-color: pink;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__PlaColor_yellow {
+  background-color: yellow;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__PlaColor_orange {
+  background-color: orange;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar__PlaColor_green {
+  background-color: green;
+  width: 2rem;
+  height: 2rem;
+  margin: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
 .show {
   display: block;
 }

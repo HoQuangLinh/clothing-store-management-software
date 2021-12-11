@@ -61,17 +61,16 @@
 }
 
 #dashboard-table th {
-  user-select: none;
   border-top: 1px solid #f1f1f1;
   border-bottom: 1px solid #f1f1f1;
-  padding: 15px 5px;
+  padding: 15px 12px;
   text-align: center;
   background-color: rgb(3, 169, 244);
   color: #fff;
   font-weight: bold;
 }
 .dashboard-chart {
-  padding: 0 20px;
+  padding: 20px;
   border-radius: var(--border-radius);
 }
 
@@ -122,7 +121,6 @@
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 .name {
   color: #07447e;

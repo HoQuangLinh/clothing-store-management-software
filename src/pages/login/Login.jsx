@@ -4,7 +4,6 @@ import useFormLogin from "./useFormLogin";
 import axios from "axios";
 import { useHistory } from "react-router";
 import "./login.css";
-import { Link } from "react-router-dom";
 const Login = () => {
   const history = useHistory();
   const [errorLogin, setErorLogin] = useState("");
@@ -13,10 +12,11 @@ const Login = () => {
       .post("https://clothesapp123.herokuapp.com/api/users/login", user)
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
-
+        console.log(res.data);
         history.push("/home");
       })
       .catch((e) => {
+        console.log(e.response);
         setErorLogin("Tên tài khoản hoặc mật khẩu không chính xác");
       });
     //Navigate to Screen
@@ -60,11 +60,9 @@ const Login = () => {
             <span>Nhớ tài khoản</span>
           </div>
 
-          <Link to="/changePassWord">
-            <div className="login-form-item">
-              <span>Quên mật khẩu? </span>
-            </div>
-          </Link>
+          <div className="login-form-item">
+            <span>Quên mật khẩu? </span>
+          </div>
         </div>
         <div className="login-form-row login-failed">
           <p>{errorLogin}</p>

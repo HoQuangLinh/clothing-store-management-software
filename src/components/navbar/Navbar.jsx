@@ -1,42 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./navbar.css";
 import cr7 from "../../assets/images/cr7.jpg";
-import { Link } from "react-router-dom";
-import axios from "axios";
-
+function DropdownFuntion(){
+  document.getElementById("myDropdown").classList.toggle("show");
+}
 const NavBar = () => {
-  const userId = localStorage.getItem("userId");
-  const [user, setUser] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://clothesapp123.herokuapp.com/api/users/getInfo/618646e56829ed0ec21a4cac"
-      )
-      .then((res) => {
-        setUser(res.data);
-      });
-  }, []);
   return (
     <div>
       <div className="navbar">
         <div className="navbar__left">
           <i class="bx bx-menu"></i>
-          <p></p>
+          <p>Dashboard</p>
         </div>
 
+        {
+          //<div className="navbar__search">
+          // <input type="text" placeholder="Tìm kiếm..." />
+          // <i className="bx bx-search"></i>
+          //</div>
+        }
+
         <div className="navbar__right">
-          <Link
-            to={{
-              pathname: "/editProfile",
-              state: { user },
-            }}
-          >
-            <div className="navbar__right-item">
-              <img src={user?.imageUrl} alt="" />
-              <span>{user.fullname}</span>
+          <div className="navbar__right-item">
+            <i className="bx bx-bell"></i>
+          </div>
+          <div className="navbar__right-icon">
+            <i className="bx bx-palette" onClick={DropdownFuntion}></i>
+            <div id="myDropdown" className="navnar__paleteteShow">
+              <div className="navbar__PlaColor_row">
+                <div className="navbar__PlaColor_blue"> </div>
+                <div className="navbar__PlaColor_red"> </div>
+                <div className="navbar__PlaColor_pink"> </div>
+              </div>
+              <div className="navbar__PlaColor_row">
+                <div className="navbar__PlaColor_yellow"> </div>
+                <div className="navbar__PlaColor_green"> </div>
+                <div className="navbar__PlaColor_orange"> </div>
+              </div>
             </div>
-          </Link>
+          </div>
+          <div className="navbar__right-item">
+            <img src={cr7} alt="" />
+            <span>RonalDo</span>
+          </div>
         </div>
       </div>
     </div>
