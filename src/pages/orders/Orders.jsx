@@ -87,13 +87,6 @@ const Orders = () => {
     return null;
   });
 
-  // console.log({
-  //   minPageNumberLimit,
-  //   maxPageNumberLimit,
-  //   pages,
-  //   orders,
-  //   currentOrders,
-  // });
   useEffect(() => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/orders/list")
@@ -138,7 +131,7 @@ const Orders = () => {
   }, [orderFilter, fromDate, toDate]);
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
-    date.setUTCHours(0, 0, 0, 0);
+
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
@@ -169,7 +162,7 @@ const Orders = () => {
         (toDate && toDate.getTime() + 3600 * 24 * 1000) || new Date().getTime();
       var orderFiltered = originOrders.filter((order) => {
         const dateOrder = new Date(order.dateOrder);
-        dateOrder.setUTCHours(0, 0, 0, 0);
+
         if (order.customer) {
           return (
             fromDateTime <= dateOrder.getTime() &&

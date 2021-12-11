@@ -27,14 +27,12 @@ export const options = {
 
   maintainAspectRatio: false,
   scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-          fontSize: 40,
-        },
+    y: {
+      ticks: {
+        precision: 0,
       },
-    ],
+      beginAtZero: true,
+    },
   },
   plugins: {
     legend: {
