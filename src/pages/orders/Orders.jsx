@@ -131,7 +131,6 @@ const Orders = () => {
   }, [orderFilter, fromDate, toDate]);
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
-
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
