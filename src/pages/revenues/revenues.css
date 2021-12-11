@@ -10,10 +10,15 @@
 }
 .revenues-card {
   /* width: 230px; */
-  border: 1px solid #a19b9b;
+  /* border: 1px solid #a19b9b; */
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 20px;
+  animation: fade-in-ani 1s;
+  box-shadow: 2px 3px 8px rgb(0 0 0 / 12%);
+}
+.revenues-card:hover {
+  box-shadow: 2px 4px 12px rgb(0 80 143 / 36%);
 }
 .revenues-card-title {
   margin-bottom: 10px;
@@ -31,13 +36,24 @@
 .revenues-card-row > button {
   font-size: 16px;
   font-weight: bold;
-  padding: 4px 12px;
+  padding: 4px 35%;
   background: #62b4ff;
   color: #fff;
 }
+
 @media (min-width: 1024px) {
   .revenues-card-row > button {
-    padding: 6px 25px;
+    padding: 6px 40%;
     margin-top: 5px;
+  }
+}
+@keyframes fade-in-ani {
+  from {
+    opacity: 0;
+    transform: translate(0, -25%);
+  }
+  to {
+    transform: translate(0, 0%);
+    opacity: 1;
   }
 }
