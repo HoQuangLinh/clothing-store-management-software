@@ -1,5 +1,5 @@
 import { Switch, Route } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Customers from "../pages/customers/Customers";
 import Sales from "../pages/sales/Sales";
@@ -11,8 +11,11 @@ import Returns from "../pages/returns/Returns";
 import Checkout from "../pages/sales/checkout/Checkout";
 import ReturnOrderDetail from "../pages/returns/returnorderdetail/ReturnOrderDetail";
 import ReturnBill from "../pages/returns/return-bill/ReturnBill";
-import OrderDetail from "../pages/orders/OrderDetail/orderDetail";
+import OrderDetail from "../pages/orders/OrderDetail/OrderDetail";
+import EditProfile from "../pages/user/editprofile/EditProfile";
+import ChangePassWord from "../pages/user/changepassword/ChangePassWord";
 const RoutesLayout = () => {
+  const [render, setRender] = useState(0);
   return (
     <Switch>
       <Route path="/customers">
@@ -35,6 +38,16 @@ const RoutesLayout = () => {
       </Route>
       <Route path="/staffs">
         <Staff />
+      </Route>
+      <Route
+        path="/editProfile"
+        render={(prop) => (
+          <EditProfile {...prop} state={render} setState={setRender} />
+        )}
+      />
+
+      <Route path="/changePassWord">
+        <ChangePassWord />
       </Route>
       <Route path="/revenues">
         <Revenues />
