@@ -223,6 +223,19 @@ const Revenues = () => {
         console.log(err.res);
       });
   }
+  async function SellProductReportwithDate(fromDate, toDate) {
+    await axios
+      .post("http://localhost:5000/api/products/sellbyDate", {
+        fromDate: fromDate,
+        toDate: toDate,
+      })
+      .then(async (res) => {
+        setReportProduct(res.data);
+      })
+      .catch((err) => {
+        console.log(err.res);
+      });
+  }
 
   //Render
   return (
@@ -256,6 +269,7 @@ const Revenues = () => {
                   onChange={(e) => {
                     console.log("report test");
                     setDisplayTypeSelect(e.target.value);
+                    setDisplayTypeSelect2("alltime");
                   }}
                 />
                 <span>Báo cáo số liệu</span>
@@ -294,134 +308,169 @@ const Revenues = () => {
                 </div>
               </div>
             ) : null}
-            {displayTypeSelect === "report" ? null : (
-              <div className="revenues-card">
-                <h3 className="revenues-card-title">Thời gian</h3>
+
+            <div className="revenues-card">
+              <h3 className="revenues-card-title">Thời gian</h3>
+              {displayTypeSelect === "report" ? (
                 <div className="revenues-card-row">
                   <input
-                    checked={displayTypeSelect2 === "year"}
+                    checked={displayTypeSelect2 === "alltime"}
                     type="radio"
                     name="year"
                     id=""
                     onChange={(e) => {
                       setTitleChar("Doanh thu tháng này");
                       setDataCurrentYear();
-                      setDisplayTypeSelect2("year");
+                      setDisplayTypeSelect2("alltime");
+                      setReportFilter("product");
+                      SellProductReport();
                     }}
                   />
-                  <span>Năm nay</span>
+                  <span>Toàn thời gian</span>
                 </div>
+              ) : null}
+              <div className="revenues-card-row">
+                <input
+                  checked={displayTypeSelect2 === "year"}
+                  type="radio"
+                  name="year"
+                  id=""
+                  onChange={(e) => {
+                    setTitleChar("Doanh thu tháng này");
+                    setDataCurrentYear();
+                    setDisplayTypeSelect2("year");
+                  }}
+                />
+                <span>Năm nay</span>
+              </div>
+              <div className="revenues-card-row">
+                <input
+                  checked={displayTypeSelect2 === "month"}
+                  type="radio"
+                  name="month"
+                  id=""
+                  onChange={(e) => {
+                    setTitleChar("Doanh thu tháng này");
+                    setDataRevenueByMonthYear(
+                      Orders,
+                      dateNow.getMonth() + 1,
+                      dateNow.getFullYear()
+                    );
+                    setDisplayTypeSelect2("month");
+                  }}
+                />
+                <span>Tháng này</span>
+              </div>
+              {displayTypeSelect === "report" ? (
                 <div className="revenues-card-row">
                   <input
-                    checked={displayTypeSelect2 === "month"}
+                    checked={displayTypeSelect2 === "today"}
                     type="radio"
-                    name="month"
+                    name="year"
                     id=""
                     onChange={(e) => {
-                      setTitleChar("Doanh thu tháng này");
-                      setDataRevenueByMonthYear(
-                        Orders,
-                        dateNow.getMonth() + 1,
-                        dateNow.getFullYear()
-                      );
-                      setDisplayTypeSelect2("month");
+                      setDisplayTypeSelect2("today");
+                      SellProductReportwithDate(dateNow, dateNow);
                     }}
                   />
-                  <span>Tháng này</span>
+                  <span>Hôm nay</span>
                 </div>
-                <div className="revenues-card-row">
-                  <input
-                    checked={displayTypeSelect2 === "last7days"}
-                    type="radio"
-                    name="last7days"
-                    id=""
-                    onChange={(e) => {
-                      setDisplayTypeSelect2("last7days");
-                      setTitleChar("Doanh thu 7 ngày gần nhất");
-                      var today = new Date();
-                      var lastWeek = new Date(
-                        today.getFullYear(),
-                        today.getMonth(),
-                        today.getDate() - 6
-                      );
-                      setDateRevenuebyDate(Orders, lastWeek, dateNow); //nó á Linh
+              ) : null}
+              <div className="revenues-card-row">
+                <input
+                  checked={displayTypeSelect2 === "last7days"}
+                  type="radio"
+                  name="last7days"
+                  id=""
+                  onChange={(e) => {
+                    setDisplayTypeSelect2("last7days");
+                    setTitleChar("Doanh thu 7 ngày gần nhất");
+                    var today = new Date();
+                    var lastWeek = new Date(
+                      today.getFullYear(),
+                      today.getMonth(),
+                      today.getDate() - 6
+                    );
+                    setDateRevenuebyDate(Orders, lastWeek, dateNow); //nó á Linh
+                  }}
+                />
+                <span>7 ngày gần nhất</span>
+              </div>
+              <div className="revenues-card-row">
+                <input
+                  checked={displayTypeSelect2 === "options"}
+                  type="radio"
+                  name="options"
+                  id=""
+                  onChange={(e) => {
+                    setDisplayTypeSelect2("options");
+                  }}
+                />
+                <span>Tùy chỉnh</span>
+              </div>
+              <div className="revenues-card-row">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    inputFormat="dd/MM/yyyy"
+                    views={["day", "month", "year"]}
+                    InputProps={{
+                      disableUnderline: true,
                     }}
-                  />
-                  <span>7 ngày gần nhất</span>
-                </div>
-                <div className="revenues-card-row">
-                  <input
-                    checked={displayTypeSelect2 === "options"}
-                    type="radio"
-                    name="options"
-                    id=""
-                    onChange={(e) => {
+                    label={fromDate ? "" : "Từ ngày.."}
+                    value={fromDate}
+                    onChange={(newValue) => {
+                      setFromDate(newValue);
+                      console.log(newValue);
                       setDisplayTypeSelect2("options");
                     }}
+                    renderInput={(params) => (
+                      <TextField
+                        InputLabelProps={{
+                          shrink: false,
+                        }}
+                        {...params}
+                        variant="standard"
+                      />
+                    )}
                   />
-                  <span>Tùy chỉnh</span>
-                </div>
-                <div className="revenues-card-row">
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
-                      inputFormat="dd/MM/yyyy"
-                      views={["day", "month", "year"]}
-                      InputProps={{
-                        disableUnderline: true,
-                      }}
-                      label={fromDate ? "" : "Từ ngày.."}
-                      value={fromDate}
-                      onChange={(newValue) => {
-                        setFromDate(newValue);
-                        setDisplayTypeSelect2("options");
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          InputLabelProps={{
-                            shrink: false,
-                          }}
-                          {...params}
-                          variant="standard"
-                        />
-                      )}
-                    />
-                  </LocalizationProvider>
-                </div>
-                <div className="revenues-card-row">
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
-                      minDate={fromDate}
-                      inputFormat="dd/MM/yyyy"
-                      views={["day", "month", "year"]}
-                      label={toDate ? "" : "Đến ngày..."}
-                      value={toDate}
-                      onChange={(newValue) => {
-                        setToDate(newValue);
-                        setDisplayTypeSelect2("options");
-                      }}
-                      InputProps={{
-                        disableUnderline: true,
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          InputLabelProps={{
-                            shrink: false,
-                          }}
-                          {...params}
-                          variant="standard"
-                          size="small"
-                        />
-                      )}
-                    />
-                  </LocalizationProvider>
-                </div>
-                <div className="revenues-card-row submit">
-                  <button
-                    onClick={() => {
-                      if (fromDate == "" || toDate == "") {
-                        alert("Bạn cần chọn đủ cả 2 ngày");
-                        return;
-                      }
+                </LocalizationProvider>
+              </div>
+              <div className="revenues-card-row">
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    minDate={fromDate}
+                    inputFormat="dd/MM/yyyy"
+                    views={["day", "month", "year"]}
+                    label={toDate ? "" : "Đến ngày..."}
+                    value={toDate}
+                    onChange={(newValue) => {
+                      setToDate(newValue);
+                      setDisplayTypeSelect2("options");
+                    }}
+                    InputProps={{
+                      disableUnderline: true,
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        InputLabelProps={{
+                          shrink: false,
+                        }}
+                        {...params}
+                        variant="standard"
+                        size="small"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+              </div>
+              <div className="revenues-card-row submit">
+                <button
+                  onClick={() => {
+                    if (fromDate == "" || toDate == "") {
+                      alert("Bạn cần chọn đủ cả 2 ngày");
+                      return;
+                    }
+                    if (displayTypeSelect == "char") {
                       var title =
                         "Doanh thu từ " +
                         fromDate.getDate() +
@@ -435,16 +484,19 @@ const Revenues = () => {
                         String(fromDate.getMonth() + 1) +
                         "/" +
                         fromDate.getFullYear();
+
                       console.log(title);
                       setTitleChar(title);
                       handleFilter();
-                    }}
-                  >
-                    Áp dụng
-                  </button>
-                </div>
+                    } else {
+                      SellProductReportwithDate(fromDate, toDate);
+                    }
+                  }}
+                >
+                  Áp dụng
+                </button>
               </div>
-            )}
+            </div>
           </div>
         </div>
         <div className="col-9">

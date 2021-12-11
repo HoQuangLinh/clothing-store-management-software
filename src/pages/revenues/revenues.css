@@ -29,6 +29,7 @@
 }
 .revenues-card-row {
   padding: 4px 0;
+  animation: opacity 1.5s;
 }
 .revenues-card-row.submit {
   text-align: center;
@@ -54,6 +55,14 @@
   }
   to {
     transform: translate(0, 0%);
+    opacity: 1;
+  }
+}
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
 }
