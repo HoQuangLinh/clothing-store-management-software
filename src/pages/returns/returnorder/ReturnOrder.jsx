@@ -101,7 +101,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
 
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
-    date.setUTCHours(0, 0, 0, 0);
+    // date.setUTCHours(0, 0, 0, 0);
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
@@ -133,7 +133,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
         (toDate && toDate.getTime() + 3600 * 24 * 1000) || new Date().getTime();
       var orderFiltered = originOrders.filter((order) => {
         const dateOrder = new Date(order.dateOrder);
-        dateOrder.setUTCHours(0, 0, 0, 0);
+        // dateOrder.setUTCHours(0, 0, 0, 0);
         if (order.customer) {
           console.log(
             fromDateTime <= dateOrder.getTime() &&

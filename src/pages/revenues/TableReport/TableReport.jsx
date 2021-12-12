@@ -9,6 +9,7 @@ const TableReport = ({
   ReportFilter,
   pageLimit = 10,
   className,
+  title,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -24,15 +25,7 @@ const TableReport = ({
     <div className="table-report-container">
       <div className="table-report-content">
         <div className="table-report-content-heading">
-          <h2 className="table-report-content-heading-title">
-            Báo cáo cuối ngày về bán hàng
-          </h2>
-          <p>
-            Ngày bán <span>10/10/2021</span>
-          </p>
-          <p>
-            Ngày thanh toán <span>10/10/2021</span>
-          </p>
+          <h2 className="table-report-content-heading-title">{title}</h2>
         </div>
         <table className="table-report">
           <tr>

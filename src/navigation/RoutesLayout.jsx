@@ -11,7 +11,9 @@ import Returns from "../pages/returns/Returns";
 import Checkout from "../pages/sales/checkout/Checkout";
 import ReturnOrderDetail from "../pages/returns/returnorderdetail/ReturnOrderDetail";
 import ReturnBill from "../pages/returns/return-bill/ReturnBill";
+// import OrderDetail from "../pages/orders/OrderDetail/orderDetail";
 import OrderDetail from "../pages/orders/OrderDetail/orderDetail";
+
 const RoutesLayout = () => {
   return (
     <Switch>
