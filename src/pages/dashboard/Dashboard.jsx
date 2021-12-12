@@ -107,21 +107,21 @@ const Dashboard = () => {
     totalCustomerLastWeekApi: totalCustomerLastWeek?.forEach((data) => {
       //return new Date(data._id).getDay();
       // if(new Date(data._id).getDay())
-      const indexDate = new Date(data._id).getDay();
+      const indexDate = new Date(data.dateOrder).getDay();
       if (indexDate !== 0) {
-        customerLastWeekDataSets[indexDate - 1] = data.totalCustomer;
+        customerLastWeekDataSets[indexDate - 1] += 1;
       } else {
-        customerLastWeekDataSets[6] = data.totalCustomer;
+        customerLastWeekDataSets[6] += 1;
       }
     }),
     totalCustomerThisWeekApi: totalCustomerThisWeek?.forEach((data) => {
       //return new Date(data._id).getDay();
       // if(new Date(data._id).getDay())
-      const indexDate = new Date(data._id).getDay();
+      const indexDate = new Date(data.dateOrder).getDay();
       if (indexDate !== 0) {
-        customerThisWeekDataSets[indexDate - 1] = data.totalCustomer;
+        customerThisWeekDataSets[indexDate - 1] += 1;
       } else {
-        customerThisWeekDataSets[6] = data.totalCustomer;
+        customerThisWeekDataSets[6] += 1;
       }
     }),
   };

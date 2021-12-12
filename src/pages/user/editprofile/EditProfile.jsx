@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./editprofile.css";
 import TextField from "@mui/material/TextField";
@@ -6,9 +6,10 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import axios from "axios";
-export default function EditProfile({ render }) {
+export default function EditProfile({ rerender, setRerender }) {
   let location = useLocation();
-  console.log(render);
+
+  console.log(rerender);
   const userLocal = location.state?.user;
   const [user, setUser] = useState(userLocal);
   const [userUpdate, setUserUpdate] = useState({
@@ -55,11 +56,18 @@ export default function EditProfile({ render }) {
       .then((res) => {
         setUser(res.data);
         alert("Cập nhật thông tin thành công");
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            userId: res.data._id,
+            fullname: res.data.fullname,
+          })
+        );
+        setRerender(!rerender);
       })
       .catch((err) => {
         console.log(err.response);
         alert("Cập nhật thông tin thất bại");
-        //setShowFormUpdateStaff(false);
       });
   };
 
@@ -78,7 +86,12 @@ export default function EditProfile({ render }) {
     <div className="user">
       <div className="userTitleContainer">
         <h1 className="userTitle">Thông tin nhân viên</h1>
-        <Link to="../changePassWord">
+        <Link
+          to={{
+            pathname: "./changePassWord",
+            state: { user: user },
+          }}
+        >
           <button className="userAddButton">Đổi mật khẩu</button>
         </Link>
       </div>

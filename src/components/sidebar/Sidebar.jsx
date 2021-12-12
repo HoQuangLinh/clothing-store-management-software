@@ -1,25 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./sidebar.css";
 import sidebar from "../../assets/data/sidebar.json";
 import SidebarItem from "./SidebarItem";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo1.png";
-const Sidebar = () => {
-  let [curentIndex, setCurentIndex] = useState(0);
+import axios from "axios";
+const Sidebar = ({ currentTabIndex, setCurrentTabIndex }) => {
+  const userLocal = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState([]);
+  useEffect(() => {
+    console.log(console.log("test"));
 
+    axios
+      .get(
+        `https://clothesapp123.herokuapp.com/api/users/getInfo/${userLocal.userId}`
+      )
+      .then((res) => {
+        setUser(res.data);
+      });
+  }, []);
   return (
     <div className="sidebar">
-      <img style={{ width:"100%" , height: "150px" }} src={logo} alt="" />
+      <img style={{ width: "100%", height: "150px" }} src={logo} alt="" />
 
       {sidebar.map((item, index) => {
         return (
-          <Link to={item.route}>
+          <Link
+            to={{
+              pathname: item.route,
+              state: { user },
+            }}
+          >
             <SidebarItem
               onClick={() => {
-                setCurentIndex(index);
+                setCurrentTabIndex(index);
               }}
-              active={index === curentIndex}
+              active={index === currentTabIndex}
               icon={item.icon}
               title={item.display_name}
             ></SidebarItem>
