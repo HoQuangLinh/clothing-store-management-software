@@ -7,10 +7,11 @@
 .table-report-content {
   background-color: #fff;
   padding: 20px 0 43px 0px;
+  border-radius: 8px;
 }
 .table-report-content-heading {
   text-align: center;
-  padding: 25px 0;
+  padding: 20px 0;
 }
 .table-report-content-heading-title {
   margin-bottom: 10px;

@@ -29,6 +29,7 @@
 }
 .revenues-card-row {
   padding: 4px 0;
+  animation: opacity 1.5s;
 }
 .revenues-card-row.submit {
   text-align: center;
@@ -36,15 +37,17 @@
 .revenues-card-row > button {
   font-size: 16px;
   font-weight: bold;
-  padding: 4px 35%;
+  padding: 4px;
   background: #62b4ff;
   color: #fff;
+  width: 100%;
+  margin-top: 8px;
 }
 
 @media (min-width: 1024px) {
   .revenues-card-row > button {
-    padding: 6px 40%;
-    margin-top: 5px;
+    padding: 6px;
+    margin-top: 10px;
   }
 }
 @keyframes fade-in-ani {
@@ -54,6 +57,14 @@
   }
   to {
     transform: translate(0, 0%);
+    opacity: 1;
+  }
+}
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
     opacity: 1;
   }
 }
