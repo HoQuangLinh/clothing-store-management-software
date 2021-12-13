@@ -15,6 +15,10 @@ const BarChart = ({ horizontal, data, title }) => {
     responsive: true,
     scales: {
       x: {
+        ticks: {
+          precision: 0,
+        },
+        beginAtZero: true,
         grid: {
           display: false,
         },
