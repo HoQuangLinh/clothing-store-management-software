@@ -66,10 +66,24 @@ const Dashboard = () => {
         "https://clothesapp123.herokuapp.com/api/orders/revenue/getTotalCustomerByThisWeek"
       )
       .then((res) => {
-        setTotalCustomerThisWeek(res.data);
+        const customerThisWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
+        // console.log({ customerThisWeekDataSets });
+        res.data.forEach((item) => {
+          // console.log(item);
+          const indexDate = new Date(item.dateOrder).getDay();
+          if (indexDate !== 0) {
+            customerThisWeekDataSets[indexDate - 1] += 1;
+          } else {
+            customerThisWeekDataSets[6] += 1;
+          }
+        });
+        setTotalCustomerThisWeek((prev) => {
+          return [...customerThisWeekDataSets];
+        });
       });
   }, []);
 
+  //console.log({ totalCustomerThisWeek });
   //get customer last week
   useEffect(() => {
     axios
@@ -77,10 +91,21 @@ const Dashboard = () => {
         "https://clothesapp123.herokuapp.com/api/orders/revenue/getTotalCustomerByLastWeek"
       )
       .then((res) => {
-        setTotalCustomerLastWeek(res.data);
+        const customerLastWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
+        res.data.forEach((item) => {
+          const indexDate = new Date(item.dateOrder).getDay();
+          if (indexDate !== 0) {
+            customerLastWeekDataSets[indexDate - 1] += 1;
+          } else {
+            customerLastWeekDataSets[6] += 1;
+          }
+        });
+        setTotalCustomerLastWeek((prev) => {
+          return [...customerLastWeekDataSets];
+        });
       });
   }, []);
-
+  console.log("run");
   //get top product by renvenue
   useEffect(() => {
     axios
@@ -101,30 +126,6 @@ const Dashboard = () => {
         setTopProductByQuantity(res.data);
       });
   }, []);
-  const customerThisWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
-  const customerLastWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
-  const datalystCustomer = {
-    totalCustomerLastWeekApi: totalCustomerLastWeek?.forEach((data) => {
-      //return new Date(data._id).getDay();
-      // if(new Date(data._id).getDay())
-      const indexDate = new Date(data.dateOrder).getDay();
-      if (indexDate !== 0) {
-        customerLastWeekDataSets[indexDate - 1] += 1;
-      } else {
-        customerLastWeekDataSets[6] += 1;
-      }
-    }),
-    totalCustomerThisWeekApi: totalCustomerThisWeek?.forEach((data) => {
-      //return new Date(data._id).getDay();
-      // if(new Date(data._id).getDay())
-      const indexDate = new Date(data.dateOrder).getDay();
-      if (indexDate !== 0) {
-        customerThisWeekDataSets[indexDate - 1] += 1;
-      } else {
-        customerThisWeekDataSets[6] += 1;
-      }
-    }),
-  };
 
   const dataCustomer = {
     labels: [
@@ -139,13 +140,13 @@ const Dashboard = () => {
     datasets: [
       {
         label: "Tuần trước",
-        data: customerLastWeekDataSets,
+        data: totalCustomerLastWeek,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
         label: "Tuần này",
-        data: customerThisWeekDataSets,
+        data: totalCustomerThisWeek,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
