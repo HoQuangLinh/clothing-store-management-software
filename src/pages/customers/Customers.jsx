@@ -305,19 +305,6 @@ const Customers = () => {
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
-                    <TableCell
-                      padding="checkbox"
-                      style={{
-                        backgroundColor: "#03a9f4",
-                      }}
-                    >
-                      <Checkbox
-                        color="primary"
-                        inputProps={{
-                          "aria-label": "select all desserts",
-                        }}
-                      />
-                    </TableCell>
                     {columns.map((column) => (
                       <TableCell
                         key={column.id}
@@ -325,6 +312,8 @@ const Customers = () => {
                         style={{
                           minWidth: column.minWidth,
                           backgroundColor: "#03a9f4",
+                          color: "#fff",
+                          fontWeight: "bold",
                         }}
                       >
                         {column.label}
@@ -345,14 +334,6 @@ const Customers = () => {
                             index % 2 == 1 ? { backgroundColor: "#e8e8e8" } : {}
                           }
                         >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              color="primary"
-                              inputProps={{
-                                "aria-label": "select all desserts",
-                              }}
-                            />
-                          </TableCell>
                           {columns.map((column) => {
                             let value = row[column.id];
                             if (column.id === "_id") {

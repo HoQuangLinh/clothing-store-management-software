@@ -238,39 +238,25 @@ const Staff = (props) => {
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
-                    <TableCell
-                      padding="checkbox"
-                      style={{
-                        backgroundColor: "#03a9f4",
-                      }}
-                    >
-                      <Checkbox
-                        color="primary"
-                        inputProps={{
-                          "aria-label": "select all desserts",
-                        }}
-                      />
-                    </TableCell>
                     {columns.map((column) => (
                       <TableCell
                         key={column.id}
                         align={column.align}
                         style={{
-                          minWidth: column.minWidth,
                           backgroundColor: "#03a9f4",
+                          color: "#fff",
+                          fontWeight: "bold",
                         }}
                       >
                         {column.label}
                       </TableCell>
                     ))}
                     <TableCell
-                      padding="checkbox"
                       style={{
                         backgroundColor: "#03a9f4",
                       }}
                     ></TableCell>
                     <TableCell
-                      padding="checkbox"
                       style={{
                         backgroundColor: "#03a9f4",
                       }}
@@ -290,14 +276,6 @@ const Staff = (props) => {
                             index % 2 == 1 ? { backgroundColor: "#e8e8e8" } : {}
                           }
                         >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              color="primary"
-                              inputProps={{
-                                "aria-label": "select all desserts",
-                              }}
-                            />
-                          </TableCell>
                           {columns.map((column) => {
                             let value = row[column.id];
                             if (column.id === "_id") {
