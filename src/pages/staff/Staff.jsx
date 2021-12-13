@@ -64,6 +64,7 @@ const columns = [
 
 const Staff = (props) => {
   const [staffs, setStaffs] = useState([]);
+  const [originStaffs, setOriginStaff] = useState([]);
   const [position, setPosition] = useState();
   const [selectedStaff, setSelectedStaff] = useState();
   const [showFormAddStaff, setShowFormAddStaff] = useState(false);
@@ -71,12 +72,14 @@ const Staff = (props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [textSearch, setTextSearch] = useState("");
+
   const [showDialogDelete, setShowDialogDelete] = useState(false);
   useEffect(() => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/users")
       .then((res) => {
         setStaffs(res.data);
+        setOriginStaff(res.data);
       })
       .catch((err) => {
         console.log(err.response);
@@ -86,7 +89,23 @@ const Staff = (props) => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+  useEffect(() => {
+    if (!textSearch) {
+      getAllStaff();
+    }
+    const staffFilter = originStaffs.filter((staff) => {
+      //Name: Ho Quang Linh
+      // textSearch: Quang
+      console.log();
+      return (
+        staff.fullname.toLowerCase().indexOf(textSearch.toLowerCase()) > -1 ||
+        staff._id.toLowerCase().indexOf(textSearch) > -1 ||
+        staff.phone.indexOf(textSearch) > -1
+      );
+    });
 
+    setStaffs(staffFilter);
+  }, [textSearch, originStaffs]);
   const getAllStaff = () => {
     axios
       .get("https://clothesapp123.herokuapp.com/api/users")
@@ -97,20 +116,21 @@ const Staff = (props) => {
         console.log(err.response);
       });
   };
-  const handleSearchStaff = () => {
+  const handleSearchStaff = (textSearch) => {
     if (!textSearch) {
       getAllStaff();
     }
-    const staffFilter = staffs.filter((staff) => {
+    const staffFilter = originStaffs.filter((staff) => {
       //Name: Ho Quang Linh
       // textSearch: Quang
-      console.log();
+
       return (
         staff.fullname.toLowerCase().indexOf(textSearch.toLowerCase()) > -1 ||
-        staff._id.toLowerCase().indexOf(textSearch) > -1
+        staff._id.toLowerCase().indexOf(textSearch) > -1 ||
+        staff.phone.indexOf(textSearch) > -1
       );
     });
-    console.log(staffFilter);
+
     setStaffs(staffFilter);
   };
   const handleChangeRowsPerPage = (event) => {
@@ -204,7 +224,7 @@ const Staff = (props) => {
               type="text"
               placeholder="Tìm theo mã, tên nhân viên"
             />
-            <i onClick={handleSearchStaff} className="bx bx-search"></i>
+            <i className="bx bx-search"></i>
           </div>
         </div>
         <div className="div_search">
@@ -221,14 +241,11 @@ const Staff = (props) => {
             <option value="Nhân viên thu ngân">Nhân viên thu ngân</option>
           </select>
         </div>
-        <div>
-          <div
-            onClick={() => setShowFormAddStaff(true)}
-            className="action-staff-btn1"
-          >
+        <div className="action-staff-btn">
+          <button onClick={() => setShowFormAddStaff(true)}>
             <i class="bx bx-plus"></i>
             Thêm nhân viên{" "}
-          </div>
+          </button>
         </div>
       </div>
       <div className="div_right">
@@ -266,58 +283,64 @@ const Staff = (props) => {
                 <TableBody>
                   {staffs
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          key={row.code}
-                          style={
-                            index % 2 == 1 ? { backgroundColor: "#e8e8e8" } : {}
-                          }
-                        >
-                          {columns.map((column) => {
-                            let value = row[column.id];
-                            if (column.id === "_id") {
-                              value = value.substr(value.length - 7);
+                    .map(
+                      (row, index) =>
+                        row.position !== "Chủ cửa hàng" && (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            key={row.code}
+                            style={
+                              index % 2 == 1
+                                ? { backgroundColor: "#e8e8e8" }
+                                : {}
                             }
+                          >
+                            {columns.map((column) => {
+                              let value = row[column.id];
+                              if (column.id === "_id") {
+                                value = value.substr(value.length - 7);
+                              }
 
-                            return (
-                              <TableCell key={column.id}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
-                            );
-                          })}
-                          <TableCell
-                            onClick={() => {
-                              console.log("update");
-                              setSelectedStaff(row);
-                              console.log(row);
-                              setShowFormUpdateStaff(true);
-                            }}
-                            padding="checkbox"
-                          >
-                            <i
-                              style={{ fontSize: 18 }}
-                              class="bx bx-edit-alt"
-                            ></i>
-                          </TableCell>
-                          <TableCell
-                            onClick={() => {
-                              console.log("delete");
-                              console.log(row);
-                              setSelectedStaff(row);
-                              setShowDialogDelete(true);
-                            }}
-                            padding="checkbox"
-                          >
-                            <i style={{ fontSize: 18 }} class="bx bx-trash"></i>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                              return (
+                                <TableCell key={column.id}>
+                                  {column.format && typeof value === "number"
+                                    ? column.format(value)
+                                    : value}
+                                </TableCell>
+                              );
+                            })}
+                            <TableCell
+                              onClick={() => {
+                                console.log("update");
+                                setSelectedStaff(row);
+                                console.log(row);
+                                setShowFormUpdateStaff(true);
+                              }}
+                              padding="checkbox"
+                            >
+                              <i
+                                style={{ fontSize: 18 }}
+                                class="bx bx-edit-alt"
+                              ></i>
+                            </TableCell>
+                            <TableCell
+                              onClick={() => {
+                                console.log("delete");
+                                console.log(row);
+                                setSelectedStaff(row);
+                                setShowDialogDelete(true);
+                              }}
+                              padding="checkbox"
+                            >
+                              <i
+                                style={{ fontSize: 18 }}
+                                class="bx bx-trash"
+                              ></i>
+                            </TableCell>
+                          </TableRow>
+                        )
+                    )}
                 </TableBody>
               </Table>
             </TableContainer>

@@ -38,6 +38,7 @@
 .sidebar__item-inner > i {
   margin-right: 10px;
   font-size: 1.5rem;
+  color: var(--main-color);
 }
 
 .sidebar__item-inner > span {
@@ -55,5 +56,8 @@
     var(--main-color),
     var(--second-color)
   );
+  color: var(--txt-white);
+}
+.sidebar__item-inner.active > i {
   color: var(--txt-white);
 }

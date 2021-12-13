@@ -16,6 +16,8 @@ import EditProfile from "../pages/user/editprofile/EditProfile";
 import ChangePassWord from "../pages/user/changepassword/ChangePassWord";
 import ProductQr from "../pages/products/product_qr/ProductQr";
 const RoutesLayout = ({ rerender, setRerender }) => {
+  const user = localStorage.getItem("user");
+  console.log(user);
   return (
     <Switch>
       <Route path="/customers">

@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-
+import "./productQr.css";
 import { useLocation, useHistory } from "react-router";
-
+import { useReactToPrint } from "react-to-print";
 const ProductQr = () => {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   let location = useLocation();
   const history = useHistory();
 
@@ -21,60 +25,66 @@ const ProductQr = () => {
   }, []);
 
   return (
-    <div className="order-detail-container">
-      <div className="order-detail-container-heading">
+    <div className="product-qr-container">
+      <div className="product-qr-container-heading">
         <h3>Thông tin danh sách sản phẩm</h3>
 
-        <button
-          onClick={() => {
-            history.push("/orders");
-          }}
-          className="order-detail-btn-exit"
-        >
-          Thoát
-        </button>
+        <div>
+          <button
+            onClick={() => {
+              handlePrint();
+            }}
+            className="product-qr-btn"
+          >
+            Xuất file
+          </button>
+          <button
+            onClick={() => {
+              history.push("/products");
+            }}
+            className="product-qr-btn"
+          >
+            Thoát
+          </button>
+        </div>
       </div>
-      <div className="order-detail-container-body">
-        <div className="order-detail-container-body-left">
-          <div className="order-detail-container-body-left-list">
-            {products.map((product, index) => {
-              return (
-                <div className="order-detail-card ">
-                  <div className="order-detail-card-left">
-                    <div className="order-detail-card-left-img">
-                      <img src={product?.qrCodeUrl} alt="" />
-                    </div>
-                  </div>
-
-                  <div className="order-detail-card-middle">
-                    <b>
-                      Mã sản phẩm:{" "}
-                      {product?._id.substr(product._id.length - 10)}
-                    </b>
-                    <p className="order-detail-card-middle-content">
-                      {product?.name}
-                    </p>
-                    <div className="order-detail-card-middle-desc">
-                      <p className="order-detail-card-middle-desc-item">
-                        Giá gốc:
-                        {` ${product?.originPrice.toLocaleString("en")} đ`}
-                      </p>
-
-                      <span className="order-detail-card-middle-desc-item">
-                        Giá bán:{" "}
-                        {` ${product?.salePrice.toLocaleString("en")} đ`}
-                      </span>
-
-                      <span className="order-detail-card-middle-desc-item">
-                        Giảm giá:
-                        <b>{` ${product.discount.toLocaleString("en")} %`}</b>
-                      </span>
-                    </div>
+      <div className="product-qr-container-body">
+        <div ref={componentRef} className="product-qr-container-body-left-list">
+          {products.map((product, index) => {
+            return (
+              <div className="product-qr-card ">
+                <div className="product-qr-card-left">
+                  <div className="product-qr-card-left-img">
+                    <img src={product?.qrCodeUrl} alt="" />
                   </div>
                 </div>
-              );
-            })}
-          </div>
+
+                <div className="product-qr-card-middle">
+                  <b>
+                    Mã sản phẩm: {product?._id.substr(product._id.length - 10)}
+                  </b>
+                  <p className="product-qr-card-middle-content">
+                    {product?.name}
+                  </p>
+                  <div className="product-qr-card-middle-desc">
+                    <p className="product-qr-card-middle-desc-item">
+                      Giá gốc:
+                      {` ${product?.originPrice.toLocaleString("en")} đ`}
+                    </p>
+
+                    <span className="product-qr-card-middle-desc-item">
+                      Giá bán: {` ${product?.salePrice.toLocaleString("en")} đ`}
+                    </span>
+
+                    <span className="product-qr-card-middle-desc-item">
+                      Giảm giá:
+                      <b>{` ${product.discount.toLocaleString("en")} %`}</b>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

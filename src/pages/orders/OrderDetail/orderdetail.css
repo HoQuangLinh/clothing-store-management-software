@@ -27,6 +27,7 @@
 
 .order-detail-container-body {
   display: flex;
+  padding-left: 25px;
 }
 .order-detail-container-body-left {
   width: 70%;

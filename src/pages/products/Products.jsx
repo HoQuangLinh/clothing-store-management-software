@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ProductsNavbar from "./products_navbar/ProductsNavbar";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -10,11 +10,13 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import "./products.css";
-import Checkbox from "@mui/material/Checkbox";
+
 import ModalUnstyled from "@mui/core/ModalUnstyled";
-import { styled, Box } from "@mui/system";
+import { styled } from "@mui/system";
 import UpdateProduct from "../products/updateProduct/UpdateProduct";
 import Dialog from "../../components/dialog/Dialog";
+import { Link } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -43,15 +45,15 @@ const columns = [
   { id: "name", label: "Tên sản phẩm" },
   {
     id: "costPrice",
-    label: "Giá vốn",
+    label: "Giá vốn (vnđ)",
 
-    format: (value) => value.toLocaleString("en-US"),
+    format: (value) => `${value.toLocaleString("en-US")}`,
   },
   {
     id: "salePrice",
-    label: "Giá bán",
+    label: "Giá bán (vnđ)",
 
-    format: (value) => value.toLocaleString("en-US"),
+    format: (value) => `${value.toLocaleString("en-US")}`,
   },
   {
     id: "countInStock",
@@ -62,12 +64,17 @@ const columns = [
 ];
 
 const Products = () => {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   const [products, setProducts] = useState([]);
+  const [originProducts, setOriginProducts] = useState([]);
   const [rerenderProducts, setRerenderProducts] = useState(false);
   const [shirts, setShirts] = useState([]);
   const [trousers, setTrousers] = useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(6);
   const [searchText, setSearchText] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [showFormUpdateProduct, setShowFormUpdateProduct] = useState(false);
@@ -78,6 +85,7 @@ const Products = () => {
       .get("https://clothesapp123.herokuapp.com/api/products/listProduct")
       .then((res) => {
         setProducts(res.data);
+        setOriginProducts(res.data);
       })
       .catch((err) => {
         console.log(err.res);
@@ -155,6 +163,19 @@ const Products = () => {
         }
       });
   }, []);
+  //search product
+  useEffect(() => {
+    if (!searchText || !products) {
+      getAllProducts();
+    }
+    const productFilter = originProducts.filter((product) => {
+      return (
+        product.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
+        product._id.toLowerCase().indexOf(searchText) > -1
+      );
+    });
+    setProducts(productFilter);
+  }, [searchText]);
 
   //filter products by category
   const handleFilterProductsByCategory = (e) => {
@@ -226,78 +247,75 @@ const Products = () => {
         />
       </StyledModal>
       <div className="div_left">
-        <div className="col-3">
-          <div className="clothes-category-card">
-            <div className="div_search">
-              <div className="header_search">Tìm kiếm</div>
-              <div className="search">
-                <input
-                  value={searchText}
-                  onChange={(e) => {
-                    setSearchText(e.target.value);
-                  }}
-                  type="text"
-                  placeholder="Tìm theo mã, tên sản phẩm"
-                />
+        <div className="clothes-category-card">
+          <div className="div_search">
+            <div className="header_search">Tìm kiếm</div>
+            <div className="search">
+              <input
+                value={searchText}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                }}
+                type="text"
+                placeholder="Tìm theo mã, tên sản phẩm"
+              />
 
-                <i
-                  onClick={(e) => {
-                    e.preventDefault();
-                    searchProduct();
-                  }}
-                  className="bx bx-search"
-                ></i>
-              </div>
+              <i className="bx bx-search"></i>
             </div>
           </div>
-          <div className="clothes-category-card">
-            <div className="div_search">
-              <div className="header_search">Các loại áo</div>
-              <select
-                name="Áo"
-                onChange={handleFilterProductsByCategory}
-                onClick={handleFilterProductsByCategory}
-                className="selectbox"
-              >
-                <option value="all">Tất cả</option>
-                {shirts.map((shirt, index) => {
-                  return (
-                    <option key={index} value={shirt.name}>
-                      {shirt.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+        </div>
+        <div className="clothes-category-card">
+          <div className="div_search">
+            <div className="header_search">Các loại áo</div>
+            <select
+              name="Áo"
+              onChange={handleFilterProductsByCategory}
+              onClick={handleFilterProductsByCategory}
+              className="selectbox"
+            >
+              <option value="all">Tất cả</option>
+              {shirts.map((shirt, index) => {
+                return (
+                  <option key={index} value={shirt.name}>
+                    {shirt.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
+        </div>
 
-          <div className="clothes-category-card">
-            <div className="div_search">
-              <div className="header_search">Các loại quần</div>
-              <select
-                name="Quần"
-                onChange={handleFilterProductsByCategory}
-                onClick={handleFilterProductsByCategory}
-                className="selectbox"
-              >
-                <option value="all">Tất cả</option>
-                {trousers.map((trouser, index) => {
-                  return (
-                    <option key={index} value={trouser.name}>
-                      {trouser.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+        <div className="clothes-category-card">
+          <div className="div_search">
+            <div className="header_search">Các loại quần</div>
+            <select
+              name="Quần"
+              onChange={handleFilterProductsByCategory}
+              onClick={handleFilterProductsByCategory}
+              className="selectbox"
+            >
+              <option value="all">Tất cả</option>
+              {trousers.map((trouser, index) => {
+                return (
+                  <option key={index} value={trouser.name}>
+                    {trouser.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
+        </div>
+        <div className="product-btn-view-qr">
+          <Link to="/productQr">
+            <button className="product-btn-view-qr-btn">Xem mã vạch</button>
+          </Link>
         </div>
       </div>
       <div className="div_right">
         <div className="col-9" style={{ padding: "10px 0px 10px 10px" }}>
           <Paper sx={{ width: "135%", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
-              <Table stickyHeader aria-label="sticky table">
+              <Table ref={componentRef} stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
                     {columns.map((column) => (
@@ -369,7 +387,7 @@ const Products = () => {
                           >
                             <i
                               style={{ fontSize: 18 }}
-                              class="bx bx-edit-alt"
+                              class="bx bx-edit-alt hide-on-print"
                             ></i>
                           </TableCell>
                           <TableCell
@@ -380,7 +398,10 @@ const Products = () => {
                               setShowDialogDelete(true);
                             }}
                           >
-                            <i style={{ fontSize: 18 }} class="bx bx-trash"></i>
+                            <i
+                              style={{ fontSize: 18 }}
+                              class="bx bx-trash hide-on-print"
+                            ></i>
                           </TableCell>
                         </TableRow>
                       );
@@ -400,7 +421,11 @@ const Products = () => {
             />
           </Paper>
         </div>
-        <ProductsNavbar setRerenderProducts={setRerenderProducts} />
+
+        <ProductsNavbar
+          handlePrint={handlePrint}
+          setRerenderProducts={setRerenderProducts}
+        />
       </div>
     </div>
   );

@@ -28,7 +28,7 @@ const Backdrop = styled("div")`
   background-color: rgba(0, 0, 0, 0.5);
   -webkit-tap-highlight-color: transparent;
 `;
-const ProductsNavbar = ({ setRerenderProducts }) => {
+const ProductsNavbar = ({ setRerenderProducts, handlePrint }) => {
   const [showFormAddProduct, setShowFormAddProduct] = useState(false);
   const excelRef = useRef(null);
   const [showExcelIcon, setShowExcelIcon] = useState(false);
@@ -140,11 +140,15 @@ const ProductsNavbar = ({ setRerenderProducts }) => {
           handleAction={handleImportFile}
           handleCancel={setShowDialogImport}
         />
-        <Link to="/productQr">
-          <div className="action-products-btn">
-            <i class="bx bxs-file-export"></i>Xem mã vạch
-          </div>
-        </Link>
+
+        <div
+          onClick={() => {
+            handlePrint();
+          }}
+          className="action-products-btn"
+        >
+          <i class="bx bxs-file-export"></i>Xuất file
+        </div>
       </div>
     </div>
   );

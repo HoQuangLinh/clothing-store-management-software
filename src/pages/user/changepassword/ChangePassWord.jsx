@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import useFormChangePassWord from "./useFormChangePassWord";
 import validatePassWord from "./validatePassWord";
 const ChangePassWord = () => {
+  const history = useHistory();
   const location = useLocation();
   const userLocal = location.state.user;
   const [user, setUser] = useState({
@@ -15,7 +16,7 @@ const ChangePassWord = () => {
     newPassword: "",
     confirmPassword: "",
   });
-  console.log(userLocal);
+
   const submitForm = () => {
     console.log(user);
 
@@ -91,9 +92,16 @@ const ChangePassWord = () => {
               {errors.confirmPassword}
             </p>
           </div>
-          <div onClick={() => {}} className="change-password-close-btn">
-            <i style={{ color: "#fff" }} class="fas fa-times"></i>
-          </div>
+          <Link
+            to={{
+              pathname: "./editProfile",
+              state: { user: userLocal },
+            }}
+          >
+            <div className="change-password-close-btn">
+              <i style={{ color: "#fff" }} class="fas fa-times"></i>
+            </div>
+          </Link>
         </div>
 
         <button onClick={handleSubmit} className="btn-change-password">

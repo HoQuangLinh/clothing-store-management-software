@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CustomersNavbar from "./customer_navbar/CustomersNavbar";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -8,12 +8,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import DatePicker from "react-datepicker";
-import axios from "axios";
 
+import axios from "axios";
+import { useReactToPrint } from "react-to-print";
 import "react-datepicker/dist/react-datepicker.css";
 import "./customers.css";
-import Checkbox from "@mui/material/Checkbox";
+
 const columns = [
   { id: "_id", label: "Mã Khách hàng" },
   { id: "name", label: "Tên khách hàng" },
@@ -58,7 +58,6 @@ const customerDf = [
 ];
 
 const Customers = () => {
-  const [startDate, setStartDate] = useState(new Date());
   const [customers, setCustomers] = useState(customerDf);
   const [rerenderCustomers, setRerenderCustomers] = useState(false);
   const [page, setPage] = React.useState(0);
@@ -69,7 +68,11 @@ const Customers = () => {
   const [totalPriceTo, setTotalPriceTo] = React.useState("");
   const [SearchInput, setSearchInput] = React.useState("");
   const [defaultCustomer, setDefaultCustomer] = React.useState([]);
-
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    onBeforePrint: () => (document.title = "Print page title"),
+  });
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -229,7 +232,7 @@ const Customers = () => {
 
   return (
     <div>
-      <CustomersNavbar handleSearch={handleSearch} />
+      <CustomersNavbar handlePrint={handlePrint} handleSearch={handleSearch} />
       <div className="row customers_content">
         <div className="col-3">
           <div className="customer-card">
@@ -302,7 +305,7 @@ const Customers = () => {
         <div className="col-9" style={{ padding: "10px 0px 10px 10px" }}>
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
-              <Table stickyHeader aria-label="sticky table">
+              <Table ref={componentRef} stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
                     {columns.map((column) => (

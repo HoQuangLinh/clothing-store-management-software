@@ -207,7 +207,7 @@ export default function EditProfile({ rerender, setRerender }) {
                 <label>Địa chỉ</label>
                 <input
                   type="text"
-                  placeholder="Hải Phòng"
+                  placeholder={user.address || ""}
                   name="address"
                   value={userUpdate.address}
                   className="userUpdateInput"

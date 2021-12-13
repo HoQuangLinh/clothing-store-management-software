@@ -9,6 +9,17 @@ import axios from "axios";
 const Sidebar = ({ currentTabIndex, setCurrentTabIndex }) => {
   const userLocal = JSON.parse(localStorage.getItem("user"));
   const [user, setUser] = useState([]);
+  const getPermission = (user) => {
+    if (user.position === "Chủ cửa hàng") {
+      return 0;
+    }
+    if (user.position === "Nhân viên thu ngân") {
+      return 1;
+    }
+    if (user.position === "Nhân viên kho") {
+      return 2;
+    }
+  };
   useEffect(() => {
     console.log(console.log("test"));
 
@@ -25,23 +36,24 @@ const Sidebar = ({ currentTabIndex, setCurrentTabIndex }) => {
       <img style={{ width: "100%", height: "150px" }} src={logo} alt="" />
 
       {sidebar.map((item, index) => {
-        return (
-          <Link
-            to={{
-              pathname: item.route,
-              state: { user },
-            }}
-          >
-            <SidebarItem
-              onClick={() => {
-                setCurrentTabIndex(index);
+        if (item.permissionUser.includes(getPermission(user)))
+          return (
+            <Link
+              to={{
+                pathname: item.route,
+                state: { user },
               }}
-              active={index === currentTabIndex}
-              icon={item.icon}
-              title={item.display_name}
-            ></SidebarItem>
-          </Link>
-        );
+            >
+              <SidebarItem
+                onClick={() => {
+                  setCurrentTabIndex(index);
+                }}
+                active={index === currentTabIndex}
+                icon={item.icon}
+                title={item.display_name}
+              ></SidebarItem>
+            </Link>
+          );
       })}
     </div>
   );

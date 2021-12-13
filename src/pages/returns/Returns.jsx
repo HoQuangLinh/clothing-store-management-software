@@ -27,21 +27,15 @@ const columns = [
   {
     id: "order.customer.name",
     label: "Tên khách hàng",
-
-    //format: (value) => value.toLocaleString('en-US'),
   },
 
   {
     id: "order.customer.phone",
     label: "Số điện thoại",
-
-    //format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: "returnFee",
     label: "Phí trả hàng",
-
-    //format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: "totalReturnPrice",
@@ -109,25 +103,38 @@ const Returns = () => {
           dateReturn.getMonth(),
           dateReturn.getDate(),
         ]);
-        console.log(new Date(filter.date).getDate());
+
         const dateFilter = moment([
           new Date(filter.date).getFullYear(),
           new Date(filter.date).getMonth(),
           new Date(filter.date).getDate(),
         ]);
-        console.log(dateApi.diff(dateFilter, "days"));
-        return (
-          (returnOrder.order._id.indexOf(
-            filter.searchText.replace(/\s/g, "")
-          ) >= 0 ||
+        if (filter.date) {
+          return (
+            (returnOrder.order._id.indexOf(
+              filter.searchText.replace(/\s/g, "")
+            ) >= 0 ||
+              returnOrder.order.customer?.name.indexOf(
+                filter.searchText.replace(/\s/g, "")
+              ) >= 0 ||
+              returnOrder.order.customer?.phone.indexOf(
+                filter.searchText.replace(/\s/g, "")
+              ) >= 0) &&
+            dateApi.diff(dateFilter, "days") === 0
+          );
+        } else {
+          return (
+            returnOrder.order._id.indexOf(
+              filter.searchText.replace(/\s/g, "")
+            ) >= 0 ||
             returnOrder.order.customer?.name.indexOf(
               filter.searchText.replace(/\s/g, "")
             ) >= 0 ||
             returnOrder.order.customer?.phone.indexOf(
               filter.searchText.replace(/\s/g, "")
-            ) >= 0) &&
-          dateApi.diff(dateFilter, "days") === 0
-        );
+            ) >= 0
+          );
+        }
       });
       setListReturnOrders(newListReturnOrders);
     }

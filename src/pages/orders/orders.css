@@ -75,6 +75,9 @@
 #order-table tbody {
   background-color: #fff;
 }
+#order-table tr td {
+  cursor: pointer;
+}
 #order-table tr:nth-child(even) {
   background-color: #e1ecfd;
 }

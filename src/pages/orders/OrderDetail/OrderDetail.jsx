@@ -79,7 +79,7 @@ const OrderDetail = () => {
                           </p>
 
                           <span className="order-detail-card-middle-desc-item">
-                            Số lượng: {orderItem?.oldQuantity}
+                            Số lượng: {orderItem?.quantity}
                           </span>
 
                           <span className="order-detail-card-middle-desc-item">
