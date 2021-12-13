@@ -179,10 +179,10 @@ const Dashboard = () => {
             >
               <div className="dashboard-overview-card-content">
                 <div className="dashboard-overview-card-heading">
-                  <h3>Doanh thu trong ngày</h3>
+                  <h3 style={{fontSize: "18px"}}>Doanh thu trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>{revenueToday?.toLocaleString("en")} VND</h3>
+                  <h3 style={{fontSize: "20px",fontWeight:"bold"}}>{revenueToday?.toLocaleString("en")} VND</h3>
                 </div>
               </div>
               <div className="dashboard-overview-card-img">
@@ -197,10 +197,10 @@ const Dashboard = () => {
             >
               <div className="dashboard-overview-card-content">
                 <div className="dashboard-overview-card-heading">
-                  <h3>Chi phí trong ngày</h3>
+                  <h3  style={{fontSize: "18px"}}>Chi phí trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>{expensiveToday?.toLocaleString("en")} VND</h3>
+                  <h3 style={{fontSize: "20px",fontWeight:"bold"}}>{expensiveToday?.toLocaleString("en")} VND</h3>
                 </div>
               </div>
               <div className="dashboard-overview-card-img">
@@ -217,10 +217,10 @@ const Dashboard = () => {
               <div className="dashboard-overview-card-content">
                 <div className="dash-board-overview-card-content">
                   <div className="dashboard-overview-card-heading">
-                    <h3>Số đơn trong ngày</h3>
+                    <h3  style={{fontSize: "18px",marginTop:"-20px"}}>Số đơn trong ngày</h3>
                   </div>
                   <div className="dashboard-overview-card-body">
-                    <h3>{countNumberToday?.toLocaleString("en")} đơn</h3>
+                    <h3 style={{fontSize: "20px",fontWeight:"bold", paddingTop:"5px"}}>{countNumberToday?.toLocaleString("en")} đơn</h3>
                   </div>
                 </div>
               </div>
@@ -236,10 +236,10 @@ const Dashboard = () => {
             >
               <div className="dash-board-overview-card-content">
                 <div className="dashboard-overview-card-heading">
-                  <h3>Lợi nhuận trong ngày</h3>
+                  <h3  style={{fontSize: "18px"}}>Lợi nhuận trong ngày</h3>
                 </div>
                 <div className="dashboard-overview-card-body">
-                  <h3>
+                  <h3 style={{fontSize: "20px",fontWeight:"bold"}}>
                     {(revenueToday - expensiveToday).toLocaleString("en")} VND
                   </h3>
                 </div>
@@ -256,7 +256,7 @@ const Dashboard = () => {
       <div className="div-customer-chart">
         <div className="div-top-customer">
           <div className="div-customer-header">
-            <h3 className="title-header">Top 1 khách hàng</h3>
+            <h3 style={{fontSize: "18px", fontWeight:"bold", marginTop:"-10px"}} className="title-header">Top 1 khách hàng</h3>
           </div>
           <div className="div-info-top-customer">
             <div className="avt-customer">
@@ -283,7 +283,7 @@ const Dashboard = () => {
         </div>
         <div className="div-info-char">
           <div className="div-customer-header">
-            <h3 className="title-header">Số khách ghé mua</h3>
+            <h3 style={{fontSize: "18px", fontWeight:"bold"}} className="title-header">Số khách ghé mua</h3>
           </div>
           <div className="div-char">
             <LineChart data={dataCustomer} />
@@ -294,7 +294,7 @@ const Dashboard = () => {
       <div className="table-dashboard-container">
         <div class="card">
           <div class="card-header">
-            <h3>Top 6 sản phẩm có doanh thu cao nhất trong ngày</h3>
+            <h3 style={{fontSize: "20px"}}>Top 6 sản phẩm có doanh thu cao nhất trong ngày</h3>
           </div>
           <div class="card-content">
             <table id="dashboard-table">
@@ -330,7 +330,7 @@ const Dashboard = () => {
       </div>
       {/**end table dashboard */}
       <div className="dashboard-chart">
-        <BarChart
+        <BarChart 
           title="Top 6 sản phẩm bán chạy theo số lượng "
           data={dataClothes}
           horizontal
