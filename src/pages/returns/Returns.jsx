@@ -114,9 +114,8 @@ const Returns = () => {
             (returnOrder.order._id.indexOf(
               filter.searchText.replace(/\s/g, "")
             ) >= 0 ||
-              returnOrder.order.customer?.name.indexOf(
-                filter.searchText.replace(/\s/g, "")
-              ) >= 0 ||
+              returnOrder.order.customer?.name.indexOf(filter.searchText) >=
+                0 ||
               returnOrder.order.customer?.phone.indexOf(
                 filter.searchText.replace(/\s/g, "")
               ) >= 0) &&
@@ -127,9 +126,7 @@ const Returns = () => {
             returnOrder.order._id.indexOf(
               filter.searchText.replace(/\s/g, "")
             ) >= 0 ||
-            returnOrder.order.customer?.name.indexOf(
-              filter.searchText.replace(/\s/g, "")
-            ) >= 0 ||
+            returnOrder.order.customer?.name.indexOf(filter.searchText) >= 0 ||
             returnOrder.order.customer?.phone.indexOf(
               filter.searchText.replace(/\s/g, "")
             ) >= 0

@@ -54,18 +54,6 @@ const Login = () => {
           <p className="login-form-error">{errors.password}</p>
         </div>
 
-        <div className="login-form-row">
-          <div className="login-form-item">
-            <input style={{ marginRight: "5px" }} type="checkbox" />
-            <span>Nhớ tài khoản</span>
-          </div>
-
-          <Link to="/changePassWord">
-            <div className="login-form-item">
-              <span>Quên mật khẩu? </span>
-            </div>
-          </Link>
-        </div>
         <div className="login-form-row login-failed">
           <p>{errorLogin}</p>
         </div>

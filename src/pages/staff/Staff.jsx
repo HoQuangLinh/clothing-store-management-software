@@ -96,10 +96,10 @@ const Staff = (props) => {
     const staffFilter = originStaffs.filter((staff) => {
       //Name: Ho Quang Linh
       // textSearch: Quang
-      console.log();
+
       return (
         staff.fullname.toLowerCase().indexOf(textSearch.toLowerCase()) > -1 ||
-        staff._id.toLowerCase().indexOf(textSearch) > -1 ||
+        staff._id.toLowerCase().indexOf(textSearch.toLowerCase()) > -1 ||
         staff.phone.indexOf(textSearch) > -1
       );
     });

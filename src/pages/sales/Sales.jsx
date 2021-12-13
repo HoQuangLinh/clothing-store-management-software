@@ -21,6 +21,8 @@ const Sales = () => {
   const [categoryActive, setCategoryActive] = useState("Tất cả");
   const [showListCustomers, setShowListCustomer] = useState(false);
   const [products, setProducts] = useState([]);
+  const [originProducts, setOriginProducts] = useState([]);
+  const [productSearchText, setProductSearchText] = useState();
   const [customers, setCustomers] = useState([]);
   const [scroreInput, setScoreInput] = useState(0);
   const [filterCustomers, setFilterCustomers] = useState([]);
@@ -110,6 +112,7 @@ const Sales = () => {
       )
       .then((res) => {
         setProducts(res.data[0].productList);
+        setOriginProducts(res.data[0].productList);
       })
       .catch((err) => {
         console.log(err);
@@ -127,7 +130,19 @@ const Sales = () => {
         console.log("Lỗi call api");
       });
   }, [showFormAddCustomer]);
-
+  //search Product
+  useEffect(() => {
+    //   console.log({ originProducts });
+    const productsFilter = originProducts.filter((product) => {
+      return (
+        product.name.toLowerCase().indexOf(productSearchText.toLowerCase()) >
+          -1 ||
+        product._id.toLowerCase().indexOf(productSearchText.toLowerCase()) > -1
+      );
+    });
+    setProducts(productsFilter);
+  }, [productSearchText]);
+  console.log({ products });
   const [activeTab, setActiveTab] = useState(0);
   const [tabs, setTabs] = useState([
     {
@@ -275,7 +290,14 @@ const Sales = () => {
         <div className="sales-header-container">
           <div className="sales-searchs">
             <div className="navbar__search">
-              <input type="text" placeholder="Tìm kiếm..." />
+              <input
+                onChange={(e) => {
+                  setProductSearchText(e.target.value);
+                }}
+                value={productSearchText}
+                type="text"
+                placeholder="Tìm kiếm..."
+              />
               <i className="bx bx-search"></i>
             </div>
           </div>
