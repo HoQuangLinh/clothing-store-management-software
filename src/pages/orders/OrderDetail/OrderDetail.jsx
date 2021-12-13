@@ -11,7 +11,7 @@ const OrderDetail = () => {
   const [order, setOrder] = useState([]);
   const formateDate = (dateStr) => {
     var date = new Date(dateStr);
-    date.setUTCHours(0, 0, 0, 0);
+
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
