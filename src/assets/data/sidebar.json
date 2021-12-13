@@ -40,10 +40,5 @@
     "display_name": "Đổi trả",
     "route": "/returns",
     "icon": "bx bx-repost"
-  },
-  {
-    "display_name": "Tài khoản",
-    "route": "/editProfile",
-    "icon": "bx bx-user-pin"
   }
 ]

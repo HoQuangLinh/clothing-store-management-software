@@ -1,26 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import NavBar from "../navbar/Navbar";
 import Sidebar from "../sidebar/Sidebar";
 import "./layout.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import RoutesLayout from "../../navigation/RoutesLayout";
 const Layout = () => {
-  const [rerender, setRerender] = useState(false);
-  const [currentTabIndex, setCurrentTabIndex] = useState(0);
   return (
     <Router>
-      <Sidebar
-        currentTabIndex={currentTabIndex}
-        setCurrentTabIndex={setCurrentTabIndex}
-      />
+      <Sidebar />
       <div className="layout__content">
-        <NavBar
-          currentTabIndex={currentTabIndex}
-          setCurrentTabIndex={setCurrentTabIndex}
-          rerender={rerender}
-        />
+        <NavBar />
         <div className="layout__content-routes">
-          <RoutesLayout rerender={rerender} setRerender={setRerender} />
+          <RoutesLayout />
         </div>
       </div>
     </Router>

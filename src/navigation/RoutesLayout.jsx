@@ -14,7 +14,8 @@ import ReturnBill from "../pages/returns/return-bill/ReturnBill";
 import OrderDetail from "../pages/orders/OrderDetail/orderDetail";
 import EditProfile from "../pages/user/editprofile/EditProfile";
 import ChangePassWord from "../pages/user/changepassword/ChangePassWord";
-const RoutesLayout = ({ rerender, setRerender }) => {
+const RoutesLayout = () => {
+  const [render, setRender] = useState(0);
   return (
     <Switch>
       <Route path="/customers">
@@ -38,9 +39,12 @@ const RoutesLayout = ({ rerender, setRerender }) => {
       <Route path="/staffs">
         <Staff />
       </Route>
-      <Route path="/editProfile">
-        <EditProfile rerender={rerender} setRerender={setRerender} />
-      </Route>
+      <Route
+        path="/editProfile"
+        render={(prop) => (
+          <EditProfile {...prop} state={render} setState={setRender} />
+        )}
+      />
 
       <Route path="/changePassWord">
         <ChangePassWord />
