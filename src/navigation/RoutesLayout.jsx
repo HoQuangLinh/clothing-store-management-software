@@ -14,6 +14,7 @@ import ReturnBill from "../pages/returns/return-bill/ReturnBill";
 import OrderDetail from "../pages/orders/OrderDetail/OrderDetail";
 import EditProfile from "../pages/user/editprofile/EditProfile";
 import ChangePassWord from "../pages/user/changepassword/ChangePassWord";
+import ProductQr from "../pages/products/product_qr/ProductQr";
 const RoutesLayout = () => {
   const [render, setRender] = useState(0);
   return (
@@ -29,6 +30,9 @@ const RoutesLayout = () => {
       </Route>
       <Route path="/products">
         <Products />
+      </Route>
+      <Route path="/productQr">
+        <ProductQr />
       </Route>
       <Route path="/orders">
         <Orders />

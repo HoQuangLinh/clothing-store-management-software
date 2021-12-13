@@ -3,8 +3,9 @@ import "./products_navbar.css";
 import AddProduct from "./../AddProduct";
 import ModalUnstyled from "@mui/core/ModalUnstyled";
 import Dialog from "../../../components/dialog/Dialog";
-import { styled, Box } from "@mui/system";
+import { styled } from "@mui/system";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const StyledModal = styled(ModalUnstyled)`
   position: fixed;
   z-index: 1300;
@@ -139,9 +140,11 @@ const ProductsNavbar = ({ setRerenderProducts }) => {
           handleAction={handleImportFile}
           handleCancel={setShowDialogImport}
         />
-        <div className="action-products-btn">
-          <i class="bx bxs-file-export"></i>Xuất file
-        </div>
+        <Link to="/productQr">
+          <div className="action-products-btn">
+            <i class="bx bxs-file-export"></i>Xem mã vạch
+          </div>
+        </Link>
       </div>
     </div>
   );

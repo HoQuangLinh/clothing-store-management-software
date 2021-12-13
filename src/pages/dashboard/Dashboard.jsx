@@ -126,58 +126,6 @@ const Dashboard = () => {
         setTopProductByQuantity(res.data);
       });
   }, []);
-<<<<<<< HEAD
-||||||| 822ad0e (add forgot pass, edit profile)
-  const customerThisWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
-  const customerLastWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
-  const datalystCustomer = {
-    totalCustomerLastWeekApi: totalCustomerLastWeek?.forEach((data) => {
-      //return new Date(data._id).getDay();
-      // if(new Date(data._id).getDay())
-      const indexDate = new Date(data.dateOrder).getDay();
-      if (indexDate !== 0) {
-        customerLastWeekDataSets[indexDate - 1] += 1;
-      } else {
-        customerLastWeekDataSets[6] += 1;
-      }
-    }),
-    totalCustomerThisWeekApi: totalCustomerThisWeek?.forEach((data) => {
-      //return new Date(data._id).getDay();
-      // if(new Date(data._id).getDay())
-      const indexDate = new Date(data.dateOrder).getDay();
-      if (indexDate !== 0) {
-        customerThisWeekDataSets[indexDate - 1] += 1;
-      } else {
-        customerThisWeekDataSets[6] += 1;
-      }
-    }),
-  };
-=======
-  const customerThisWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
-  const customerLastWeekDataSets = [0, 0, 0, 0, 0, 0, 0];
-  const datalystCustomer = {
-    totalCustomerLastWeekApi: totalCustomerLastWeek?.forEach((data) => {
-      //return new Date(data._id).getDay();
-      // if(new Date(data._id).getDay())
-      const indexDate = new Date(data._id).getDay();
-      if (indexDate !== 0) {
-        customerLastWeekDataSets[indexDate - 1] = data.totalCustomer;
-      } else {
-        customerLastWeekDataSets[6] = data.totalCustomer;
-      }
-    }),
-    totalCustomerThisWeekApi: totalCustomerThisWeek?.forEach((data) => {
-      //return new Date(data._id).getDay();
-      // if(new Date(data._id).getDay())
-      const indexDate = new Date(data._id).getDay();
-      if (indexDate !== 0) {
-        customerThisWeekDataSets[indexDate - 1] = data.totalCustomer;
-      } else {
-        customerThisWeekDataSets[6] = data.totalCustomer;
-      }
-    }),
-  };
->>>>>>> parent of 822ad0e (add forgot pass, edit profile)
 
   const dataCustomer = {
     labels: [
