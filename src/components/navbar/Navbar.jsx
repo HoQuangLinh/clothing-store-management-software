@@ -4,19 +4,22 @@ import cr7 from "../../assets/images/cr7.jpg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const NavBar = () => {
-  const userId = localStorage.getItem("userId");
+const NavBar = ({ rerender, currentTabIndex, setCurrentTabIndex }) => {
+  console.log(JSON.parse(localStorage.getItem("user")));
+  const userLocal = JSON.parse(localStorage.getItem("user"));
   const [user, setUser] = useState([]);
-
+  console.log(userLocal.userId);
   useEffect(() => {
+    console.log(console.log("test"));
+
     axios
       .get(
-        "https://clothesapp123.herokuapp.com/api/users/getInfo/618646e56829ed0ec21a4cac"
+        `https://clothesapp123.herokuapp.com/api/users/getInfo/${userLocal.userId}`
       )
       .then((res) => {
         setUser(res.data);
       });
-  }, []);
+  }, [rerender]);
   return (
     <div>
       <div className="navbar">
@@ -25,7 +28,12 @@ const NavBar = () => {
           <p></p>
         </div>
 
-        <div className="navbar__right">
+        <div
+          onClick={() => {
+            setCurrentTabIndex(8);
+          }}
+          className="navbar__right"
+        >
           <Link
             to={{
               pathname: "/editProfile",
