@@ -84,7 +84,30 @@
 .navbar__right-item > i {
   font-size: 1.5rem;
 }
+<<<<<<< HEAD
 
 .show {
   display: block;
 }
+||||||| parent of e5ec2e7 (update boosstrap)
+=======
+.navnar__paleteteShow {
+  display: none;
+  width: 15rem;
+  height: 15rem;
+  margin-left: auto;
+  margin-right: 10%;
+  margin-top: 5%;
+  border: 1px solid black;
+  border-radius: var(--border-radius);
+}
+.navbar__PlaColor_blue{
+  width: 3rem;
+  height: 3rem;
+  background-color: blue;
+  
+}
+.show {
+  display: block;
+}
+>>>>>>> e5ec2e7 (update boosstrap)
