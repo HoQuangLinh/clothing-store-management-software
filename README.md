@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# Clothing store management software - Phần mềm quản lý bán hàng trên website
+# Truy cập website tại đường dẫn:  https://theclothes.herokuapp.com
+## Mục lục
+- [Chức năng](#chức-năng)
+- [Thư viện và công nghệ](#thư-viện-và-công-nghệ)
+- [Backend](#backend)
+- [Frontend](#frontend)
+- [Database/Diagram](#database-diagram)
+- [Tác giả](#tác-giả)
+- [Giấy phép](#giấy-phép)
+- [Giảng viên hướng dẫn](#giảng-viên-hướng-dẫn)
+## Chức năng
+- Đăng nhập
+- Tài khoản admin cho quản lý
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <img src="https://user-images.githubusercontent.com/67258104/146002194-0db99695-fccf-42a6-b580-40d6b097f0d3.png" alt="..." width="700" />
 
-## Available Scripts
+- Hiển thị tổng quan về sản phẩm, khách hàng, hóa đơn, báo cáo,...
 
-In the project directory, you can run:
+  <img src="https://user-images.githubusercontent.com/67258104/146002451-1d722d1f-9ea2-4a15-92e7-d8916609a4d8.png" alt="..." width="700" />
 
-### `npm start`
+- Quản lý bán hàng
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  <img src="https://user-images.githubusercontent.com/67258104/146002572-91a3f8a4-a007-498c-9749-4c196fb1d25d.png" alt="..." width="700" />
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Quản lý khách hàng
 
-### `npm test`
+  <img src="https://user-images.githubusercontent.com/67258104/146002672-241fbe7a-69b4-4067-87f3-0ab82bd785cd.png" alt="..." width="700" />
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Quản lý sản phẩm
 
-### `npm run build`
+  <img src="https://user-images.githubusercontent.com/67258104/146002771-59f77f07-5372-46cc-8842-0b9a8bbb877e.png" alt="..." width="700" />
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Quản lý nhân viên
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  <img src="https://user-images.githubusercontent.com/67258104/146002859-5014252d-f187-412e-bc9e-86832d587819.png" alt="..." width="700" />
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Xem doanh thu theo thời gian
 
-### `npm run eject`
+  <img src="https://user-images.githubusercontent.com/67258104/146003050-9ebfd6ad-1885-42ba-8399-aca4f08feea6.png" alt="..." width="700" />
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Quản lý hóa đơn
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  <img src="https://user-images.githubusercontent.com/67258104/146003149-7be37095-a531-43cb-8464-fb8225fef393.png" alt="..." width="700" />
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Quản lý đổi trả
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  <img src="https://user-images.githubusercontent.com/67258104/146003235-c581e674-6edc-40e3-abdb-f8785aaec157.png" alt="..." width="700" />
 
-## Learn More
+- Quản lý tài khoản
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  <img src="https://user-images.githubusercontent.com/67258104/146003316-b9824c4f-96b0-4f17-a6ef-1975a2710c41.png" alt="..." width="700" />
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Thư viện và công nghệ
+- [React JS](https://reactjs.org/).
+- [MongoDB](https://www.mongodb.com/).
+### Frontend
+- [HTML](https://www.w3schools.com/html/).
+- [CSS](https://www.w3schools.com/css/).
+### Backend
+- [Nodejs](https://nodejs.org/en/).
+- [Express](https://expressjs.com/).
+- [JavaScript](https://www.javascript.com/).
+- [JSON Web Token](https://jwt.io/).
+## Database Diagram
+![image](https://user-images.githubusercontent.com/67258104/146004659-2738e792-d239-4afa-9e68-db9a410ac089.png)
+## Tác giả
+- Hồ Quang Linh - 19521750.
+- Nguyễn Đức Chí Đạt - 19521334.
+- Nguyễn Tiến Đạt - 19521345.
+- Nguyễn Ngọc Thịnh – 19522283.
+## Giấy phép
+Được phân phối theo Apache license 2.0. Xem [LICENSE](https://www.apache.org/licenses/LICENSE-2.0) để biết thêm thông tin chi tiết.
+## Giảng viên hướng dẫn
+- Huỳnh Hồ Thị Mộng Trinh
