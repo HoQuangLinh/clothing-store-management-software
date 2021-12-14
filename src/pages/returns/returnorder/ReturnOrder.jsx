@@ -135,16 +135,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
         const dateOrder = new Date(order.dateOrder);
 
         if (order.customer) {
-          console.log(
-            fromDateTime <= dateOrder.getTime() &&
-              toDateTime > dateOrder.getTime() &&
-              order._id.indexOf(orderId) >= 0 &&
-              order.customer &&
-              order.customer?.name.toLowerCase().indexOf(name.toLowerCase()) >=
-                0 &&
-              order.customer &&
-              order.customer?.phone.indexOf(phone) >= 0
-          );
+          console.log(order.customer?.phone.indexOf(phone) >= 0);
           return (
             fromDateTime < dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
@@ -156,17 +147,18 @@ const ReturnOrder = ({ open, handleCancel }) => {
             order.customer?.phone.indexOf(phone) >= 0
           );
         } else {
-          console.log(order);
-          console.log(
-            fromDateTime < dateOrder.getTime() &&
-              toDateTime > dateOrder.getTime() &&
-              order._id.indexOf(orderId) >= 1
-          );
+          // console.log(order);
+          // console.log(
+          //   fromDateTime < dateOrder.getTime() &&
+          //     toDateTime > dateOrder.getTime() &&
+          //     order._id.indexOf(orderId) >= 1
+          // );
           return (
             fromDateTime < dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
             order._id.indexOf(orderId) >= 0 &&
-            !name
+            !name &&
+            !phone
           );
         }
       });
@@ -280,7 +272,7 @@ const ReturnOrder = ({ open, handleCancel }) => {
                       label={fromDate ? "" : "Từ ngày"}
                       value={fromDate}
                       onChange={(newValue) => {
-                        setFromDate(new Date(newValue));
+                        setFromDate(newValue);
                         handleFilter(
                           orderFilter.orderId,
                           orderFilter.customerName,
@@ -310,13 +302,13 @@ const ReturnOrder = ({ open, handleCancel }) => {
                       label={toDate ? "" : "Đến ngày"}
                       value={toDate}
                       onChange={(newValue) => {
-                        setToDate(new Date(newValue));
+                        setToDate(newValue);
                         handleFilter(
                           orderFilter.orderId,
                           orderFilter.customerName,
                           orderFilter.phone,
                           fromDate,
-                          new Date(newValue)
+                          newValue
                         );
                       }}
                       InputProps={{

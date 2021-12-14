@@ -107,6 +107,13 @@ const Orders = () => {
       });
   }, []);
   useEffect(() => {
+    console.log(
+      orderFilter.orderId,
+      orderFilter.customerName,
+      orderFilter.seller,
+      fromDate,
+      toDate
+    );
     setCurrentPage(1);
     const listStatusChecked = orderFilter.listStatus.filter(
       (status) => status.checked === true
@@ -151,7 +158,8 @@ const Orders = () => {
     }
   };
   const handleFilter = (orderId, customerName, seller, fromDate, toDate) => {
-    if (!orderId && !customerName && !seller && !fromDate && !toDate) {
+    console.log({ orderId, customerName, seller, fromDate, toDate });
+    if (!orderId && !customerName && !seller && fromDate && toDate) {
       setOrders(originOrders);
     } else {
       setCurrentPage(1);
@@ -179,7 +187,8 @@ const Orders = () => {
             fromDateTime <= dateOrder.getTime() &&
             toDateTime > dateOrder.getTime() &&
             order._id.indexOf(orderId) >= 0 &&
-            !customerName
+            !customerName &&
+            order.user.fullname.indexOf(seller) >= 0
           );
         }
       });
@@ -270,7 +279,7 @@ const Orders = () => {
                     label={fromDate ? "" : "Từ ngày"}
                     value={fromDate}
                     onChange={(newValue) => {
-                      setFromDate(new Date(newValue));
+                      setFromDate(newValue);
                     }}
                     renderInput={(params) => (
                       <TextField
@@ -293,7 +302,7 @@ const Orders = () => {
                     label={toDate ? "" : "Đến ngày"}
                     value={toDate}
                     onChange={(newValue) => {
-                      setToDate(new Date(newValue));
+                      setToDate(newValue);
                     }}
                     InputProps={{
                       disableUnderline: true,
