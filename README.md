@@ -10,11 +10,9 @@
 - [Giấy phép](#giấy-phép)
 - [Giảng viên hướng dẫn](#giảng-viên-hướng-dẫn)
 ## Chức năng
-**- Đăng nhập**
-**- Tài khoản admin cho quản lý**
-
-![image](https://user-images.githubusercontent.com/67258104/146002194-0db99695-fccf-42a6-b580-40d6b097f0d3.png)
-
+- Đăng nhập
+- Tài khoản admin cho quản lý
+<img src="https://user-images.githubusercontent.com/67258104/146002194-0db99695-fccf-42a6-b580-40d6b097f0d3.png" alt="..." width="250" />
 **- Hiển thị tổng quan về sản phẩm, khách hàng, hóa đơn, báo cáo,...**
 
 ![image](https://user-images.githubusercontent.com/67258104/146002451-1d722d1f-9ea2-4a15-92e7-d8916609a4d8.png)
