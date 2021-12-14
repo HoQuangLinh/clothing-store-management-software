@@ -16,6 +16,7 @@
   margin-bottom: 20px;
   animation: fade-in-ani 1s;
   box-shadow: 2px 3px 8px rgb(0 0 0 / 12%);
+  background-color: #fff;
 }
 .revenues-card:hover {
   box-shadow: 2px 4px 12px rgb(0 80 143 / 36%);

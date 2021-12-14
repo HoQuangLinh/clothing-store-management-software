@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import "./editprofile.css";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -8,7 +8,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import axios from "axios";
 export default function EditProfile({ rerender, setRerender }) {
   let location = useLocation();
-
+  let history = useHistory();
   console.log(rerender);
   const userLocal = location.state?.user;
   const [user, setUser] = useState(userLocal);
@@ -85,15 +85,26 @@ export default function EditProfile({ rerender, setRerender }) {
   return (
     <div className="user">
       <div className="userTitleContainer">
-        <h1 className="userTitle">Thông tin nhân viên</h1>
-        <Link
-          to={{
-            pathname: "./changePassWord",
-            state: { user: user },
-          }}
-        >
-          <button className="userAddButton">Đổi mật khẩu</button>
-        </Link>
+        <h1 className="userTitle">Thông tin người dùng</h1>
+        <div>
+          <Link
+            to={{
+              pathname: "./changePassWord",
+              state: { user: user },
+            }}
+          >
+            <button className="userChangePassWord">Đổi mật khẩu</button>
+          </Link>
+
+          <button
+            onClick={() => {
+              window.location.reload();
+            }}
+            className="userLogout"
+          >
+            Đăng xuất
+          </button>
+        </div>
       </div>
       <div className="userContainer">
         <div className="userShow">

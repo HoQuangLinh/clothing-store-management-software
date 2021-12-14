@@ -39,9 +39,9 @@ const TableReport = ({
                 <tr>
                   <td>{row._id.substr(row._id.length - 7).toUpperCase()}</td>
                   <td>{row.productName}</td>
-                  <td>{row.sellQuantity}</td>
-                  <td>{row.revenue}</td>
-                  <td>{row.profit}</td>
+                  <td>{row.sellQuantity?.toLocaleString("en")}</td>
+                  <td>{row.revenue?.toLocaleString("en")}</td>
+                  <td>{row.profit?.toLocaleString("en")}</td>
                 </tr>
               );
             else

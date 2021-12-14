@@ -33,9 +33,9 @@ function daysInMonth(month, year) {
 const saleProductColumns = [
   "Mã sản phẩm",
   "Sản phẩm",
-  "Số lượng đã bán",
-  "Doanh thu",
-  "Lợi nhuận",
+  "Số lượng bán",
+  "Doanh thu (vnđ)",
+  "Lợi nhuận (vnđ)",
 ];
 const returnProductColumm = ["Mã sản phẩm", "Tên sản phẩm", "Số lương đổi trả"];
 const ordersTodayRows = [];

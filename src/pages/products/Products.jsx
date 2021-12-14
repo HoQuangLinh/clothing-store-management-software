@@ -386,8 +386,8 @@ const Products = () => {
                             }}
                           >
                             <i
-                              style={{ fontSize: 18 }}
-                              class="bx bx-edit-alt hide-on-print"
+                              style={{ fontSize: 18, color: "#0DB3E2" }}
+                              class="bx bxs-edit hide-on-print"
                             ></i>
                           </TableCell>
                           <TableCell
@@ -399,7 +399,7 @@ const Products = () => {
                             }}
                           >
                             <i
-                              style={{ fontSize: 18 }}
+                              style={{ fontSize: 18, color: "#F26339" }}
                               class="bx bx-trash hide-on-print"
                             ></i>
                           </TableCell>

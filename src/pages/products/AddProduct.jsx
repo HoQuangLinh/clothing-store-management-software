@@ -13,7 +13,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState();
   const [qrImage, setQrImage] = useState(
-    "https://res.cloudinary.com/hoquanglinh/image/upload/v1636559426/Linh/4fc20722-5368-e911-80d5-b82a72db46f2_a7cy10.png"
+    "https://res.cloudinary.com/hoquanglinh/image/upload/v1639458680/Linh/cwq6qhmybgzhvpp58ytp.png"
   );
   const [product, setProduct] = useState({
     name: "",
@@ -314,11 +314,11 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
             onClick={() => {
               inputAvatarRef.current.click();
             }}
-            style={{ height: 120, width: 120 }}
+            style={{ height: 120, width: 120, cursor: "pointer" }}
             src={
               avatar
                 ? URL.createObjectURL(avatar)
-                : "https://res.cloudinary.com/hoquanglinh/image/upload/v1636559426/Linh/4fc20722-5368-e911-80d5-b82a72db46f2_a7cy10.png"
+                : "https://res.cloudinary.com/hoquanglinh/image/upload/v1639458680/Linh/cwq6qhmybgzhvpp58ytp.png"
             }
             alt=""
           />

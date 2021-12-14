@@ -108,6 +108,9 @@
 .refund-payment-row {
   padding: 10px;
 }
+.return-order-detail-card-price {
+  display: inline-flex;
+}
 .refund-payment-btn {
   background: rgb(255, 66, 78);
   padding: 10px;

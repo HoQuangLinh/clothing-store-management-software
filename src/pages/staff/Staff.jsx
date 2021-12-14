@@ -116,23 +116,7 @@ const Staff = (props) => {
         console.log(err.response);
       });
   };
-  const handleSearchStaff = (textSearch) => {
-    if (!textSearch) {
-      getAllStaff();
-    }
-    const staffFilter = originStaffs.filter((staff) => {
-      //Name: Ho Quang Linh
-      // textSearch: Quang
 
-      return (
-        staff.fullname.toLowerCase().indexOf(textSearch.toLowerCase()) > -1 ||
-        staff._id.toLowerCase().indexOf(textSearch) > -1 ||
-        staff.phone.indexOf(textSearch) > -1
-      );
-    });
-
-    setStaffs(staffFilter);
-  };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -320,8 +304,8 @@ const Staff = (props) => {
                               padding="checkbox"
                             >
                               <i
-                                style={{ fontSize: 18 }}
-                                class="bx bx-edit-alt"
+                                style={{ fontSize: 18, color: "#0DB3E2" }}
+                                class="bx bxs-edit"
                               ></i>
                             </TableCell>
                             <TableCell
@@ -334,7 +318,7 @@ const Staff = (props) => {
                               padding="checkbox"
                             >
                               <i
-                                style={{ fontSize: 18 }}
+                                style={{ fontSize: 18, color: "#F26339" }}
                                 class="bx bx-trash"
                               ></i>
                             </TableCell>

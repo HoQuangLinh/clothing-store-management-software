@@ -255,7 +255,9 @@
   width: 17%;
 }
 .sales-order-detail-name {
+  display: flex;
   margin-bottom: 10px;
+  margin-right: 10px;
 }
 .sales-order-detail-name > p {
   font-size: 15px;

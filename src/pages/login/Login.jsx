@@ -5,7 +5,7 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import "./login.css";
 import { Link } from "react-router-dom";
-const Login = () => {
+const Login = ({ setIsAuticated }) => {
   const history = useHistory();
   const [errorLogin, setErorLogin] = useState("");
   const submitForm = () => {
@@ -13,7 +13,7 @@ const Login = () => {
       .post("https://clothesapp123.herokuapp.com/api/users/login", user)
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
-
+        setIsAuticated(true);
         history.push("/home");
       })
       .catch((e) => {

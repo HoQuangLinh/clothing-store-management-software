@@ -106,7 +106,9 @@ const ReturnOrderDetail = () => {
                     <div className="return-order-detail-card ">
                       <div className="return-order-detail-card-left">
                         <Checkbox
-                          checked={orderItem.check}
+                          checked={
+                            orderItem.returnedQuantity > 0 && orderItem.check
+                          }
                           onChange={() => {
                             var newOrderDetails = returnOrder.orderDetails;
                             if (newOrderDetails[index].returnedQuantity > 0) {
@@ -145,11 +147,13 @@ const ReturnOrderDetail = () => {
                           <div className="group-count">
                             <div
                               onClick={() => {
+                                console.log(orderItem);
                                 if (orderItem.returnedQuantity > 0) {
                                   let newOrderDetails =
                                     returnOrder.orderDetails;
 
                                   newOrderDetails[index].returnedQuantity -= 1;
+                                  newOrderDetails[index].check = true;
 
                                   setReturnOrder({
                                     ...returnOrder,
@@ -172,6 +176,7 @@ const ReturnOrderDetail = () => {
                                   if (e.target.value <= orderItem.oldQuantity) {
                                     newOrderDetails[index].returnedQuantity =
                                       Math.floor(e.target.value);
+                                    newOrderDetails[index].check = true;
                                     setReturnOrder({
                                       ...returnOrder,
                                       orderDetails: newOrderDetails,
@@ -189,7 +194,7 @@ const ReturnOrderDetail = () => {
                                 ) {
                                   let newOrderDetails =
                                     returnOrder.orderDetails;
-
+                                  newOrderDetails[index].check = true;
                                   newOrderDetails[index].returnedQuantity += 1;
 
                                   setReturnOrder({
@@ -217,7 +222,7 @@ const ReturnOrderDetail = () => {
                           <b>{`${(
                             orderItem.product.salePrice *
                             orderItem.returnedQuantity
-                          ).toLocaleString("en")} đ`}</b>
+                          ).toLocaleString("en")}đ`}</b>
                         </div>
                         <div
                           onClick={() => {
@@ -234,7 +239,10 @@ const ReturnOrderDetail = () => {
                           }}
                           className="return-order-detail-delete-btn"
                         >
-                          <i class="bx bx-trash"></i>
+                          <i
+                            style={{ color: "#F26339" }}
+                            class="bx bx-trash"
+                          ></i>
                         </div>
                       </div>
                     </div>

@@ -135,9 +135,10 @@ const Sales = () => {
     //   console.log({ originProducts });
     const productsFilter = originProducts.filter((product) => {
       return (
-        product.name.toLowerCase().indexOf(productSearchText.toLowerCase()) >
+        product?.name?.toLowerCase().indexOf(productSearchText?.toLowerCase()) >
           -1 ||
-        product._id.toLowerCase().indexOf(productSearchText.toLowerCase()) > -1
+        product._id?.toLowerCase().indexOf(productSearchText?.toLowerCase()) >
+          -1
       );
     });
     setProducts(productsFilter);
@@ -480,85 +481,123 @@ const Sales = () => {
           <div className="sales-order-detail-body">
             {orders[activeTab]?.orderDetails &&
               orders[activeTab].orderDetails.map((orderItem, index) => {
-                return (
-                  <div className="sales-order-detail-item">
-                    <div className="sales-order-detail-img">
-                      <img src={orderItem.imageDisplay} alt="" />
-                    </div>
-                    <div className="sales-order-detail-midle">
-                      <div className="sales-order-detail-name">
-                        <p>{orderItem.productName}</p>
+                if (orderItem.quantity >= 0)
+                  return (
+                    <div className="sales-order-detail-item">
+                      <div className="sales-order-detail-img">
+                        <img src={orderItem.imageDisplay} alt="" />
                       </div>
-                      <div className="sales-order-detail-desc">
-                        <div className="group-count">
-                          <div className="group-count-item">
-                            <i
-                              onClick={() => {
-                                var newOrders = [...orders];
-                                if (
-                                  newOrders[activeTab].orderDetails[index]
-                                    .quantity > 0
-                                ) {
-                                  newOrders[activeTab].orderDetails[
-                                    index
-                                  ].quantity -= 1;
-                                  setOrders(newOrders);
-                                  localStorage.setItem(
-                                    "orders",
-                                    JSON.stringify(newOrders)
+                      <div className="sales-order-detail-midle">
+                        <div className="sales-order-detail-name">
+                          <p>{orderItem.productName}</p>
+
+                          <i
+                            style={{
+                              color: "#F26339",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              var newOrders = [...orders];
+                              console.log(
+                                newOrders[activeTab].orderDetails[index]
+                              );
+                              if (
+                                newOrders[activeTab].orderDetails[index]
+                                  .quantity >= 0
+                              ) {
+                                newOrders[activeTab].orderDetails = orders[
+                                  activeTab
+                                ].orderDetails.filter((orderItem) => {
+                                  return (
+                                    orderItem.productId !==
+                                    newOrders[activeTab].orderDetails[index]
+                                      .productId
                                   );
-                                }
-                              }}
-                              class="bx bx-minus"
-                            ></i>
-                          </div>
-                          <div className="group-count-item">
-                            <input
-                              value={orderItem.quantity}
-                              onChange={(e) => {
-                                let newOrders = [...orders];
-                                let orderItem = {
-                                  ...newOrders[activeTab].orderDetails[index],
-                                };
-                                if (Math.floor(e.target.value) >= 0) {
-                                  orderItem.quantity = Math.floor(
-                                    e.target.value
-                                  );
-                                  newOrders[activeTab].orderDetails[index] =
-                                    orderItem;
-                                  setOrders(newOrders);
-                                  localStorage.setItem(
-                                    "orders",
-                                    JSON.stringify(newOrders)
-                                  );
-                                }
-                              }}
-                            />
-                          </div>
-                          <div className="group-count-item">
-                            <i
-                              onClick={() => {
-                                var newOrders = [...orders];
-                                newOrders[activeTab].orderDetails[
-                                  index
-                                ].quantity += 1;
+                                });
+                                // newOrders[activeTab].orderDetails[
+                                //   index
+                                // ].quantity = 0;
                                 setOrders(newOrders);
                                 localStorage.setItem(
                                   "orders",
                                   JSON.stringify(newOrders)
                                 );
-                              }}
-                              class="bx bx-plus"
-                            ></i>
-                          </div>
+                              }
+                            }}
+                            class="bx bx-trash"
+                          ></i>
                         </div>
-                        <b>{`${(
-                          orderItem.salePrice * orderItem.quantity
-                        ).toLocaleString("en")}đ`}</b>
+
+                        <div className="sales-order-detail-desc">
+                          <div className="group-count">
+                            <div className="group-count-item">
+                              <i
+                                onClick={() => {
+                                  var newOrders = [...orders];
+                                  if (
+                                    newOrders[activeTab].orderDetails[index]
+                                      .quantity > 0
+                                  ) {
+                                    newOrders[activeTab].orderDetails[
+                                      index
+                                    ].quantity -= 1;
+                                    setOrders(newOrders);
+                                    localStorage.setItem(
+                                      "orders",
+                                      JSON.stringify(newOrders)
+                                    );
+                                  }
+                                }}
+                                class="bx bx-minus"
+                              ></i>
+                            </div>
+                            <div className="group-count-item">
+                              <input
+                                value={orderItem.quantity}
+                                onChange={(e) => {
+                                  let newOrders = [...orders];
+                                  let orderItem = {
+                                    ...newOrders[activeTab].orderDetails[index],
+                                  };
+                                  if (Math.floor(e.target.value) >= 0) {
+                                    orderItem.quantity = Math.floor(
+                                      e.target.value
+                                    );
+                                    newOrders[activeTab].orderDetails[index] =
+                                      orderItem;
+                                    setOrders(newOrders);
+                                    localStorage.setItem(
+                                      "orders",
+                                      JSON.stringify(newOrders)
+                                    );
+                                  }
+                                }}
+                              />
+                            </div>
+                            <div className="group-count-item">
+                              <i
+                                onClick={() => {
+                                  var newOrders = [...orders];
+                                  newOrders[activeTab].orderDetails[
+                                    index
+                                  ].quantity += 1;
+                                  setOrders(newOrders);
+                                  localStorage.setItem(
+                                    "orders",
+                                    JSON.stringify(newOrders)
+                                  );
+                                }}
+                                class="bx bx-plus"
+                              ></i>
+                            </div>
+                          </div>
+                          <b>{`${(
+                            orderItem.salePrice * orderItem.quantity
+                          ).toLocaleString("en")}đ`}</b>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
+                  );
               })}
           </div>
         </div>
