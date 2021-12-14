@@ -53,9 +53,9 @@ const Dashboard = () => {
       )
       .then((res) => {
         setTop1Customer({
-          name: res.data[0].name,
-          phone: res.data[0].phone,
-          point: res.data[0].point,
+          name: res.data[0]?.name,
+          phone: res.data[0]?.phone,
+          point: res.data[0]?.point,
         });
       });
   }, []);

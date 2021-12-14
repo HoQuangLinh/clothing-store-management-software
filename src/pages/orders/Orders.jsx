@@ -379,7 +379,7 @@ const Orders = () => {
                         <td>
                           {order.customer ? order.customer.name : "Khách lẻ"}
                         </td>
-                        <td>{order.user.fullname}</td>
+                        <td>{order.user?.fullname}</td>
                         <td>{`${(
                           order.orderTotal - (order?.totalReturnPrice || 0)
                         ).toLocaleString("en")}đ`}</td>
