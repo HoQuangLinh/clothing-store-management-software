@@ -6,6 +6,7 @@
 .clothes-category-card {
   margin-left: 10px;
   width: 100%;
+  animation: fade-in-ani 2s;
 }
 
 .product-btn-view-qr {
@@ -20,4 +21,14 @@
   background-color: rgb(3, 169, 244);
 
   font-size: 16px;
+}
+@keyframes fade-in-ani {
+  from {
+    opacity: 0;
+    transform: translate(0, -25%);
+  }
+  to {
+    transform: translate(0, 0%);
+    opacity: 1;
+  }
 }

@@ -4,6 +4,7 @@
 .customer-card {
   border: 1px solid #a19b9b;
   border-radius: 10px;
+  animation: fade-in-ani 1s;
   background: #fff;
 }
 .customer-card:first-child {
@@ -36,4 +37,14 @@
 .customer-card-item > span,
 .timer-choice {
   width: 25%;
+}
+@keyframes fade-in-ani {
+  from {
+    opacity: 0;
+    transform: translate(0, -25%);
+  }
+  to {
+    transform: translate(0, 0%);
+    opacity: 1;
+  }
 }

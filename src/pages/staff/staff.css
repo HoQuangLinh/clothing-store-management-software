@@ -24,6 +24,7 @@
   margin-bottom: 20px;
   border-radius: 10px;
   border: 1px solid #a19b9b;
+  animation: fade-in-ani 1.5s;
   background: #ffffff;
 }
 .header_search {
@@ -79,4 +80,15 @@
   margin-top: 20px;
   border: none;
   border-bottom: 1px solid #a19b9b;
+}
+
+@keyframes fade-in-ani {
+  from {
+    opacity: 0;
+    transform: translate(0, -25%);
+  }
+  to {
+    transform: translate(0, 0%);
+    opacity: 1;
+  }
 }

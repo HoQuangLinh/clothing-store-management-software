@@ -87,7 +87,6 @@ const Revenues = () => {
       var i = dateOrder.getMonth();
       const revenue = item.orderTotal - item.totalReturnPrice;
       if (revenue > 0) dataRevenue.datasets[0].data[i] += revenue;
-      console.log(dataRevenue.datasets[0].data[i]);
     });
     setDataRevenue((DataRevenue) => ({
       ...DataRevenue,
@@ -140,8 +139,9 @@ const Revenues = () => {
     var numberOfDays = (
       Math.round(dateTo.getTime() - dateFrom.getTime()) / one_day
     ).toFixed(0);
+    console.log("Số ngày " + numberOfDays);
     var dateCount = new Date(dateFrom);
-    for (var i = 0; i <= numberOfDays; i++) {
+    for (var i = 0; i < numberOfDays; i++) {
       console.log(i);
       listDay[i] = dateCount.getDate() + "/" + String(dateCount.getMonth() + 1);
       if (
@@ -153,7 +153,6 @@ const Revenues = () => {
       console.log(listDay[i]);
       dataRevenue.datasets[0].data[i] = 0;
       Orders.forEach((item) => {
-        console.log("Vòng");
         const dateOrder = new Date(item.dateOrder);
         if (
           dateCount.getMonth() == dateOrder.getMonth() &&
@@ -162,7 +161,6 @@ const Revenues = () => {
         ) {
           const revenue = item.orderTotal - item.totalReturnPrice;
           if (revenue > 0) dataRevenue.datasets[0].data[i] += revenue;
-          console.log(dataRevenue.datasets[0].data[i]);
         }
       });
       dateCount.setDate(dateCount.getDate() + 1);
@@ -468,18 +466,23 @@ const Revenues = () => {
                         0,
                         0
                       );
+                      let date =
+                        lastWeek.getDate() +
+                        "/" +
+                        String(lastWeek.getMonth() + 1) +
+                        "/" +
+                        lastWeek.getFullYear() +
+                        "  -  " +
+                        today.getDate() +
+                        "/" +
+                        String(today.getMonth() + 1) +
+                        "/" +
+                        today.getFullYear();
                       if (displayTypeSelect === "report") {
-                        setTitleReport(
-                          "Báo cáo doanh thu trong ngày hôm nay " +
-                            dateNow.getDate() +
-                            "/" +
-                            String(dateNow.getMonth() + 1) +
-                            "/" +
-                            dateNow.getFullYear()
-                        );
+                        setTitleReport("Báo cáo doanh thu " + date);
                         SellProductReportwithDate(lastWeek, today);
                       } else {
-                        setTitleChar("Doanh thu 7 ngày gần nhất");
+                        setTitleChar("Doanh thu " + date);
                         setDateRevenuebyDate(Orders, lastWeek, dateNow);
                       }
                     }}
@@ -563,38 +566,23 @@ const Revenues = () => {
                         );
                       }
                       console.log(displayTypeSelect);
+                      let date =
+                        fromDate.getDate() +
+                        "/" +
+                        String(fromDate.getMonth() + 1) +
+                        "/" +
+                        fromDate.getFullYear() +
+                        "  -  " +
+                        toDate.getDate() +
+                        "/" +
+                        String(toDate.getMonth() + 1) +
+                        "/" +
+                        toDate.getFullYear();
                       if (displayTypeSelect === "chart") {
-                        var title =
-                          "Doanh thu từ " +
-                          fromDate.getDate() +
-                          "/" +
-                          String(fromDate.getMonth() + 1) +
-                          "/" +
-                          fromDate.getFullYear() +
-                          "  -  " +
-                          fromDate.getDate() +
-                          "/" +
-                          String(fromDate.getMonth() + 1) +
-                          "/" +
-                          fromDate.getFullYear();
-                        console.log(title);
-                        setTitleChar(title);
+                        setTitleChar("Doanh thu từ " + date);
                         handleFilter();
                       } else {
-                        setTitleReport(
-                          "Báo cáo doanh thu từ " +
-                            fromDate.getDate() +
-                            "/" +
-                            String(fromDate.getMonth() + 1) +
-                            "/" +
-                            fromDate.getFullYear() +
-                            "  đến  " +
-                            fromDate.getDate() +
-                            "/" +
-                            String(fromDate.getMonth() + 1) +
-                            "/" +
-                            fromDate.getFullYear()
-                        );
+                        setTitleReport("Báo cáo doanh thu từ " + date);
                         SellProductReportwithDate(fromDate, toDate);
                       }
                     }}
