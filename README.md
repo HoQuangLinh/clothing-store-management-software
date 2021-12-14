@@ -43,7 +43,7 @@
 - [JavaScript](https://www.javascript.com/).
 - [JSON Web Token](https://jwt.io/).
 ## Database Diagram
-![image](https://user-images.githubusercontent.com/67258104/124370159-5d1c2080-dc9e-11eb-8e9c-0217ad360fa9.png)
+![image](https://user-images.githubusercontent.com/67258104/146004659-2738e792-d239-4afa-9e68-db9a410ac089.png)
 ## Tác giả
 - Hồ Quang Linh - 19521750.
 - Nguyễn Đức Chí Đạt - 19521334.
