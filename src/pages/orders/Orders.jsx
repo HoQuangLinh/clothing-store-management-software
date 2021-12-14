@@ -159,7 +159,7 @@ const Orders = () => {
   };
   const handleFilter = (orderId, customerName, seller, fromDate, toDate) => {
     console.log({ orderId, customerName, seller, fromDate, toDate });
-    if (!orderId && !customerName && !seller && fromDate && toDate) {
+    if (!orderId && !customerName && !seller && !fromDate && !toDate) {
       setOrders(originOrders);
     } else {
       setCurrentPage(1);

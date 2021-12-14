@@ -5,7 +5,7 @@ import ComboBox from "../../components/combobox/Combobox";
 import { Link } from "react-router-dom";
 import QrReader from "react-qr-reader";
 import "./sales.css";
-
+import NumberFormat from "react-number-format";
 const Sales = () => {
   let existCurrentCustomer;
   let existCurrentOrders;
@@ -29,9 +29,14 @@ const Sales = () => {
   const [showFormAddCustomer, setShowFormAddCustomer] = useState(false);
   const [inputTextSearchCustomer, setInputTextSearchCustomer] = useState("");
   const [showScanQrCode, setShowScanQrcode] = useState(false);
+  const [guestMoney, setGuestMoney] = useState({
+    guestMoneyFormat: "0 đ",
+    guestMoneyValue: 0,
+  });
   const [orders, setOrders] = useState([
     {
       activeTab: 0,
+
       orderDetails:
         (existCurrentOrders && existCurrentOrders[0].orderDetails) || [],
     },
@@ -326,6 +331,10 @@ const Sales = () => {
               return (
                 <li
                   onClick={() => {
+                    setGuestMoney({
+                      guestMoneyFormat: "0 đ",
+                      guestMoneyValue: 0,
+                    });
                     handleClickActiveStaff(tab.tabIndex);
                   }}
                   className={tab.tabIndex === activeTab ? "active" : ""}
@@ -626,6 +635,52 @@ const Sales = () => {
           <div className="sales-prices-item">
             <p>Tổng tiền</p>
             <b>{`${getTotalPrice().toLocaleString("en")}đ`}</b>
+          </div>
+          <div className="refund-payment-row">
+            <span style={{ color: "gray", fontWeight: "bold" }}>
+              Tiền khách đưa:
+            </span>
+            <NumberFormat
+              thousandSeparator={true}
+              suffix=" đ"
+              value={guestMoney.guestMoneyFormat}
+              onValueChange={(values) => {
+                const { formattedValue, value } = values;
+                if (guestMoney.guestMoneyValue >= 0) {
+                  setGuestMoney({
+                    guestMoneyFormat: formattedValue,
+                    guestMoneyValue: value,
+                  });
+                }
+              }}
+              style={{
+                color: "#237fcd",
+                fontWeight: "bold",
+                fontSize: "16px",
+                textAlign: "right",
+              }}
+              type="text"
+            />
+          </div>
+          <div className="refund-payment-row">
+            <span style={{ color: "gray", fontWeight: "bold" }}>
+              Tiền thối:
+            </span>
+            {guestMoney.guestMoneyValue - getTotalPrice() > 0 && (
+              <NumberFormat
+                readOnly
+                thousandSeparator={true}
+                suffix=" đ"
+                value={guestMoney.guestMoneyValue - getTotalPrice()}
+                style={{
+                  color: "#237fcd",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  textAlign: "right",
+                }}
+                type="text"
+              />
+            )}
           </div>
         </div>
 
