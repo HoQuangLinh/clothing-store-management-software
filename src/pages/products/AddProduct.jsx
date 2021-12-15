@@ -107,7 +107,7 @@ const AddProduct = ({ setRerenderProducts, setShowFormAddProduct }) => {
   //Submit form
   const submitForm = async () => {
     var optionsVal = await getOption();
-
+    console.log(optionsVal);
     const formProduct = new FormData();
     formProduct.append("categoryId", categoryId);
     formProduct.append("name", product.name);

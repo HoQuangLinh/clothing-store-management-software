@@ -43,7 +43,7 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
   };
   const getOption = async () => {
     // const newOptions = options.filter((option) => option.checked == true);
-
+    console.log(options);
     var newOptions = options
       .filter((option) => option.checked === true && option.quantity > 0)
       .map((option) => {
@@ -96,7 +96,8 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
   //Submit form
   const submitForm = async () => {
     var optionsVal = await getOption();
-    console.log(categoryId);
+    console.log(optionsVal);
+    // console.log(categoryId);
     const formProduct = new FormData();
     formProduct.append("categoryId", categoryId);
     formProduct.append("name", product.name);
@@ -254,7 +255,6 @@ const UpdateProduct = ({ product, setProduct, setShowFormUpdateProduct }) => {
                     <input
                       onChange={() => handleOptionChecked(index)}
                       type="checkbox"
-                      checked={option.quantity > 0}
                     />
                     <span>{`${option.size}:`}</span>
                     <input
