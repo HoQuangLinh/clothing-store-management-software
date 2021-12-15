@@ -483,7 +483,7 @@ const Revenues = () => {
                         SellProductReportwithDate(lastWeek, today);
                       } else {
                         setTitleChar("Doanh thu " + date);
-                        setDateRevenuebyDate(Orders, lastWeek, dateNow);
+                        setDateRevenuebyDate(Orders, lastWeek, today);
                       }
                     }}
                   />
